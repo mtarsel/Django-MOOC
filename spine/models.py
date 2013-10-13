@@ -37,4 +37,4 @@ class Grade(models.Model):
 	course = models.ForeignKey(Course)
 
 	def __unicode__(self):
-	    return unicode(self.student) + ', ' + unicode(self.course)
+	    return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
