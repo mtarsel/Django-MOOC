@@ -1,10 +1,13 @@
 from django.conf.urls import patterns, include, url
 
+from mooc.views import login_view
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+	url(r'^login/', login_view),
+	
     # Examples:
     # url(r'^$', 'mooc.views.home', name='home'),
     # url(r'^mooc/', include('mooc.foo.urls')),
