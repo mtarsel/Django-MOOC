@@ -18,13 +18,15 @@ class Instructor(models.Model):
 class Course(models.Model):
 	name = models.CharField(max_length=512)
 	instructor = models.ForeignKey(Instructor)
-	files = models.FileField(upload_to=get-upload-directory)
 
-	def get-upload-dir(instance, filename):
-	    user_id = instance.user.id
-	    upload_dir = "%s/%d/%d/%s" % (settings.MEDIA_ROOT, course_id, user_id, filename)
-	    print "Upload directory set to: %s" % upload_dir
-	    return
+        def get_upload_dir(instance, filename):
+            user_id = instance.user.id
+            upload_dir = "%s/%d/%d/%s" % (settings.MEDIA_ROOT, course_id, user_id, filename)
+            print "Upload directory set to: %s" % upload_dir
+            return
+
+
+	files = models.FileField(upload_to=get_upload_dir)
 
 	def __unicode__(self):
 	    return unicode(self.name)
