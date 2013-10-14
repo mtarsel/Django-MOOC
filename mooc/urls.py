@@ -8,6 +8,8 @@ from spine.views import file_upload
 urlpatterns = patterns('',
     
     url(r'^login/$', login_view),
+    url(r'^student/$', student_view),
+    url(r'^instructor/$', instructor_view),
     url(r'^course/{/s}/files$', file_upload),
 #    url(r'^course/files/$', file_upload),
 	
