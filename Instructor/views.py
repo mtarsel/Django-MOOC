@@ -14,7 +14,6 @@ def login_view(request):
             login(request, user)
             return render(request, 'mooc/templates/instructor.html'
         else:
-            # Return a 'disabled account' error message
+           # Return a 'disabled account' error message
     else:
         # Return an 'invalid login' error message.
-	
