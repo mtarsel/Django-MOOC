@@ -7,7 +7,7 @@ PLEASE RUN INSTALL.sh TO CREATE THE VIRTUALENV
 sudo chmod +x
 
 
-./INSTALL.sh
+sudo ./INSTALL.sh
 
 
 After installing, go into your home directory at /home/yourusername/
