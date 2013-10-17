@@ -34,7 +34,7 @@ pip install django-toolbelt
 
 git init
 
-git pull https://github.com/mtarsel/dream-girlz.git
+git clone https://github.com/mtarsel/dream-girlz.git
 
 echo "#######################################"
 echo "#######################################"
