@@ -8,8 +8,8 @@ urlpatterns = patterns('',
     url(r'^login/$', spine.views.login, name="login"),#login page
     url(r'^courses/$', spine.views.courses,name="courses"),#show all courses available
     
-    url(r'^student/$', include('student.urls'), name="student"),#home page for student after login
-    url(r'^instructor/$', include('instructor.urls'), name="instructor"),
+    url(r'^student/$', include('student.urls'), name="student"),#dashboard for student after login
+    url(r'^instructor/$', include('instructor.urls'), name="instructor"),#dashboard for instructor after login
 
 # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
