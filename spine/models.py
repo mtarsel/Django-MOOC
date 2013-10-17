@@ -13,11 +13,8 @@ from django.contrib import admin
 #first name
 #last name
 
-class Instructor(UserenaBaseProfile):
-    user = models.OneToOneField(User,
-	                        unique=True,
-                                verbose_name=_('user'),
-                                related_name='instructor')
+class Instructor(models.Model):
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return unicode(self.user)
@@ -30,12 +27,8 @@ class Course(models.Model):
     def __unicode__(self):
         return unicode(self.name)
 
-class Student(UserenaBaseProfile):
-#	user = models.ForeignKey(User)
-    user = models.OneToOneField(User,
-	                        unique=True,
-                                verbose_name=_('user'),
-                                related_name='student')
+class Student(models.Model):
+    user = models.ForeignKey(User)
 
     course = models.ManyToManyField(Course)
 

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.encoding import force_unicode
-from spine.models import Grade, Course
+
+from spine.models import Grade, Course, Student, Instructor
 
 admin.site.register(Grade)
 admin.site.register(Student)
