@@ -54,7 +54,3 @@ echo "##				   ##"
 echo "##				   ##"
 echo "#######################################"
 echo "#######################################"
-
-
-cd ~/software-d-and-d/dream-girlz
-source venv/bin/activate
