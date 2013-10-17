@@ -1,20 +1,10 @@
     {% extends "base.html" %}
     
-    {% block title %}User Login{% endblock %}
+    {% block title %}Instructor Homepage{% endblock %}
 	
 	{% block navbar %}{% endblock %}
 	
 
     {% block content %}
-    <form name="login" action="/login/" method="POST">
-        Username: <input type="text" name="firstname"><br>
-        Password: <input type="password" name="password"><br>
-        <input type="radio" name="role" value="Instructor">Instructor
-        <input type="radio" name="role" value="Student">Student</br></br>
-        <input type="submit" value="Log In"></br></br>
-    </form>
-    <p>
-        <a href="#">New Instructor? Sign Up By Clicking Here</a></br>
-        <a href="#">New Student? Enroll By Clicking Here</a>
-    </p>
+    <p> Welcome instructor!</p>
     {% endblock %}
