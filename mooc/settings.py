@@ -11,6 +11,27 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+ANONYMOUS_USER_ID = -1
+
+#AUTH_PROFILE_MODULE = 'spine.Student'
+#AUTH_PROFILE_MODULE = 'spine.Instructor'
+AUTH_PROFILE_MODULE = 'accounts.MyProfile'
+
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+#LOGIN_URL = '/login/'
+#LOGOUT_URL = '/logout/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -54,12 +75,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join( ROOT, 'media' )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -133,6 +154,10 @@ INSTALLED_APPS = (
     'spine',
     'student',
     'instructor',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
+    'accounts',
 )
 
 # A sample logging configuration. The only tangible logging

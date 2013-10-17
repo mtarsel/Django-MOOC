@@ -8,11 +8,11 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
-def login(request):
-    return render(request, 'login.html')
+#def login(request):
+#    return render(request, 'login.html')
 
-def register(request):
-    return render(request, 'register.html')
+#def register(request):
+#    return render(request, 'register.html')
 
 def courses(request):
     return render(request, 'courses.html')
