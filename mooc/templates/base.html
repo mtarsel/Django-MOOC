@@ -1,3 +1,27 @@
+<!DOCTYPE html>
 <html>
-<h1>Title</h1>
+
+{% load staticfiles %}
+<link rel="stylesheet" type='text/css' href="{% static "css/base.css" %}">
+
+{% block title %}{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block navbar %}
+<ul class = "main nav">
+
+	<a href="{% url home %}">Home</a>
+	<a href="{% url about %}">About</a>
+	<a href="{% url courses %}">Courses</a>
+
+</ul>
+
+{% endblock %}
+
+
+
+
 </html>
