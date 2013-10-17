@@ -2,7 +2,11 @@ dream-girlz
 ===========
 
 PLEASE RUN INSTALL.sh TO CREATE THE VIRTUALENV
+
+
 sudo chmod +x
+
+
 ./INSTALL.sh
 
 
