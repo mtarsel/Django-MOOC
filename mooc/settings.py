@@ -131,6 +131,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'spine',
+    'student',
+    'instructor',
 )
 
 # A sample logging configuration. The only tangible logging
