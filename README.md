@@ -1,6 +1,8 @@
 dream-girlz
 ===========
 
+MOOC Project for software design and development taught at Clarkson University
+
 PLEASE RUN INSTALL.sh TO CREATE THE VIRTUALENV
 
 
@@ -19,7 +21,10 @@ After you are in thaat directory, run this command to enter the virtual environm
 source venv/bin/activate
 
 
-MOOC Project for software design and development taught at Clarkson University
+pip install requirements.txt
+
+apt-get install libjpeg8 libpng12-0 libfreetype6 zlib1g
+
 
 
 Fake Accounts
