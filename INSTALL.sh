@@ -6,14 +6,14 @@ echo"Updating repos..."
 
 sudo apt-get install
 
-mkdir ${HOME}/software-d-and-d 
+sudo mkdir ${HOME}/software-d-and-d 
 cd ${HOME}/software-d-and-d
 
 echo "Created directory software-d-and-d in the home directory"
 
 echo "Creating virtual environment"
 
-pip install virtualenv
+sudo pip install virtualenv
 
 virtualenv ${HOME}/software-d-and-d/venv --distribute
 
@@ -28,7 +28,7 @@ pwd
 
 echo "Pulling code and installing packages..."
 
-pip install django-toolbelt
+sudo pip install django-toolbelt
 
 git init
 
