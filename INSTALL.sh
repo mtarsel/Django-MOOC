@@ -15,14 +15,12 @@ echo "Creating virtual environment"
 
 pip install virtualenv
 
-virtualenv venv --distribute
+virtualenv ${HOME}/software-d-and-d/venv --distribute
 
 echo "Entering vm..."
-source venv/bin/activate
+source ${HOME}/software-d-and-d/venv/bin/activate
 
 echo "Changing directory"
-
-mkdir ${HOME}/software-d-and-d/dream-girlz
 
 cd ${HOME}/software-d-and-d/dream-girlz
 
