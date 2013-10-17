@@ -1,11 +1,15 @@
 dream-girlz
 ===========
 
+PLEASE RUN INSTALL.sh TO CREATE THE VIRTUALENV
+sudo chmod +x
+./INSTALL.sh
+
+
 MOOC Project for software design and development taught at Clarkson University
 
-Django 1.5.1
-Requires django-registration python package
 
+Fake Accounts
 username: admin
 pass: pa55word
 
