@@ -13,6 +13,8 @@ echo "Created directory software-d-and-d in the home directory"
 
 echo "Creating virtual environment"
 
+pip install virtualenv
+
 virtualenv venv --distribute
 
 echo "Entering vm..."
@@ -56,5 +58,3 @@ echo "#######################################"
 
 cd ~/software-d-and-d/dream-girlz
 source venv/bin/activate
-
-
