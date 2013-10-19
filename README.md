@@ -25,8 +25,10 @@ pip install requirements.txt
 
 Should consider domain name and actual name of webite. Any ideas?
 
-
 Some help from https://code.google.com/p/classcomm/
+
+Need to add customer user name filed to student & instructor dashboard
+
 
 Fake Accounts
 username: admin
