@@ -26,6 +26,8 @@ pip install requirements.txt
 Should consider domain name and actual name of webite. Any ideas?
 
 
+Some help from https://code.google.com/p/classcomm/
+
 Fake Accounts
 username: admin
 pass: pa55word
