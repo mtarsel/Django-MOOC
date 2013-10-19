@@ -23,18 +23,10 @@ source venv/bin/activate
 
 pip install requirements.txt
 
-apt-get install libjpeg8 libpng12-0 libfreetype6 zlib1g
-
+Should consider domain name and actual name of webite. Any ideas?
 
 
 Fake Accounts
 username: admin
 pass: pa55word
-
-username: teacher
-password: 1
-
-username: student
-password: 1
-
 
