@@ -11,27 +11,6 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-AUTHENTICATION_BACKENDS = (
-    'userena.backends.UserenaAuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-ANONYMOUS_USER_ID = -1
-
-#AUTH_PROFILE_MODULE = 'spine.Student'
-#AUTH_PROFILE_MODULE = 'spine.Instructor'
-AUTH_PROFILE_MODULE = 'accounts.MyProfile'
-
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-#LOGIN_URL = '/login/'
-#LOGOUT_URL = '/logout/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
-
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
-
-
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -154,10 +133,6 @@ INSTALLED_APPS = (
     'spine',
     'student',
     'instructor',
-    'userena',
-    'guardian',
-    'easy_thumbnails',
-    'accounts',
 )
 
 # A sample logging configuration. The only tangible logging

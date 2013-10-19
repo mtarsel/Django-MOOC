@@ -1,11 +1,11 @@
 Django==1.5.4
+PIL==1.1.7
 Pillow==2.2.1
 argparse==1.2.1
 dj-database-url==0.2.2
 dj-static==0.0.5
 django-guardian==1.1.1
 django-toolbelt==0.0.1
-django-userena==1.2.4
 easy-thumbnails==1.4
 gunicorn==18.0
 html2text==3.200.3
