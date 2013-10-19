@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Resend Activation E-mail</h2>
+
+<form method="post" action="/registration/resend/">
+<div class="error">
+    <h3>{{ form.non_field_errors }}</h3>
+    {% if resend_msg %}
+    <h3>{{ resend_msg }}</h3>
+    {% endif %}
+</div>
+<div>
+    <b>Please Note:</b> New User accounts that have not been activated are purged every 7 days--If this is the case simply register a new account.<br />
+</div>
+<table>
+    <tr><td colspan="2">{{ form.email.errors }}</td></tr>
+    <tr>
+        <th> {{ form.email.label }} </th>
+        <td> {{ form.email }} </td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /><input type="submit" value="Send New Activation E-mail" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /><a href="/registration/register/">Need to register new account?</a> </td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /><a href="/registration/login/">Return to classcomm login?</a> </td>
+    </tr>
+</table>
+</form>
+
+{% endblock %}

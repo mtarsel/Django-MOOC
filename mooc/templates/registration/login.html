@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Classcomm Login</h2><br />
+
+{% if form.errors %}
+<span class="errornote">Your username and password didn't match. Please try again.</span><br />
+{% endif %}
+
+<form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %}
+<table>
+<tr>
+    <th>Username:  </th>
+    <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <th>Password:  </th>
+    <td>{{ form.password }}</td>
+</tr>
+<tr>
+    {% if request.GET.next %}
+        <td><input type="hidden" name="next" value="{{ request.GET.next }}" /></td>
+    {% else %}
+        <td><input type="hidden" name="next" value="/" /></td>
+    {% endif %}
+    <td><input type="submit" value="Login" /></td>
+</tr>
+<tr>
+    <td colspan="2"><br /><a href="/registration/password/reset/">Forgotten Account Password?</a> </td>
+</tr>
+<tr>
+	<td colspan="2"><br /><b><a href="/registration/register/">New Users Register Here!</a></b> </td>
+</tr>
+</table>
+</form>
+
+{% endblock %}

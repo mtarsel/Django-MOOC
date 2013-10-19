@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Classcomm Registration</h2>
+
+<form method="post" action="/registration/register/">
+<div class="error">
+    <h3>{{ form.non_field_errors }}</h3>
+</div>
+<div>
+    Register your new Classcomm user account.  We will send you an activation E-mail with link for activating your account.<br /><br />
+</div>
+<table>
+    <tr><td colspan="2">{{ form.username.errors }}</td></tr>
+    <tr>
+        <th>{{ form.username.label }}</th>
+        <td>{{ form.username }}</td>
+    </tr>
+    <tr><td colspan="2">{{ form.email.errors }}</td></tr>
+    <tr>
+        <th>{{ form.email.label }}</th>
+        <td>{{ form.email }}</td>
+    </tr>
+    <tr><td colspan="2">{{ form.password1.errors }}</td></tr>
+    <tr>
+        <th>{{ form.password1.label }}</th>
+        <td>{{ form.password1 }}</td>
+    </tr>
+    <tr><td colspan="2">{{ form.password2.errors }}</td></tr>
+    <tr>
+        <th>{{ form.password2.label }}</th>
+        <td>{{ form.password2 }}</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><br /><input type="submit" value="Register New User" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /><a href="/registration/resend/">Resend Activation E-mail?</a></td>
+    </tr>
+    <tr>
+        <td colspan="2"><br /><a href="/registration/login/">Return to Classcomm Login?</a></td>
+    </tr>
+</table>
+</form>
+
+{% endblock %}

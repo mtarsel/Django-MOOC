@@ -1,0 +1,9 @@
+New accounts are typically purged after {{ expiration_days }} days, provided a user has not successfully activated.
+
+Your activation key for the dream-girlz MOOC website is {{ activation_key }} and your account can be activated by following the following link:
+http://localhost:8000/registration/activate/{{ activation_key }}
+
+
+
+Thank you for joining Classcomm!
+The Staff
