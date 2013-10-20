@@ -2,9 +2,15 @@
     
     {% block title %}Course List{% endblock %}
 	
-	{% block navbar %}{% endblock %}
-	
-
     {% block content %}
-    <p> Going to put a list of classes here/</p>
+        {% if course_list %}
+            <ul>
+              {% for course in course_list %}
+              <li><a href="/course/{{ course.name }}/">{{ course.name }}</a></li>
+              {% endfor %}
+            </ul>
+        {% else %}
+            <p> Going to put a list of classes here</p>
+        {% endif %}
+
     {% endblock %}

@@ -21,12 +21,12 @@
     {% if request.GET.next %}
         <td><input type="hidden" name="next" value="{{ request.GET.next }}" /></td>
     {% else %}
-        <td><input type="hidden" name="next" value="/" /></td>
+	    <td><input type="hidden" name="next" value="/users/{{user.username}}" /></td> 
     {% endif %}
     <td><input type="submit" value="Login" /></td>
 </tr>
 <tr>
-    <td colspan="2"><br /><a href="/accounts/password/reset/">Forgotten Account Password?</a> </td>
+<!--    <td colspan="2"><br /><a href="/accounts/password/reset/">Forgotten Account Password?</a> </td>-->
 </tr>
 <tr>
 	<td colspan="2"><br /><b><a href="/accounts/register/">New Users Register Here!</a></b> </td>
