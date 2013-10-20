@@ -16,7 +16,7 @@
 	<a href="{% url 'index' %}">Home</a>
 
         {% if user.is_authenticated %}
-            <a href="registration/logout">Logout</a>
+            <a href="accounts/logout">Logout</a>
 	{% else %}
             <a href="registration/login.html">Login</a>
         {% endif %}
