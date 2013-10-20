@@ -1,14 +1,15 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
     
-    {% block title %}Welcome {{first_name}} {{last_name}}! {% endblock %}
-    <h1>Welcome {{first_name}} {{last_name}}! </h1>
+{% block title %}Welcome {{first_name}} {{last_name}}! {% endblock %}
+<h1>Welcome {{first_name}} {{last_name}}! </h1>
 	
-	{% block navbar %}{% endblock %}
+{% block navbar %}{% endblock %}
 	
 
-    {% block content %}
+{% block content %}
     <p>
-        <a href=" {% url 'courses' %}">All Courses</a></br>
-        <a href="{% url 'about' %}">About</a>
+	<a href=" {% url 'courses' %}">All Courses</a></br>
+	<a href="accounts/login">Login</a></br>
+	<a href="{% url 'about' %}">About</a>
     </p>
-    {% endblock %}
+{% endblock %}

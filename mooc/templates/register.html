@@ -1,23 +1,21 @@
-
-
-	{% extends "base.html" %}
+{% extends "base.html" %}
 	
-	{% block title %}{% endblock %}
+{% block title %}{% endblock %}
 		
-	{% block navbar %}{% endblock %}
+{% block navbar %}{% endblock %}
 
-	{% block content %}
-	<div id="form">
-		<form name="register" action="register" method="POST">
-			First Name: <input type="text" name="firstname"></br>
-			Middle Initial: <input type="text" name="middleinitial"></br>
-			Last Name: <input type="text" name="lastname"></br>
-			Primary E-mail Address: <input type="text" name="email"></br>
-			Password: <input type="password" name="password"></br>
-			Repeat Password: <input type="password" name="password2"></br>
+{% block content %}
+<div id="form">
+    <form name="register" action="register" method="POST">
+	First Name: <input type="text" name="firstname"></br>
+	Middle Initial: <input type="text" name="middleinitial"></br>
+	Last Name: <input type="text" name="lastname"></br>
+	Primary E-mail Address: <input type="text" name="email"></br>
+	Password: <input type="password" name="password"></br>
+	Repeat Password: <input type="password" name="password2"></br>
 			
-			<input type="submit" value="Submit"> 
-		</form>
-	</div>
-	{% endblock %}
+	<input type="submit" value="Submit"> 
+    </form>
+</div>
+{% endblock %}
 

@@ -13,10 +13,10 @@ urlpatterns = patterns('',
     
     url(r'^student/', include('student.urls')),#dashboard for student after login
     url(r'^instructor/', include('instructor.urls')),#dashboard for instructor after login
-
+    
+#    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
-#    url(r'^accounts/', include('registration.backends.default.urls')),
 
 # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
