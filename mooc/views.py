@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+
+"""
 def student_view(request):
     return render(request,'student.html')
 
@@ -29,4 +31,12 @@ def login_view(request):
     else:
         return redirect('/login/')
         # Return an 'invalid login' error message.
-	
+"""
+
+from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
+
+class UserProfileView(DetailView):
+    model = User
+    slug_field = "username"
+    template_name = "dashboard.html"	

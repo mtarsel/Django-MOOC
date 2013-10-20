@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from views import UserProfileView
+
 from spine.views import index, about, courses #,login, register
 
 urlpatterns = patterns('',
@@ -17,6 +19,7 @@ urlpatterns = patterns('',
 #    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
+    url(r'^users/(?P<slug>[\w.@+-]+)/$', UserProfileView.as_view()),
 
 # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

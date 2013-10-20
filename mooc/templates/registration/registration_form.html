@@ -3,7 +3,7 @@
 {% block content %}
 <h2>Classcomm Registration</h2>
 
-<form method="post" action="/registration/register/">
+<form method="post" action="">{% csrf_token %}
 <div class="error">
     <h3>{{ form.non_field_errors }}</h3>
 </div>
