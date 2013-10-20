@@ -21,7 +21,7 @@
     {% if request.GET.next %}
         <td><input type="hidden" name="next" value="{{ request.GET.next }}" /></td>
     {% else %}
-        <td><input type="hidden" name="next" value="/" /></td>
+        <td><input type="hidden" name="next" value="{{ next }}" /></td>
     {% endif %}
     <td><input type="submit" value="Login" /></td>
 </tr>
