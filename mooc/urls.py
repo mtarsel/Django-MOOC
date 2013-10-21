@@ -6,7 +6,7 @@ admin.autodiscover()
 
 from views import UserProfileView
 
-from spine.views import index, about, courses #,login, register
+from spine.views import index, about, courses, logout_view #,login, register
 
 urlpatterns = patterns('',
     url(r'^$', index, name="index"),#index page
@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     
 #    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^logout/', logout_view,name="logout_view"),
 
 #    url(r'^users/$', RedirectView.as_view(url=reverse_lazy('dashboard'))),
     
