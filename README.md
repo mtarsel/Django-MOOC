@@ -11,7 +11,8 @@ Run INSTALL.sh as sudo
 
 Command:
 
-```sudo ./INSTALL.sh
+```bash
+sudo ./INSTALL.sh
 
 cd ~/software-d-and-d
 
