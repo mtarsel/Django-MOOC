@@ -1,38 +1,47 @@
 #!/bin/bash
 
-echo "Run as sudo"
+if [[ $EUID -ne 0 ]]; then
+    echo "ERROR: Must be run with root privileges."
+    exit 1
+fi
 
-echo"Updating repos..."
+echo "Please enter user account to install on: "
+#echo "Default: $(whoami)"
+read USER
 
-sudo apt-get install
+HOME=/home/$USER
 
-sudo mkdir ${HOME}/software-d-and-d 
-cd ${HOME}/software-d-and-d
+#apt-get install
+#apt-get install python-pip
+#pip install virtualenv
+
+mkdir $HOME/software-d-and-d
+
+cd $HOME/software-d-and-d
 
 echo "Created directory software-d-and-d in the home directory"
 
 echo "Creating virtual environment"
 
-sudo pip install virtualenv
-
-virtualenv ${HOME}/software-d-and-d/venv --distribute
+virtualenv $HOME/software-d-and-d/venv --distribute
 
 echo "Entering vm..."
-source ${HOME}/software-d-and-d/venv/bin/activate
+source $HOME/software-d-and-d/venv/bin/activate
 
-echo "Changing directory"
+#pip install django-toolbelt
 
-cd ${HOME}/software-d-and-d/dream-girlz
+echo "Pulling code and installing packages..."
+git clone https://github.com/mtarsel/dream-girlz.git
+cd $HOME/software-d-and-d/dream-girlz
+
+chown -R $USER.$USER $HOME/software-d-and-d/
 
 pwd
 
-echo "Pulling code and installing packages..."
+#pip install -r requirements.txt
+#chmod -R +rwx $HOME/software-d-and-d
 
-sudo pip install django-toolbelt
-
-git init
-
-git clone https://github.com/mtarsel/dream-girlz.git
+exit 1
 
 echo "#######################################"
 echo "#######################################"
@@ -42,8 +51,6 @@ echo "##    To activate virtualenv:        ##"
 echo "##				   ##"
 echo "##    source venv/bin/activate	   ##"
 echo "##				   ##"
-echo "##    DONT FORGET TO DELETE OLD	   ##"
-echo "##	   PROJECT		   ##"
 echo "##				   ##"
 echo "##	 You are now in		   ##"
 echo "##				   ##"
@@ -52,3 +59,5 @@ echo "##				   ##"
 echo "##				   ##"
 echo "#######################################"
 echo "#######################################"
+
+#sudo chmod -R +rwx *
