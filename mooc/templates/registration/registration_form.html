@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Classcomm Registration</h2>
+<h2>Dreamtitz Registration</h2>
 
 <form method="post" action="">{% csrf_token %}
 <div class="error">
     <h3>{{ form.non_field_errors }}</h3>
 </div>
 <div>
-    Register your new Classcomm user account.  We will send you an activation E-mail with link for activating your account.<br /><br />
+    Register your new dreamtitz user account.  We will not send you an activation E-mail with link for activating your account.<br /><br />
 </div>
 <table>
     <tr><td colspan="2">{{ form.username.errors }}</td></tr>
@@ -39,7 +39,7 @@
 <!--        <td colspan="2"><br /><a href="/accounts/resend/">Resend Activation E-mail?</a></td>-->
     </tr>
     <tr>
-        <td colspan="2"><br /><a href="/accounts/login/">Return to Classcomm Login?</a></td>
+        <td colspan="2"><br /><a href="/accounts/login/">Return to dreamtitz Login?</a></td>
     </tr>
 </table>
 </form>
