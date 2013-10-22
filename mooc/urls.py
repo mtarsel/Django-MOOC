@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     
 #    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^logout/', logout_view,name="logout_view"),
+    url(r'^courses/logout_view/', logout_view,name="logout_view"),
 
 #    url(r'^users/$', RedirectView.as_view(url=reverse_lazy('dashboard'))),
     
