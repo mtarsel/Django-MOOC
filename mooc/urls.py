@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
+from filebrowser.sites import site
 admin.autodiscover()
 
 from views import UserProfileView
@@ -9,6 +10,7 @@ from views import UserProfileView
 from spine.views import index, about, courses, logout_view #,login, register
 
 urlpatterns = patterns('',
+    url(r'^admin/filebrowser/', include(site.urls)),
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC
 #    url(r'^login/$', login, name="login"),#login page for instructor and students
