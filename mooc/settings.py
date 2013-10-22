@@ -2,6 +2,8 @@
 
 import os
 
+ADMIN_MEDIA_PREFIX = '/static/'
+
 ROOT = os.path.abspath(os.path.dirname( __file__ ) )
 
 DEBUG = True
@@ -132,6 +134,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # filebrowser
+    'grappelli',
+    'filebrowser',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
