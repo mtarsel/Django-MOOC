@@ -11,11 +11,12 @@ Run INSTALL.sh as sudo
 
 Command:
 
-sudo ./INSTALL.sh
+```sudo ./INSTALL.sh
 
 cd ~/software-d-and-d
 
 source venv/bin/activate
+```
 
 This will create a directory ~/software-d-and-d
 
