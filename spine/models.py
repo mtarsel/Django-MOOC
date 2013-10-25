@@ -22,7 +22,8 @@ class Course(models.Model):
     instructor = models.ForeignKey(Instructor)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
-    files = FileBrowseField("PDF", max_length=200, directory="classes/", extensions=[".pdf",".doc"], blank=True, null=True)
+    #files = FileBrowseField("PDF", max_length=200, directory="classes/", extensions=[".pdf",".doc"], blank=True, null=True)
+    
 
     def __unicode__(self):
         return unicode(self.name)
@@ -40,18 +41,11 @@ class Assignment(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=512)
     points_possible = models.IntegerField(default=100)
-    
 
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
 
 class Submission(models.Model):
-    date = models.DateTimeField(editable=False, auto_now_add=True)
-    course = models.ForeignKey(Course)
-    assignment = models.ForeignKey(Assignment)
-    submitter = models.ForeignKey(Student)
-    #file = ProtectedFileField(upload_to=get_grade_path, max_length=250)
-
     def get_grade_path(self, filename):
         savename = str(self.assignment.name) + os.path.splitext(filename)[1]
         return os.path.join('uploads/submitted_files/',
@@ -59,6 +53,15 @@ class Submission(models.Model):
                             self.course.name,
                             self.submitter.username,
                             savename)
+    
+    date = models.DateTimeField(editable=False, auto_now_add=True)
+    course = models.ForeignKey(Course)
+    assignment = models.ForeignKey(Assignment)
+    submitter = models.ForeignKey(Student)
+    file = models.FileField(upload_to=get_grade_path)
+    #file = ProtectedFileField(upload_to=get_grade_path, max_length=250)
+
+
 
     def __unicode__(self):
         return (self.assignment.__unicode__() + " - " + submitter.User.username)

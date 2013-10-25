@@ -3,11 +3,13 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
 from filebrowser.sites import site
+from django.conf import settings
+from django.conf.urls.static import static
 admin.autodiscover()
 
 from views import UserProfileView
 
-from spine.views import index, about, courses, logout_view #,login, register
+from spine.views import index, about, courses, logout_view, uploads#,login, register
 
 urlpatterns = patterns('',
     url(r'^$', index, name="index"),#index page
@@ -33,4 +35,5 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'^spine/submission', uploads, name="uploads"),
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
