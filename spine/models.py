@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from filebrowser.fields import FileBrowseField
 
 
 #USER:
@@ -21,7 +22,7 @@ class Course(models.Model):
     instructor = models.ForeignKey(Instructor)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
-#	files = models.FileField(upload_to=get_upload_dir)
+    files = FileBrowseField("PDF", max_length=200, directory="classes/", extensions=[".pdf",".doc"], blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.name)
