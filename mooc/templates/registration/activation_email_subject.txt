@@ -1,1 +1,1 @@
-Activate your dream-girlz MOOC Account within {{ expiration_days }} Days!
+{% load i18n %}{% trans "Account activation on" %} {{ site.name }}

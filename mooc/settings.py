@@ -1,9 +1,12 @@
 # Django settings for mooc project.
 
+
 import os
 
 ROOT = os.path.abspath(os.path.dirname( __file__ ) )
-UPLOAD = os.path.realpath(os.path.dirname(__file__))
+
+
+ACCOUNT_ACTIVATION_DAYS = 7
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,18 +15,12 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-
-LOGIN_REDIRECT_URL = '/users/'
-
-#REGISTRATION_OPEN = False
-
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'mooc_data.db',                      # Or path to database file if using sqlite3.
+        'NAME': 'mooc_database.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -34,7 +31,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -61,25 +58,22 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(UPLOAD, 'media')
+MEDIA_ROOT = os.path.join(ROOT, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = 'media/'
-#FILEBROWSER_DIRECTORY = ''
-FILE_UPLOAD_PERMISSIONS = 0644
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(UPLOAD, 'static')
+STATIC_ROOT = '' #os.path.join(ROOT, 'static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
-#ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -98,7 +92,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '05-_u!&#bpuj#d6^2&ur)3#5c0w7ezp-2ybctt*)=vy19o-s5e'
+SECRET_KEY = 'j2t78z(f3sbsr%rzh$!#j*qtkh4!(l8c3#@t)!u4u@6pfnd-dq'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -136,18 +130,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # filebrowser
-    'grappelli',
-    'filebrowser',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
-    'spine',
-    'student',
-    'instructor',
+    # 'django.contrib.admindocs',   
+    'student_portal',
     'registration',
 )
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

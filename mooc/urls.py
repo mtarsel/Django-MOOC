@@ -1,39 +1,35 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 from django.views.generic import RedirectView
-from django.core.urlresolvers import reverse_lazy
-from filebrowser.sites import site
-admin.autodiscover()
-from django.conf import settings
-from django.conf.urls.static import static
-from views import UserProfileView
 
-from spine.views import index, about, courses, logout_view #,login, register
+from django.conf import settings
+
+from django.contrib import admin
+admin.autodiscover()
+
+from mooc.views import index, about, courses
+from student_portal.views import *
 
 urlpatterns = patterns('',
+    
+    #DEFAULT ADMIN VIEW
+    url(r'^admin/', include(admin.site.urls)),
+    
+    #VIEWS IN MOOC/VIEWS.PY
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC
-#    url(r'^login/$', login, name="login"),#login page for instructor and students
-#    url(r'^register/$', register, name="register"),#register page for new user
-    url(r'^admin/filebrowser/', include(site.urls)),
     url(r'^courses/$', courses,name="courses"),#show all courses available
+
+    # student portal.
+    url(r'^student/', include('student_portal.urls')),
     
-    url(r'^student/', include('student.urls')),#dashboard for student after login
-    url(r'^instructor/', include('instructor.urls')),#dashboard for instructor after login
-    
-#    url(r'^accounts/', include('registration.backends.default.urls')),
+    #File upload
+    url(r'^$', RedirectView.as_view(url='/student/list/')), # Just for ease of use   
+
+ 
+    # django registration simple, no email registration
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
-    url(r'^courses/logout_view/', logout_view,name="logout_view"),
-
-#    url(r'^users/$', RedirectView.as_view(url=reverse_lazy('dashboard'))),
+#    url(r'^student/', include('student.urls')),#dashboard for student after login
+ #  url(r'^instructor/', include('instructor.urls')),#dashboard for instructor after login
     
-    url(r'^users/(?P<slug>[\w.@+-]+)/$', UserProfileView.as_view(), name="dashboard"),
-
-# Uncomment the admin/doc line below to enable admin documentation:
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^spine/', include('spine.urls')),
-	url(r'^$', RedirectView.as_view(url='/spine/list/')), # Just for ease of use
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)

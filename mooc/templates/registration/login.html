@@ -1,37 +1,15 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h2>Dreamtitz Login</h2><br />
+<form method="post" action=".">
+  {% csrf_token %} 
+  {{ form.as_p }}
 
-{% if form.errors %}
-<span class="errornote">Your username and password didn't match. Please try again.</span><br />
-{% endif %}
-
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">{% csrf_token %}
-<table>
-<tr>
-    <th>Username:  </th>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <th>Password:  </th>
-    <td>{{ form.password }}</td>
-</tr>
-<tr>
-    {% if request.GET.next %}
-        <td><input type="hidden" name="next" value="{{ request.GET.next }}" /></td>
-    {% else %}
-	    <td><input type="hidden" name="next" value="/users/{{user.username}}" /></td> 
-    {% endif %}
-    <td><input type="submit" value="Login" /></td>
-</tr>
-<tr>
-<!--    <td colspan="2"><br /><a href="/accounts/password/reset/">Forgotten Account Password?</a> </td>-->
-</tr>
-<tr>
-	<td colspan="2"><br /><b><a href="/accounts/register/">New Users Register Here!</a></b> </td>
-</tr>
-</table>
+  <input type="submit" value="{% trans 'Log in' %}" />
+  <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
+<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
 {% endblock %}

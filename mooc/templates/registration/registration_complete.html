@@ -1,8 +1,6 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-<h3>Account Registration is Complete.</h3><br />  
-<h3>Now Please Check E-mail for Account Activation Link ... </h3><br />
-<a href="/student/">Return to Login</a></h3>
-
+<p>{% trans "You are now registered. Activation email sent." %}</p>
 {% endblock %}

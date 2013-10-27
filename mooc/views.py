@@ -1,10 +1,17 @@
-from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext
+from django.shortcuts import render, render_to_response
 
-from django.contrib.auth.models import User
-from django.views.generic.detail import DetailView
+from student_portal.models import Course
 
-class UserProfileView(DetailView):
-    model = User
-    slug_field = "username"
-    template_name = "dashboard.html"	
+def index(request):
+    return render(request, 'index.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def courses(request):
+    course_list = Course.objects.all()
+    context = {'course_list': course_list}
+    return render(request, 'courses.html', context)
+

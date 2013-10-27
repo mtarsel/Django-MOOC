@@ -2,11 +2,14 @@
     
 {% block title %}Welcome {{first_name}} {{last_name}}! {% endblock %}
 <h1>Welcome {{first_name}} {{last_name}}! </h1>
-	
+        
 
 {% block content %}
     <p>
-	<a href=" {% url 'courses' %}">All Courses</a></br>
-	<a href="{% url 'about' %}">About</a>
+      
+    <p>Welcome to Django Consultants. Please click <a href="/student/">here</a> to log into our web portal.</p>
+
+        <a href=" {% url 'courses' %}">All Courses</a></br>
+        <a href="{% url 'about' %}">About</a>
     </p>
 {% endblock %}

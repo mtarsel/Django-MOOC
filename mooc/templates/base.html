@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 {% load staticfiles %}
+{% load i18n %}
 <link rel="stylesheet" type='text/css' href="{% static "css/base.css" %}">
 
-{% block title %}{% endblock %}
 
-{% block content %}{% endblock %}
+<head>
+    <title>{% block title %}User test{% endblock %}</title>
+</head>
 
-{% block footer %}{% endblock %}
+<body>
+    <div id="header">
+        {% block header %}
 
-{% block navbar %}
-<ul class = "main nav">
-
-	<a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'index' %}">Home</a> | 
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'courses' %}">Courses</a>
 
         {% if user.is_authenticated %}
-            <a href="{% url 'auth_logout' %}">Logout</a>
-	{% else %}
-            <a href="accounts/login">Login</a>
-            <a href="{% url 'auth_login' %}">Login</a>
+        {% trans "Logged in" %}: {{ user.username }} 
+        (<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> | 
+        <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
+        {% else %}
+        <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
         {% endif %}
-	<a href="{% url 'about' %}">About</a>
-	<a href="{% url 'courses' %}">Courses</a>
+        <hr />
+        {% endblock %}
+    </div>
 
-</ul>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
 
-{% endblock %}
-
-
-
+    <div id="footer">
+        {% block footer %}
+        <hr />
+        {% endblock %}
+    </div>
+</body>
 
 </html>
