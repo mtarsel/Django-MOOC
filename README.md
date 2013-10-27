@@ -28,4 +28,4 @@ Some help from https://code.google.com/p/classcomm/
 
 Fake Accounts
 username: admin
-pass: pa55word
+password: 1 
