@@ -11,9 +11,9 @@ read USER
 
 HOME=/home/$USER
 
-#apt-get install
-#apt-get install python-pip
-#pip install virtualenv
+apt-get update
+apt-get install python-pip
+pip install virtualenv
 
 mkdir $HOME/software-d-and-d
 
@@ -28,7 +28,7 @@ virtualenv $HOME/software-d-and-d/venv --distribute
 echo "Entering vm..."
 source $HOME/software-d-and-d/venv/bin/activate
 
-#pip install django-toolbelt
+pip install django-toolbelt
 
 echo "Pulling code and installing packages..."
 git clone https://github.com/mtarsel/dream-girlz.git
@@ -38,7 +38,7 @@ chown -R $USER.$USER $HOME/software-d-and-d/
 
 pwd
 
-#pip install -r requirements.txt
+pip install -r requirements.txt
 #chmod -R +rwx $HOME/software-d-and-d
 
 exit 1
