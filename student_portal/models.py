@@ -10,7 +10,7 @@ from django.contrib import admin
 #last name
 
 class Instructor(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
 
     def __unicode__(self):
         return unicode(self.user)
@@ -25,7 +25,7 @@ class Course(models.Model):
         return unicode(self.name)
 
 class Student(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
 
     course = models.ManyToManyField(Course)
 
