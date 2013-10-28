@@ -32,7 +32,7 @@ def list(request):
     )
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def dashboard(request):
     """
     If users are authenticated, direct them to the main page. Otherwise, take

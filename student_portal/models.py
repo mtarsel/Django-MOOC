@@ -43,6 +43,15 @@ class Assignment(models.Model):
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
 
+
+class Grade(models.Model):
+    grade = models.FloatField()
+    #student = models.ForeignKey(Student, primary_key=True)
+    student = models.ForeignKey(Student)
+
+    def __unicode__(self):
+        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
+
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
     course = models.ForeignKey(Course)
@@ -64,11 +73,3 @@ class Submission(models.Model):
 
     def __unicode__(self):
         return (self.assignment.__unicode__() + " - " + self.submitter.user.username)
-
-class Grade(models.Model):
-    grade = models.FloatField()
-    #student = models.ForeignKey(Student, primary_key=True)
-    student = models.ForeignKey(Student)
-
-    def __unicode__(self):
-        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
