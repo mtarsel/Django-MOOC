@@ -10,10 +10,10 @@ MOOC Project for software design and development taught at Clarkson University
 MOOC stands for Massive Open Online Course which is an online course aimed at unlimited participation and open access via the web. This project allows any academic institute to organize their courses and efficiently distribute course materials quickly to a large amounts of students. 
 
 
-### Installation
-
-Prerequisites
+Installation
 ----
+
+###Prerequisites
 1. Tested with Python2.7
 2. Linux 
   
