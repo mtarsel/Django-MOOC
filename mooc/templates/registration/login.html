@@ -8,7 +8,7 @@
 
   <input type="submit" value="{% trans 'Log in' %}" />
 <!--  <input type="hidden" name="next" value="{{ next }}" />-->
-  <input type="hidden" name="next" value="dashboard" />
+  <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
 <!-- <p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p> -->

@@ -5,6 +5,7 @@ import os
 
 ROOT = os.path.abspath(os.path.dirname( __file__ ) )
 
+LOGIN_REDIRECT_URL = '/student'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 

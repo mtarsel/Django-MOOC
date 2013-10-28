@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.utils.encoding import force_unicode
 
-from student_portal.models import Grade, Course, Student, Instructor, Assignment, Submission
+from student_portal.models import Course, Student, Instructor, Assignment, Submission
 
-admin.site.register(Grade)
 admin.site.register(Student)
 admin.site.register(Instructor)
 admin.site.register(Assignment)

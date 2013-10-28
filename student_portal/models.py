@@ -44,18 +44,19 @@ class Assignment(models.Model):
         return (self.course.name + " - " + self.name)
 
 
-class Grade(models.Model):
-    grade = models.FloatField()
+#class Grade(models.Model):
+ #   grade = models.FloatField()
     #student = models.ForeignKey(Student, primary_key=True)
-    student = models.ForeignKey(Student)
+#    student = models.ForeignKey(Student)
 
-    def __unicode__(self):
-        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
+#    def __unicode__(self):
+#        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
 
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
-    course = models.ForeignKey(Course)
-    grade = models.ForeignKey(Grade)
+    course = models.ForeignKey(Course) #unique = true)
+#    grade = models.ForeignKey(Grade)
+    grade = models.FloatField(null = True, blank = True)
     assignment = models.ForeignKey(Assignment)
     submitter = models.ForeignKey(Student)
 #    file = ProtectedFileField(upload_to=get_grade_path, max_length=250)
