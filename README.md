@@ -13,7 +13,7 @@ MOOC stands for Massive Open Online Course which is an online course aimed at un
 ### Installation
 
 Prerequisites
-======
+----
 1. Tested with Python2.7
 2. Linux 
   
