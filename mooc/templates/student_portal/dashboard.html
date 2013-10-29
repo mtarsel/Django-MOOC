@@ -1,16 +1,16 @@
 {% extends "base.html" %}
     
-{% block title %}Welcome {{user.username}}! {% endblock %}
+{% block title %}Welcome {{user.student.username}}! {% endblock %}
         
 {% block content %}
     <p>
 
-          Welcome: {{ user.username }}<br> <br>
+          Welcome {{ user.student.username }}<br> <br>
 
 
     	Student     DASHBOARD
     </p>
-    <br><b>Enrolled Courses:</b>
+    <br><b>Enrolled Courses:</b></br>
     {% if courses %}
         {% for course in courses %}
             <br>{{  course.name }}
