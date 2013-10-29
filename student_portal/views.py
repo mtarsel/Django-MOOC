@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
+from registration.backends.simple.views import RegistrationView
 
 from student_portal.forms import SubmissionForm
 from student_portal.models import Submission
@@ -38,4 +39,9 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    return render_to_response('student_portal/dashboard.html')
+    return render_to_response('student_portal/dashboard.html', {'user': request.user})
+
+
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, request, user):
+        return "/student/"
