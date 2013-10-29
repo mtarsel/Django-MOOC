@@ -13,6 +13,8 @@ HOME=/home/$USER
 
 apt-get update
 apt-get install python-pip
+apt-get install python-dev
+apt-get install libpq-dev
 pip install virtualenv
 
 mkdir $HOME/software-d-and-d
@@ -59,5 +61,3 @@ echo "##		   ##"
 echo "##		   ##"
 echo "#######################################"
 echo "#######################################"
-
-#sudo chmod -R +rwx *
