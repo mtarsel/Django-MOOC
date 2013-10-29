@@ -12,7 +12,10 @@ read USER
 HOME=/home/$USER
 
 apt-get update
+apt-get install libmysqlclient-dev
 apt-get install python-pip
+apt-get install python-dev
+apt-get install libpq-dev
 pip install virtualenv
 
 mkdir $HOME/software-d-and-d

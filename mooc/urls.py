@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import RedirectView
 
 from django.conf import settings
+from django.views.generic import TemplateView
 
 from django.contrib import admin
 admin.autodiscover()
@@ -31,5 +32,11 @@ urlpatterns = patterns('',
 
 #    url(r'^student/', include('student.urls')),#dashboard for student after login
  #  url(r'^instructor/', include('instructor.urls')),#dashboard for instructor after login
+
+
+    # your custom registration view
+    url(r'^register/$', MyRegistrationView.as_view(), name='registration_register'),
+                   
+
     
 )
