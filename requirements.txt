@@ -1,4 +1,4 @@
-ngo==1.5.4
+django==1.5.4
 MySQL-python==1.2.4
 PIL==1.1.7
 argparse==1.2.1
