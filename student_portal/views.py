@@ -11,7 +11,6 @@ from django.views.generic.edit import UpdateView
 from student_portal.forms import SubmissionForm, StudentProfileForm
 from student_portal.models import Submission, Course, Student
 
-<<<<<<< HEAD
 class StudentProfileEditView(UpdateView):
     model = Student
     form_class = StudentProfileForm
@@ -21,10 +20,8 @@ class StudentProfileEditView(UpdateView):
         return Student.objects.get_or_create(user=self.request.user)[0]
 
     def get_success_url(self):
-	return "/student/" #TODO change this to send a user to a nice updated your profile page
+	return "/student/" #TODO change this to send a user to a nice updated profile page
 
-
-=======
 def get_student_from_user(user):
     ls = [student for student in Student.objects.all() if student.user == user]
     if ls:
@@ -41,7 +38,6 @@ def get_separated_course_list(student, course_list):
         if not course.id in map(lambda course: course.id, enrolled_courses):
             not_enrolled_courses.append(course)
     return enrolled_courses, not_enrolled_courses
->>>>>>> db3037e36b59cea64d38cfdb7b3458773f42a141
 
 def list(request):
     # Handle file upload
