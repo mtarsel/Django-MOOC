@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -84,7 +84,7 @@ def enroll_courses(request):
             return render(request, 'courses.html', context)
 
         else:
-            return render(request, 'courses.html')
+            return redirect('/accounts/login')
 
     else:
         if request.user.is_authenticated():
