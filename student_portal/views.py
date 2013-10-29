@@ -6,8 +6,23 @@ from django.template import RequestContext
 
 from registration.backends.simple.views import RegistrationView
 
-from student_portal.forms import SubmissionForm
+from django.views.generic.edit import UpdateView
+
+from student_portal.forms import SubmissionForm, StudentProfileForm
 from student_portal.models import Submission, Course, Student
+
+class StudentProfileEditView(UpdateView):
+    model = Student
+    form_class = StudentProfileForm
+    template_name = "student_portal/edit_profile.html"
+
+    def get_object(self, queryset=None):
+        return Student.objects.get_or_create(user=self.request.user)[0]
+
+    def get_success_url(self):
+	return "/student/" #TODO change this to send a user to a nice updated your profile page
+
+
 
 def list(request):
     # Handle file upload

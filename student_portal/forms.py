@@ -1,11 +1,16 @@
 from django import forms
 
-#class UploadFileForm(forms.Form):
-#   title = forms.CharField(max_length=50)
-#    file  = forms.FileField()
+from .models import Student, User
 
 class SubmissionForm(forms.Form):
     docfile = forms.FileField(
         label='Select a file',
         help_text='max. 42 megabytes'
     )
+
+class StudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = Student
+	fields = [ 'first_name', 'last_name']
+
+#	exclude = ("user")

@@ -25,7 +25,9 @@ class Course(models.Model):
         return unicode(self.name)
 
 class Student(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, unique=True)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=30)
     course = models.ManyToManyField(Course, blank=True, null=True)
 
     def __unicode__(self):
