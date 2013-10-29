@@ -27,7 +27,7 @@ class Course(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User)
 
-    course = models.ManyToManyField(Course)
+    course = models.ManyToManyField(Course, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.user)

@@ -5,27 +5,34 @@
     {% block content %}
         {% if course_list %}
 
+            {% for course in enrolled_courses %}
+                <table border = "1">
+                  <tr>
+                  <td><li><a href = "/course/{{ course.name }}/">{{  course.name }}</a></li></td>
+                  <td>
+                    <form name="input" action="" method="post"> {% csrf_token %}
+                      <input type="submit" value="Drop">
+                      <input type="hidden" name="course" value={{ course.id }}>
+                      <input type="hidden" name="enroll" value={{ False }}> 
+                 </form>
+             {% endfor %}
 
-              {% for course in course_list %}
-
-		<table border="1">
-		    <tr>
-                    <td><li><a href="/course/{{ course.name }}/">{{ course.name }}</a></li></td>
-		    <td>
-			{% if user.is_authenticated %}
-			    <input type="button" value="Enroll">		    
-			{% else %}
-			    <a href="{% url 'auth_login' %}">Enroll</a>
-			{% endif %}
-
-		    </td>
-		</tr>
-		</table>
-              {% endfor %}
+            {% for course in not_enrolled_courses %}
+                <table border = "1">
+                  <tr>
+                  <td><li><a href = "/course/{{ course.name }}/"> {{ course.name }}</a></li></td>
+                  <td>
+                    <form name="input" action="" method="post"> {% csrf_token %}
+                      <input type="submit" value="Add">
+                      <input type="hidden" name="course" value={{ course.id }}>
+                      <input type="hidden" name="enroll" value={{ True }}>
+                    </form>
+            {% endfor %}
 
         {% else %}
             <p> Going to put a list of classes here</p>
         {% endif %}
 
     {% endblock %}
+
 

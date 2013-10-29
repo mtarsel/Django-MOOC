@@ -6,7 +6,7 @@ from django.template import RequestContext
 
 
 from student_portal.forms import SubmissionForm
-from student_portal.models import Submission
+from student_portal.models import Submission, Course, Student
 
 def list(request):
     # Handle file upload
@@ -39,3 +39,10 @@ def dashboard(request):
     them to the login page.
     """
     return render_to_response('student_portal/dashboard.html')
+
+def enroll_user(request):
+    if request.user.is_authenticated():
+        return render_to_response('student_portal/dashboard.html')
+    
+    else:
+        request.user.course.add(course.id)
