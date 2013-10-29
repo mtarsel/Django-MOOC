@@ -10,6 +10,14 @@
 
     	Student     DASHBOARD
     </p>
+    <br><b>Enrolled Courses:</b>
+    {% if courses %}
+        {% for course in courses %}
+            <br>{{  course.name }}
+        {% endfor %}
 
+   {% else %}
+        You haven't enrolled in any courses yet!    
+   {% endif %}
 
 {% endblock %}

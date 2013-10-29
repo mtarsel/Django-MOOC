@@ -9,6 +9,23 @@ from registration.backends.simple.views import RegistrationView
 from student_portal.forms import SubmissionForm
 from student_portal.models import Submission, Course, Student
 
+def get_student_from_user(user):
+    ls = [student for student in Student.objects.all() if student.user == user]
+    if ls:
+        return ls[0]
+    else:
+        student = Student(user=user)
+        student.save()
+        return student
+
+def get_separated_course_list(student, course_list):
+    enrolled_courses = student.course.all()
+    not_enrolled_courses = []
+    for course in course_list:
+        if not course.id in map(lambda course: course.id, enrolled_courses):
+            not_enrolled_courses.append(course)
+    return enrolled_courses, not_enrolled_courses
+
 def list(request):
     # Handle file upload
     if request.method == 'POST':
@@ -39,28 +56,15 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    return render_to_response('student_portal/dashboard.html', {'user': request.user})
+    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    context = {'user': request.user,
+               'courses':enrolled_courses}
+    #return render_to_response('student_portal/dashboard.html', {'user': request.user})
+    return render_to_response('student_portal/dashboard.html', context)
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, request, user):
         return "/student/"
-
-def get_student_from_user(user):
-    ls = [student for student in Student.objects.all() if student.user == user]
-    if ls:
-        return ls[0]
-    else:
-        student = Student(user=user)
-        student.save()
-        return student
-
-def get_separated_course_list(student, course_list):
-    enrolled_courses = student.course.all()
-    not_enrolled_courses = []
-    for course in course_list:
-        if not course.id in map(lambda course: course.id, enrolled_courses):
-            not_enrolled_courses.append(course)
-    return enrolled_courses, not_enrolled_courses
 
 def enroll_courses(request):
     course_list = Course.objects.all()
