@@ -39,13 +39,9 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-<<<<<<< HEAD
-    return render_to_response('student_portal/dashboard.html')
+    return render_to_response('student_portal/dashboard.html', {'user': request.user})
 
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, request, user):
         return "/student/"
-=======
-    return render_to_response('student_portal/dashboard.html', {'user': request.user})
->>>>>>> a2b4d8b2c6de873d322d8f0a0ad189f7e9a9aa2f
