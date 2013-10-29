@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, courses
+from mooc.views import index, about
 from student_portal.views import *
 
 urlpatterns = patterns('',
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     #VIEWS IN MOOC/VIEWS.PY
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC
-    url(r'^courses/$', courses,name="courses"),#show all courses available
+    url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
 
     # student portal.
     url(r'^student/', include('student_portal.urls')),

@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
@@ -39,20 +39,72 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-<<<<<<< HEAD
-    return render_to_response('student_portal/dashboard.html')
-
-def enroll_user(request):
-    if request.user.is_authenticated():
-        return render_to_response('student_portal/dashboard.html')
-    
-    else:
-        request.user.course.add(course.id)
-=======
     return render_to_response('student_portal/dashboard.html', {'user': request.user})
-
 
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, request, user):
         return "/student/"
->>>>>>> fdfd21907cb3b9d323aab10393182d8f781695cd
+
+def get_student_from_user(user):
+    return [student for student in Student.objects.all() if student.user == user][0]
+
+def get_separated_course_list(student, course_list):
+    enrolled_courses = student.course.all()
+    not_enrolled_courses = []
+    for course in course_list:
+        if not course.id in map(lambda course: course.id, enrolled_courses):
+            not_enrolled_courses.append(course)
+    return enrolled_courses, not_enrolled_courses
+
+def enroll_courses(request):
+    course_list = Course.objects.all()
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            courseid = int(request.POST['course'])
+            enroll = str(request.POST['enroll']) == "True"
+            current_student = get_student_from_user(request.user)
+            
+            if enroll:
+                current_student.course.add(courseid)
+            else:
+                current_student.course.remove(courseid)
+
+            current_student.save()
+            print current_student.course.all()
+            enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+            context = {'not_enrolled_courses': not_enrolled_courses,
+                       'enrolled_courses': enrolled_courses,
+                       'course_list': course_list}
+            return render(request, 'courses.html', context)
+
+        else:
+            return render(request, 'courses.html')
+
+    else:
+        if request.user.is_authenticated():
+            current_student = get_student_from_user(request.user)
+        
+            #enrolled_courses = current_student.course.all()
+            #not_enrolled_courses = [for course in course_list if not map(lambda course: course.id,enrolled_courses).contains(course.id)]
+            #not_enrolled_courses = []
+            #for course in course_list:
+            #    if not course.id in map(lambda course: course.id, enrolled_courses):
+            #        not_enrolled_courses.append(course)
+
+            enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+
+        else:
+            enrolled_courses = []
+            not_enrolled_courses = course_list
+
+        context = {'not_enrolled_courses': not_enrolled_courses,
+                'enrolled_courses': enrolled_courses,
+                'course_list': course_list}
+        return render(request, 'courses.html', context)
+
+def student_activation(request):
+    matching_students = [student for student in Student.objects.all() if student.user == request.user]
+    if not matching_students:
+        (Student(user=request.user)).save()
+
+    return render(request, 'index.html')

@@ -26,13 +26,8 @@ class Course(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User)
-<<<<<<< HEAD
 
     course = models.ManyToManyField(Course, blank=True, null=True)
-=======
-    coursegrade = models.CharField(max_length=1)
-    course = models.ManyToManyField(Course)
->>>>>>> fdfd21907cb3b9d323aab10393182d8f781695cd
 
     def __unicode__(self):
         return unicode(self.user)
@@ -59,14 +54,11 @@ class Assignment(models.Model):
 
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
-<<<<<<< HEAD
-    course = models.ForeignKey(Course)
-#    grade = models.ForeignKey(Grade)
-=======
+
     course = models.ForeignKey(Course) #unique = true)
 #    grade = models.ForeignKey(Grade)
     grade = models.FloatField(null = True, blank = True)
->>>>>>> c3fad619c202371b9c142fb5cbb217dcd8342364
+
     assignment = models.ForeignKey(Assignment)
     submitter = models.ForeignKey(Student)
 #    file = ProtectedFileField(upload_to=get_grade_path, max_length=250)
@@ -84,14 +76,3 @@ class Submission(models.Model):
 
     def __unicode__(self):
         return (self.assignment.__unicode__() + " - " + self.submitter.user.username)
-<<<<<<< HEAD
-
-# class Grade(models.Model):
-#    grade = models.FloatField()
-#    #student = models.ForeignKey(Student, primary_key=True)
-#    student = models.ForeignKey(Student)
-
-#    def __unicode__(self):
-#        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
-=======
->>>>>>> c3fad619c202371b9c142fb5cbb217dcd8342364
