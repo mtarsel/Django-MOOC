@@ -6,7 +6,7 @@
         {% if course_list %}
 
             {% for course in enrolled_courses %}
-                <table border = "1">
+                <table border = "1" , width = "500">
                   <tr>
                   <td><li><a href = "/course/{{ course.name }}/">{{  course.name }}</a></li></td>
                   <td>
@@ -14,11 +14,13 @@
                       <input type="submit" value="Drop">
                       <input type="hidden" name="course" value={{ course.id }}>
                       <input type="hidden" name="enroll" value={{ False }}> 
-                 </form>
+                    </form>
+                  </td>
+                  </tr>
              {% endfor %}
 
             {% for course in not_enrolled_courses %}
-                <table border = "1">
+                <table border = "1", width = "500">
                   <tr>
                   <td><li><a href = "/course/{{ course.name }}/"> {{ course.name }}</a></li></td>
                   <td>
@@ -27,6 +29,8 @@
                       <input type="hidden" name="course" value={{ course.id }}>
                       <input type="hidden" name="enroll" value={{ True }}>
                     </form>
+                    </td>
+                  </tr>
             {% endfor %}
 
         {% else %}
@@ -34,5 +38,3 @@
         {% endif %}
 
     {% endblock %}
-
-

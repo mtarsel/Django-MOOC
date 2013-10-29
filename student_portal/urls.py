@@ -8,6 +8,4 @@ urlpatterns = patterns('student_portal.views',
     
     #List uploaded files
     url(r'^list/$', 'list', name='list'),
-    url(r'^activate/$', 'student_activation', name='student_activation')
-
 )

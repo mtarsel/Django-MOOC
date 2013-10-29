@@ -26,7 +26,6 @@ class Course(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User)
-
     course = models.ManyToManyField(Course, blank=True, null=True)
 
     def __unicode__(self):
@@ -39,32 +38,16 @@ class Assignment(models.Model):
     description = models.CharField(max_length=512)
     points_possible = models.IntegerField(default=100)
     
-
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
 
-
-#class Grade(models.Model):
- #   grade = models.FloatField()
-    #student = models.ForeignKey(Student, primary_key=True)
-#    student = models.ForeignKey(Student)
-
-#    def __unicode__(self):
-#        return unicode(self.student.user.last_name) + ', ' + unicode(self.student.user.first_name) + " enrolled in " + unicode(self.course)
-
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
-
-    course = models.ForeignKey(Course) #unique = true)
-#    grade = models.ForeignKey(Grade)
+    course = models.ForeignKey(Course) 
     grade = models.FloatField(null = True, blank = True)
-
     assignment = models.ForeignKey(Assignment)
     submitter = models.ForeignKey(Student)
-#    file = ProtectedFileField(upload_to=get_grade_path, max_length=250)
-    #file = models.FileField(upload_to="files/course.id/assignment.id/submission.id/user.username/%Y_%m_%d/")
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
-
 
     def get_grade_path(self, filename):
         savename = str(self.assignment.name) + os.path.splitext(filename)[1]

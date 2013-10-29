@@ -46,7 +46,13 @@ class MyRegistrationView(RegistrationView):
         return "/student/"
 
 def get_student_from_user(user):
-    return [student for student in Student.objects.all() if student.user == user][0]
+    ls = [student for student in Student.objects.all() if student.user == user]
+    if ls:
+        return ls[0]
+    else:
+        student = Student(user=user)
+        student.save()
+        return student
 
 def get_separated_course_list(student, course_list):
     enrolled_courses = student.course.all()
@@ -83,14 +89,6 @@ def enroll_courses(request):
     else:
         if request.user.is_authenticated():
             current_student = get_student_from_user(request.user)
-        
-            #enrolled_courses = current_student.course.all()
-            #not_enrolled_courses = [for course in course_list if not map(lambda course: course.id,enrolled_courses).contains(course.id)]
-            #not_enrolled_courses = []
-            #for course in course_list:
-            #    if not course.id in map(lambda course: course.id, enrolled_courses):
-            #        not_enrolled_courses.append(course)
-
             enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
 
         else:
@@ -101,10 +99,3 @@ def enroll_courses(request):
                 'enrolled_courses': enrolled_courses,
                 'course_list': course_list}
         return render(request, 'courses.html', context)
-
-def student_activation(request):
-    matching_students = [student for student in Student.objects.all() if student.user == request.user]
-    if not matching_students:
-        (Student(user=request.user)).save()
-
-    return render(request, 'index.html')
