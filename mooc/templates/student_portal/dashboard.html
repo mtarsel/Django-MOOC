@@ -20,4 +20,19 @@
         You haven't enrolled in any courses yet!<a href="{% url 'courses' %}"> Enroll Now</a>    
    {% endif %}
 
+<br><br>
+
+    <a href = "/schedule/calendar/month/student-calendar/"> Schedule </a>
+
+ <div id="body">
+            {% if messages %}
+                <ul id="messages">
+                    {% for message in messages %}
+                    <li id="message_{{ forloop.counter }}"><a href="#" onclick="$('#message_{{ forloop.counter }}').fadeOut(); return false;"></a> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+
+
 {% endblock %}
