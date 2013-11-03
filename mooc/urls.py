@@ -23,6 +23,9 @@ urlpatterns = patterns('',
 
     # student portal.
     url(r'^student/', include('student_portal.urls')),
+
+    # instructor portal.
+    url(r'^instructor/', include('instructor_portal.urls')),
     
     #django shcedulers app for calendar
     url(r'^schedule/', include('schedule.urls')),

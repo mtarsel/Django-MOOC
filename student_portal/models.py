@@ -11,6 +11,10 @@ from django.contrib import admin
 
 class Instructor(models.Model):
     user = models.OneToOneField(User)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+    username = models.CharField(max_length=30)
 
     def __unicode__(self):
         return unicode(self.user)

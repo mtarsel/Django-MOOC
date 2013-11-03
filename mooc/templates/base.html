@@ -15,9 +15,9 @@
     <div id="header">
         {% block header %}
 
-	{% if user.is_authenticated %}
+	{% if user.is_authenticated %} 
             <a href="/student">Home</a> | 
-	{% else %}	
+	{% else %}
 	    <a href="{% url 'index' %}">Home</a> | 
 	{% endif %}
 
@@ -44,9 +44,16 @@
     <div id="footer">
         {% block footer %}
 
+	{% if user.is_authenticated %} 
+            <a href="/student"> Student Home</a> | 
+            <a href="/instructor">Instructor Home</a>  
+	{% else %}
+	        <a href="/instructor/accounts/login">Instructor</a> |
 	        <a href="/student/accounts/login">Student</a> |
+<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
+	{% endif %}
 
-<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!
+
 
     
         {% endblock %}
