@@ -9,3 +9,6 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def select_login(request):
+    return render(request, 'login.html')
