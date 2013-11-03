@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+    
+{% block title %}Welcome {{user.username}} ! {% endblock %}
+        
+{% block content %}
+    <p>
+    	Student     DASHBOARD
+    </p>
+    
+{% endblock %}
