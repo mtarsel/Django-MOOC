@@ -42,6 +42,11 @@
 
     <div id="footer">
         {% block footer %}
+
+	        <a href="/student/accounts/login">Student</a> |
+
+<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!
+
     
         {% endblock %}
     </div>
