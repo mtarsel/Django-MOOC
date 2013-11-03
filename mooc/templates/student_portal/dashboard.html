@@ -1,11 +1,11 @@
 {% extends "base.html" %}
     
-{% block title %}Welcome {{user.student.username}}! {% endblock %}
+{% block title %}Welcome {{user.username}}! {% endblock %}
         
 {% block content %}
     <p>
 
-          Welcome {{ user.student.username }}<br> <br>
+          Welcome {{ user.username }}<br> <br>
 
 
     	Student     DASHBOARD
@@ -22,7 +22,7 @@
 
 <br><br>
 
-    <a href = "/schedule/calendar/month/student-calendar/"> Schedule </a>
+    <a href = "/schedule/"> Schedule </a>
 
  <div id="body">
             {% if messages %}

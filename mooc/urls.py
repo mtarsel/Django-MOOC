@@ -22,10 +22,10 @@ urlpatterns = patterns('',
     url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
 
     # student portal.
-    url(r'^student/', include('student_portal.urls')),
+    url(r'^student/', include('student_portal.urls', namespace="student"), name="student"),
 
     # instructor portal.
-    url(r'^instructor/', include('instructor_portal.urls')),
+    url(r'^instructor/', include('instructor_portal.urls', namespace="instructor")),
     
     #django shcedulers app for calendar
     url(r'^schedule/', include('schedule.urls')),

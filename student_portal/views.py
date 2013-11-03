@@ -11,6 +11,7 @@ from django.views.generic.edit import UpdateView
 from student_portal.forms import SubmissionForm, StudentProfileForm
 from student_portal.models import Submission, Course, Student
 
+'''
 class StudentProfileEditView(UpdateView):
     model = Student
     form_class = StudentProfileForm
@@ -21,6 +22,7 @@ class StudentProfileEditView(UpdateView):
 
     def get_success_url(self):
 	return "/student/" #TODO change this to send a user to a nice updated profile page
+'''
 
 def get_student_from_user(user):
     ls = [student for student in Student.objects.all() if student.user == user]
@@ -101,7 +103,7 @@ def enroll_courses(request):
             return render(request, 'courses.html', context)
 
         else:
-            return redirect('/accounts/login')
+            return redirect('/login')
 
     else:
         if request.user.is_authenticated():

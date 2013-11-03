@@ -25,12 +25,11 @@
         <a href="{% url 'courses' %}">Courses</a> | 
 
         {% if user.is_authenticated %}
-	    <a href='{% url "edit_profile" %}'>Edit my profile</a> | 
+<!--	     url 'edit_profile'  -->
             <a href="{% url 'schedule' %}">Schedule</a> | 
 <!--	    <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a> | -->
 	    <a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> 
         {% else %}
-<!--            <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a> -->
             <a href="{% url 'select_login' %}">{% trans "Log in" %}</a> 
         {% endif %}
         <hr />
@@ -44,13 +43,10 @@
     <div id="footer">
         {% block footer %}
 
-	{% if user.is_authenticated %} 
-            <a href="/student"> Student Home</a> | 
-            <a href="/instructor">Instructor Home</a>  
-	{% else %}
+	{% if not user.is_authenticated %} 
 	        <a href="/instructor/accounts/login">Instructor</a> |
 	        <a href="/student/accounts/login">Student</a> |
-<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
+		<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
 	{% endif %}
 
 
