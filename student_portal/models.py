@@ -23,7 +23,7 @@ class Instructor(models.Model):
 #    last_name = models.CharField(max_length=30)
 #    email = models.EmailField()
 #    username = models.CharField(max_length=30)
-    course = models.ForeignKey(Course, blank=True, null=True)
+    course = models.ManyToManyField(Course, blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.user)
