@@ -1,23 +1,38 @@
 {% extends "base.html" %}
     
-{% block title %}Welcome {{user.username}}! {% endblock %}
+{% block title %}Welcome {{user.student.username}}! {% endblock %}
         
 {% block content %}
     <p>
 
-          Welcome: {{ user.username }}<br> <br>
+          Welcome {{ user.student.username }}<br> <br>
 
 
     	Student     DASHBOARD
     </p>
-    <br><b>Enrolled Courses:</b>
+    <br><b>Enrolled Courses:</b></br>
     {% if courses %}
         {% for course in courses %}
             <br>{{  course.name }}
         {% endfor %}
 
    {% else %}
-        You haven't enrolled in any courses yet!    
+        You haven't enrolled in any courses yet!<a href="{% url 'courses' %}"> Enroll Now</a>    
    {% endif %}
+
+<br><br>
+
+    <a href = "/schedule/calendar/month/student-calendar/"> Schedule </a>
+
+ <div id="body">
+            {% if messages %}
+                <ul id="messages">
+                    {% for message in messages %}
+                    <li id="message_{{ forloop.counter }}"><a href="#" onclick="$('#message_{{ forloop.counter }}').fadeOut(); return false;"></a> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+
 
 {% endblock %}

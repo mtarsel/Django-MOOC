@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Student, User
+from .models import Student
 
 class SubmissionForm(forms.Form):
     docfile = forms.FileField(
@@ -11,5 +11,5 @@ class SubmissionForm(forms.Form):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = Student
-#	fields = [ 'first_name', 'last_name']
-	exclude = ("user")
+	fields = [ 'first_name', 'last_name', 'email', 'username']
+#	exclude = ("user")

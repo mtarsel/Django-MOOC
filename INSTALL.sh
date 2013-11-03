@@ -12,6 +12,7 @@ read USER
 HOME=/home/$USER
 
 apt-get update
+./python setup.py install
 apt-get install libmysqlclient-dev
 apt-get install python-pip
 apt-get install python-dev

@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ user.username }}'s Profile</h2>
+<h2>{{ user.student.username }}'s Profile</h2>
 
+<a href="{% url 'auth_password_change' %}">Change password</a> </br>
+
+<br>
 <form method="post" action="">
   {% csrf_token %}
   {{ form.as_p }}
+
   <input type="submit" value="Save">
 </form>
 

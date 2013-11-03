@@ -124,6 +124,21 @@ TEMPLATE_DIRS = (
     os.path.join( ROOT, 'templates' ),
 )
 
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    'django.core.context_processors.request',
+#)
+
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+        'django.contrib.auth.context_processors.auth',
+        "django.core.context_processors.debug",
+        "django.core.context_processors.i18n",
+        "django.core.context_processors.media",
+        "django.core.context_processors.request",
+        )
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,7 +152,11 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',   
     'student_portal',
     'registration',
+<<<<<<< HEAD
     'embed_video',
+=======
+    'schedule',
+>>>>>>> 959e0667e1889cb43b6b72a238d7f16faa270981
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

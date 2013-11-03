@@ -1,4 +1,4 @@
-django==1.5.4
+Django==1.5.4
 MySQL-python==1.2.4
 PIL==1.1.7
 argparse==1.2.1
@@ -6,10 +6,14 @@ dj-database-url==0.2.2
 dj-static==0.0.5
 django-debug-toolbar==0.9.4
 django-registration==1.0
+django-scheduler==0.7
 django-toolbelt==0.0.1
 gunicorn==18.0
 html2text==3.200.3
 psycopg2==2.5.1
+python-dateutil==2.2
+pytz==2013.7
 six==1.4.1
 static==0.4
+vobject==0.8.1c
 wsgiref==0.1.2
