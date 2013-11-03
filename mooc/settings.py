@@ -124,6 +124,10 @@ TEMPLATE_DIRS = (
     os.path.join( ROOT, 'templates' ),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS =(
+    'django.core.context_processors.request',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,6 +141,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',   
     'student_portal',
     'registration',
+    'schedule',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

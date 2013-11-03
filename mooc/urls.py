@@ -23,6 +23,9 @@ urlpatterns = patterns('',
     # student portal.
     url(r'^student/', include('student_portal.urls')),
     
+    #django shcedulers app for calendar
+    url(r'^schedule/', include('schedule.urls')),
+    
     #File upload
     url(r'^$', RedirectView.as_view(url='/student/list/')), # Just for ease of use   
  
