@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',   
     'student_portal',
     'registration',
+    'embed_video',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
