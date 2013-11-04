@@ -16,7 +16,6 @@ Installation
 ###Prerequisites
 1. Tested with Python2.7
 2. Linux 
-  
 
 Run INSTALL.sh as sudo
 
@@ -33,6 +32,20 @@ source venv/bin/activate
 This will create a directory ~/software-d-and-d
 
 After you are in that directory, the last command will enter the virtual environment
+
+Configuring the Database
+----
+For some Linux distributions you may need to make a slight change
+
+
+```bash
+
+sudo vim /etc/postgresql/9.1/main/pg_hba.conf 
+
+sudo /etc/init.d/postgresql restart
+```
+
+
 
 ---
 
