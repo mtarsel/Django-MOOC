@@ -11,6 +11,9 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
+def select_login(request):
+    return render(request, 'login.html')
+
 def get_course(course_id):
     course_list = Course.objects.all()
     for course in course_list:
@@ -20,7 +23,7 @@ def get_course(course_id):
 def display_course_info(request, course_id):
     if request.method == 'POST':
         if not request.user.is_authenticated():
-            return redirect('/accounts/login')
+            return redirect('/student')
         enroll_courses(request)
 
     course = get_course(int(course_id))

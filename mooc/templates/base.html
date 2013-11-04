@@ -15,9 +15,9 @@
     <div id="header">
         {% block header %}
 
-	{% if user.is_authenticated %}
+	{% if user.is_authenticated %} 
             <a href="/student">Home</a> | 
-	{% else %}	
+	{% else %}
 	    <a href="{% url 'index' %}">Home</a> | 
 	{% endif %}
 
@@ -25,12 +25,12 @@
         <a href="{% url 'courses' %}">Courses</a> | 
 
         {% if user.is_authenticated %}
-	    <a href='{% url "edit_profile" %}'>Edit my profile</a> | 
+<!--	     url 'edit_profile'  -->
             <a href="{% url 'schedule' %}">Schedule</a> | 
 <!--	    <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a> | -->
 	    <a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> 
         {% else %}
-            <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
+            <a href="{% url 'select_login' %}">{% trans "Log in" %}</a> 
         {% endif %}
         <hr />
         {% endblock %}
@@ -42,6 +42,15 @@
 
     <div id="footer">
         {% block footer %}
+
+	{% if not user.is_authenticated %} 
+	        <a href="/accounts/login/?next=/instructor/">Instructor</a> |
+	        <a href="/accounts/login/?next=/student/">Student</a> |
+		<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
+	{% endif %}
+
+
+
     
         {% endblock %}
     </div>

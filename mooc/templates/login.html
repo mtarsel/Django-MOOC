@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+    
+{% block title %}Welcome {{first_name}} {{last_name}}! {% endblock %}
+<h1>Welcome {{first_name}} {{last_name}}! </h1>
+        
+
+{% block content %}
+      
+<h2>
+
+    <a href="/student">Student Login</a> 
+    <!--<a href="/student/accounts/login">Student Login</a> -->
+    <br>
+    <br>
+
+    <a href="/instructor">Instructor Login</a> 
+
+    <br>
+    <br>
+ <a href="/admin">Admin</a> 
+
+</h2>
+
+{% endblock %}

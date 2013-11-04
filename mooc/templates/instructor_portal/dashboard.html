@@ -8,7 +8,7 @@
           Welcome {{ user.username }}<br> <br>
 
 
-    	Student     DASHBOARD
+    	Instructor    DASHBOARD
     </p>
     <br><b>Enrolled Courses:</b></br>
     {% if courses %}
@@ -17,7 +17,7 @@
         {% endfor %}
 
    {% else %}
-        You haven't enrolled in any courses yet!<a href="{% url 'courses' %}"> Enroll Now</a>    
+        You haven't created any courses yet!<a href="{% url 'courses' %}"> Create Course</a>    
    {% endif %}
 
 <br><br>

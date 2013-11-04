@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Student
+from student_portal.models import Instructor
 
 class SubmissionForm(forms.Form):
     docfile = forms.FileField(
@@ -8,8 +8,8 @@ class SubmissionForm(forms.Form):
         help_text='max. 42 megabytes'
     )
 
-class StudentProfileForm(forms.ModelForm):
+class InstructorProfileForm(forms.ModelForm):
     class Meta:
-        model = Student
+        model = Instructor
 #	fields = [ 'first_name', 'last_name', 'email', 'username']
 #	exclude = ("user")
