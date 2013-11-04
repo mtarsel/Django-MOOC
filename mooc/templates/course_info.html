@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} {{ course.name }} {% endblock %}
+
+{% block content %}
+<h1>Welcome to {{ course.name }}!</h1>
+{{ course.description }} <br>
+Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.last_name }}<br>
+
+<form name="input" action="" method="post"> {% csrf_token %}
+<input type="hidden" name="course" value={{ course.id }}>
+{% if user.is_authenticated %}
+  
+  {% if is_enrolled %}
+    <input type="submit" value="Drop">
+    <input type="hidden" name="enroll" value={{ False }}>
+  {% else %}
+    <input type="submit" value="Add">
+    <input type="hidden" name="enroll" value={{ True }}>
+  {% endif %}
+
+{% else %}
+  <input type="submit" value="Add">
+  <input type="hidden" name="enroll" value={{ True }}>
+{% endif %}
+</form>
+{% endblock %}
