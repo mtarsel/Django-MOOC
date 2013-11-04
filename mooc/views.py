@@ -23,7 +23,7 @@ def get_course(course_id):
 def display_course_info(request, course_id):
     if request.method == 'POST':
         if not request.user.is_authenticated():
-            return redirect('/login')
+            return redirect('/student')
         enroll_courses(request)
 
     course = get_course(int(course_id))

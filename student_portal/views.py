@@ -109,7 +109,7 @@ def enroll_courses(request):
             return render(request, 'courses.html', context)
 
         else:
-            return redirect('/login')
+            return redirect('/student')
 
     else:
         if request.user.is_authenticated():
