@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, select_login
+from mooc.views import index, about, display_course_info, select_login
 from student_portal.views import *
 
 urlpatterns = patterns('',
@@ -38,4 +38,7 @@ urlpatterns = patterns('',
 
     # your custom registration view
     url(r'^register/$', MyRegistrationView.as_view(), name='registration_register'),
+
+    # course info display
+    url(r'^courses/(\d+)/$', display_course_info, name='display_course_info'),
 )

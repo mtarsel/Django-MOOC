@@ -25,6 +25,9 @@ class StudentProfileEditView(UpdateView):
 '''
 
 def get_student_from_user(user):
+    """
+    takes the user from request.user and finds the student, or makes them into one
+    """
     ls = [student for student in Student.objects.all() if student.user == user]
     if ls:
         return ls[0]
@@ -34,6 +37,9 @@ def get_student_from_user(user):
         return student
 
 def get_separated_course_list(student, course_list):
+    """
+    takes a student and a course_list, returns a list of courses that the student is enrolled in, and a list of the courses the student is not enrolled in
+    """
     enrolled_courses = student.course.all()
     not_enrolled_courses = []
     for course in course_list:

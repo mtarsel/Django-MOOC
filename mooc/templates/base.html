@@ -44,8 +44,8 @@
         {% block footer %}
 
 	{% if not user.is_authenticated %} 
-	        <a href="/instructor/accounts/login">Instructor</a> |
-	        <a href="/student/accounts/login">Student</a> |
+	        <a href="/accounts/login/?next=/instructor/">Instructor</a> |
+	        <a href="/accounts/login/?next=/student/">Student</a> |
 		<a href="{% url 'registration_register' %}">{% trans "Register" %}</a>
 	{% endif %}
 
