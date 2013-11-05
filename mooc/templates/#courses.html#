@@ -1,0 +1,43 @@
+    {% extends "base.html" %}
+
+    {% block title %}Course List{% endblock %}
+
+    {% block content %}
+        {% if course_list %}
+
+            {% for course in enrolled_courses %}
+                <table border = "1" , width = "500">
+                  <td style="width:100px;">
+                  <li><a href = "/courses/{{ course.id }}/"> {{ course.name }}</a></li></td>
+                  </td>
+                  <td style="width:50px;">
+                    <form name="input" action="" method="post"> {% csrf_token %}
+                      <input type="submit" value="Drop">
+                      <input type="hidden" name="course" value={{ course.id }}>
+                      <input type="hidden" name="enroll" value={{ False }}> 
+                    </form>
+                  </td>
+                  </tr>
+             {% endfor %}
+
+            {% for course in not_enrolled_courses %}
+                <table border = "1", width = "500">
+                  <td style="width:100px;"> 
+                  <li><a href = "/courses/{{ course.id }}/"> {{ course.name }}</a></li></td>
+                  </td>
+                  <td style="width:50px;">
+                    <form name="input" action="" method="post"> {% csrf_token %}
+                      <input type="submit" value="Add">
+                      <input type="hidden" name="course" value={{ course.id }}>
+                      <input type="hidden" name="enroll" value={{ True }}>
+                    </form>
+                    </td>
+                  </tr>
+            {% endfor %}
+
+        {% else %}
+            <p> No classes yet!</p>
+        {% endif %}
+
+    {% endblock %}
+

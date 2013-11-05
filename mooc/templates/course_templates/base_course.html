@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} {{ course.name }} {% endblock %}
+
+{% block table %}
+{% if lecture_list %}
+
+            {% for lecture in lecture_list %}
+                <table border = "1" , width = "500">
+                  <td style="width:100px;">
+                  <li><a href = "/courses/{{ course.id }}/{{ lecture.id }}/"> {{ lecture.name }}</a></li></td>
+                  <input type="hidden" name="course" value={{ lecture.id }}>
+                  </td>
+                  </tr>
+             {% endfor %}
+{% else %}
+<p>There are no lectures yet</p>
+{% endif %}
+{% endblock %}

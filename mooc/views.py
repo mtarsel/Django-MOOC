@@ -49,3 +49,40 @@ def display_course_info(request, course_id):
     print course.id
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled})
+def get_lectures(course_name):
+    lecture_list = Lecture.objects.all()
+    class_lectures = []
+    for lecture in lecture_list:
+        print(lecture.course)
+        print(course_name)
+        course = lecture.course
+        print(course)
+        if (course == course_name):
+            print("i found a match")
+            class_lectures.append(lecture)
+    return class_lectures
+
+
+def display_course(request, course_id):
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return redirect('/student')
+        enroll_courses(request)
+
+    course = get_course(int(course_id))
+    lecture_list = get_lectures(course.name)
+    if request.user.is_authenticated():
+        student = get_student_from_user(request.user)
+        enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
+        is_enrolled = course in enrolled_ls
+
+    else:
+        is_enrolled = False
+        
+    print "display_course_info: got "
+    print course
+    print course.id
+    print lecture_list
+    return render(request, 'course_templates/base_course.html', { 'course' : course,
+                                                 'lecture_list': lecture_list})
+
