@@ -2,8 +2,17 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render, render_to_response, redirect
 
-from student_portal.models import Course, Student
+from student_portal.models import Course, Student, Lecture
 from student_portal.views import get_separated_course_list, get_student_from_user, enroll_courses
+
+def lecture(request):
+    lectures = Lecture.objects.all()
+    my_video = ''
+    for lecture in lectures:
+        if (lecture.name == 'Lecture01'):
+            my_video = lecture.video
+    context = {'my_video': my_video}
+    return render_to_response('instructor_portal/lecture.html', context)
 
 def index(request):
     return render(request, 'index.html')

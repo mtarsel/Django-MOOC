@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from embed_video.fields import EmbedVideoField
 
 #USER:
 #username
@@ -20,9 +21,20 @@ class Course(models.Model):
     instructor = models.ForeignKey(Instructor)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
-
+    
     def __unicode__(self):
         return unicode(self.name)
+
+class Lecture(models.Model):
+    name = models.CharField(max_length=20)
+    video = EmbedVideoField()
+    course = models.ForeignKey(Course)
+    #for future feature of notes?
+    #notes = models.CharField(max_length=512)
+    
+    def __unicode__(self):
+        return (self.course.name + " - " + self.name)
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, unique=True)

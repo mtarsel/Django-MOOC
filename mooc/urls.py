@@ -7,14 +7,14 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, display_course_info, select_login
+from mooc.views import index, about, display_course_info, select_login, lecture
 from student_portal.views import *
 
 urlpatterns = patterns('',
     
     #DEFAULT ADMIN VIEW
     url(r'^admin/', include(admin.site.urls)),
-    
+    url(r'^lecture/', lecture, name="lecture"),
     #VIEWS IN MOOC/VIEWS.PY
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC

@@ -152,7 +152,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',   
     'student_portal',
     'registration',
-#    'embed_video',
+    'embed_video',
     'schedule',
 )
 
