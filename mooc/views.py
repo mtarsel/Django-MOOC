@@ -49,16 +49,11 @@ def display_course_info(request, course_id):
     print course.id
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled})
-def get_lectures(course_name):
+def get_lectures(course):
     lecture_list = Lecture.objects.all()
     class_lectures = []
     for lecture in lecture_list:
-        print(lecture.course)
-        print(course_name)
-        course = lecture.course
-        print(course)
-        if (course == course_name):
-            print("i found a match")
+        if (lecture.course == course):
             class_lectures.append(lecture)
     return class_lectures
 
@@ -70,7 +65,7 @@ def display_course(request, course_id):
         enroll_courses(request)
 
     course = get_course(int(course_id))
-    lecture_list = get_lectures(course.name)
+    lecture_list = get_lectures(course)
     if request.user.is_authenticated():
         student = get_student_from_user(request.user)
         enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
@@ -83,6 +78,21 @@ def display_course(request, course_id):
     print course
     print course.id
     print lecture_list
-    return render(request, 'course_templates/base_course.html', { 'course' : course,
+    return render(request, 'course_screen.html', { 'course' : course,
                                                  'lecture_list': lecture_list})
 
+def get_lecture(lecture_id):
+    lecture_list = Lecture.objects.all()
+    for lecture in lecture_list:
+        if(lecture.id == lecture_id):
+            return lecture
+
+def display_lecture(request, lecture_id, third):
+    print(third + " this is the third arg")
+    print(lecture_id + " this is the lecture_id")
+    lecture = get_lecture(int(lecture_id))
+    lecture_list = get_lectures(lecture.course)
+    my_video = lecture.video
+    print(lecture.video)
+    context = {'my_video': my_video, 'lecture_list': lecture_list}
+    return render_to_response('course_screen.html', context)

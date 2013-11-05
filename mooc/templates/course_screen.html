@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+<ul>
+{% if lecture_list %}
+            {% for lecture in lecture_list %}
+                <table border = "1" , width = "50 ">
+                  <td style="width:10px;">
+                  <a href = "/courses/CS/{{ course.id }}/{{ lecture.id }}/">{{lecture.name}}</a></td>
+                  <input type="hidden" name="lecture" value={{ lecture.id }}>
+                  </td>
+                  </tr>
+             {% endfor %}
+{% endif %}
+</ul>
+{% endblock %}
+
+{% block content %}
+{% if my_video %}
+{% load embed_video_tags %}
+{{my_video|embed:'640x480'}}
+{% endif %}
+{% endblock %}
