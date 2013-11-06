@@ -6,6 +6,7 @@ argparse==1.2.1
 dj-database-url==0.2.2
 dj-static==0.0.5
 django-debug-toolbar==0.9.4
+django-embed-video==0.6
 django-registration==1.0
 django-scheduler==0.7
 django-toolbelt==0.0.1
@@ -14,6 +15,7 @@ html2text==3.200.3
 psycopg2==2.5.1
 python-dateutil==2.2
 pytz==2013.7
+requests==2.0.1
 six==1.4.1
 static==0.4
 vobject==0.8.1c

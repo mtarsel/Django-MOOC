@@ -35,10 +35,23 @@ After you are in that directory, the last command will enter the virtual environ
 
 Configuring the Database
 ----
-For some Linux distributions you may need to make a slight change
+For some Linux distributions you may need to make a slight change to the pg_hba.conf
+
+Also don't forget to create a database
 
 
 ```bash
+sudo su - postgres
+
+createuser --superuser liu
+
+psql
+
+\password liu
+
+\q
+
+createdb -U liu -O liu mooc_database
 
 sudo vim /etc/postgresql/9.1/main/pg_hba.conf 
 
