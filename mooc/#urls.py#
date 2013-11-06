@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, display_course_info, select_login, lecture, display_course, display_lecture
+from mooc.views import index, about, display_course_info, select_login, lecture, display_course
 from student_portal.views import *
 
 urlpatterns = patterns('',
@@ -41,6 +41,5 @@ urlpatterns = patterns('',
 
     # course info display
     url(r'^courses/CS/(\d+)/$', display_course, name='display_course'),
-        url(r'^courses/CS/(\d+)/(\d+)/$', display_lecture, name='display_lecutre'),
     url(r'^courses/(\d+)/$', display_course_info, name='display_course_info'),
 )

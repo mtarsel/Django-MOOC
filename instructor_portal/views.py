@@ -23,6 +23,11 @@ class InstructorProfileEditView(UpdateView):
 	return "/instructor/" #TODO change this to send a user to a nice updated profile page
 '''
 
+def lecture(request):
+    my_video = 'http://www.youtube.com/watch?v=0d0uu7MW__U'
+    context = {'my_video': my_video}
+    return render_to_response('instructor_portal/dashboard.html', context)
+
 def get_instructor_from_user(user):
     ls = [instructor for instructor in Instructor.objects.all() if instructor.user == user]
     if ls:

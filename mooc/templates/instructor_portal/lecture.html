@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Lecture!{% endblock %}
+
+{% block content %}
+{% load embed_video_tags %}
+{{ my_video|embed:'800x600' }}
+{% endblock %}

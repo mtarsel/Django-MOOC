@@ -153,7 +153,7 @@ INSTALLED_APPS = (
     'student_portal',
     'instructor_portal',
     'registration',
-#    'embed_video',
+    'embed_video',
     'schedule',
     'south',
 )
