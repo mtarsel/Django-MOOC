@@ -38,8 +38,11 @@ After you are in that directory, the last command will enter the virtual environ
 Configuring the Database
 ----
 For some Linux distributions you may need to make a slight change to the pg_hba.conf
-If you receive an error regarding "Peer" issues with Unix or "Authentication Failure" then follow the instructions below.
+If you receive an error about "Authentication Failure" then follow the instructions below.
 
+Set the password to pa55word
+
+This is in mooc/settings.py
 
 ```bash
 sudo su - postgres
@@ -54,6 +57,14 @@ psql
 
 createdb -U liu -O liu mooc_database
 
+exit
+
+python manage.py syncdb
+```
+
+If you receive an error about Peer Authentication failure, follow the steps below:
+
+```bash
 sudo vim /etc/postgresql/9.1/main/pg_hba.conf 
 
 sudo /etc/init.d/postgresql restart
@@ -61,7 +72,6 @@ sudo /etc/init.d/postgresql restart
 
 This with create a new user liu and a new postgresql database called mooc_database.
 
-I set the password to pa55word
 
 
 ---
