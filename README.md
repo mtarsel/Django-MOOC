@@ -27,6 +27,8 @@ sudo ./INSTALL.sh
 cd ~/software-d-and-d
 
 source venv/bin/activate
+
+python setup.py install #for the django-scheduler
 ```
 
 This will create a directory ~/software-d-and-d
