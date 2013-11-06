@@ -36,8 +36,7 @@ After you are in that directory, the last command will enter the virtual environ
 Configuring the Database
 ----
 For some Linux distributions you may need to make a slight change to the pg_hba.conf
-
-Also don't forget to create a database
+If you receive an error regarding "Peer" issues with Unix or "Authentication Failure" then follow the instructions below.
 
 
 ```bash
@@ -58,6 +57,9 @@ sudo vim /etc/postgresql/9.1/main/pg_hba.conf
 sudo /etc/init.d/postgresql restart
 ```
 
+This with create a new user liu and a new postgresql database called mooc_database.
+
+I set the password to pa55word
 
 
 ---
