@@ -45,6 +45,8 @@ Set the password to pa55word
 This is in mooc/settings.py
 
 ```bash
+sudo apt-get install postgresql
+
 sudo su - postgres
 
 createuser --superuser liu
