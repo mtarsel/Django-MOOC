@@ -29,12 +29,12 @@ def get_course(course_id):
         if (course.id == course_id):
             return course
 
-def display_course_info(request, course_id):
+def display_course_info(request, _,  course_id):
     if request.method == 'POST':
         if not request.user.is_authenticated():
             return redirect('/student')
         enroll_courses(request)
-
+    
     course = get_course(int(course_id))
     if request.user.is_authenticated():
         student = get_student_from_user(request.user)
@@ -49,6 +49,7 @@ def display_course_info(request, course_id):
     print course.id
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled})
+
 def get_lectures(course):
     lecture_list = Lecture.objects.all()
     class_lectures = []
@@ -87,9 +88,10 @@ def get_lecture(lecture_id):
         if(lecture.id == lecture_id):
             return lecture
 
-def display_lecture(request, lecture_id, third):
-    print(third + " this is the third arg")
-    print(lecture_id + " this is the lecture_id")
+def display_lecture(request,dept_id, course_id, lecture_id ):
+    print("This is the dept. ID " + dept_id)
+    print("This is the course " + course_id)
+    print("This is the lecture_id " + lecture_id)
     lecture = get_lecture(int(lecture_id))
     lecture_list = get_lectures(lecture.course)
     my_video = lecture.video

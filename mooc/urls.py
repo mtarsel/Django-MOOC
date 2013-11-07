@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     
     #DEFAULT ADMIN VIEW
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^lecture/', lecture, name="lecture"),
+    
     #VIEWS IN MOOC/VIEWS.PY
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC
@@ -40,7 +40,6 @@ urlpatterns = patterns('',
     url(r'^register/$', MyRegistrationView.as_view(), name='registration_register'),
 
     # course info display
-    url(r'^courses/CS/(\d+)/$', display_course, name='display_course'),
-        url(r'^courses/CS/(\d+)/(\d+)/$', display_lecture, name='display_lecutre'),
-    url(r'^courses/(\d+)/$', display_course_info, name='display_course_info'),
+    url(r'^courses/([A-Z|a-z]{2,4})/(\d+)/(\d+)/$', display_lecture, name='display_lecture'),
+    url(r'^courses/([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
 )
