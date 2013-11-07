@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, display_course_info, select_login, lecture, display_course, display_lecture
+from mooc.views import index, about, select_login
 from student_portal.views import *
 
 urlpatterns = patterns('',
