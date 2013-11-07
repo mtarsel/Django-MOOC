@@ -9,7 +9,89 @@ from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
-from student_portal.models import Submission, Course, Student
+from student_portal.models import Submission, Course, Student, Lecture
+#from mooc.views import get_course
+
+
+def get_course(course_id):
+    course_list = Course.objects.all()
+    for course in course_list:
+        if (course.id == course_id):
+            return course
+
+def get_lectures(course):
+    lecture_list = Lecture.objects.all()
+    class_lectures = []
+    for lecture in lecture_list:
+        if (lecture.course == course):
+            class_lectures.append(lecture)
+    return class_lectures
+
+def display_course_info(request, _,  course_id):
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return redirect('/student')
+        enroll_courses(request)
+    
+    course = get_course(int(course_id))
+    lecture_list = get_lectures(course)
+    if request.user.is_authenticated():
+        student = get_student_from_user(request.user)
+        enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
+        is_enrolled = course in enrolled_ls
+
+    else:
+        is_enrolled = False
+        
+    print "display_course_info: got "
+    print course
+    print course.id
+    return render(request, 'course_info.html', { 'course' : course,
+                                                 'is_enrolled': is_enrolled,
+                                                 'lecture_list' : lecture_list})
+
+
+def display_course(request, course_id):
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return redirect('/student')
+        enroll_courses(request)
+
+    course = get_course(int(course_id))
+    lecture_list = get_lectures(course)
+    if request.user.is_authenticated():
+        student = get_student_from_user(request.user)
+        enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
+        is_enrolled = course in enrolled_ls
+
+    else:
+        is_enrolled = False
+        
+    print "display_course_info: got "
+    print course
+    print course.id
+    print lecture_list
+    return render(request, 'lecture.html', { 'course' : course,
+                                                 'lecture_list': lecture_list})
+
+def get_lecture(lecture_id):
+    lecture_list = Lecture.objects.all()
+    for lecture in lecture_list:
+        if(lecture.id == lecture_id):
+            return lecture
+
+@login_required(login_url='/accounts/login/')
+def display_lecture(request,dept_id, course_id, lecture_id ):
+    print("This is the dept. ID " + dept_id)
+    print("This is the course " + course_id)
+    print("This is the lecture_id " + lecture_id)
+    lecture = get_lecture(int(lecture_id))
+    lecture_list = get_lectures(lecture.course)
+    my_video = lecture.video
+    print(lecture.video)
+    context = {'my_video': my_video, 'lecture_list': lecture_list}
+    return render_to_response('lecture.html', context)
+
 
 '''
 class StudentProfileEditView(UpdateView):

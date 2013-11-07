@@ -8,7 +8,7 @@
             {% for course in enrolled_courses %}
                 <table border = "1" , width = "500">
                   <td style="width:100px;">
-                  <li><a href = "/courses/{{ course.id }}/"> {{ course.name }}</a></li></td>
+                  <li><a href = "/courses/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></li></td>
                   </td>
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
@@ -23,7 +23,7 @@
             {% for course in not_enrolled_courses %}
                 <table border = "1", width = "500">
                   <td style="width:100px;"> 
-                  <li><a href = "/courses/{{ course.id }}/"> {{ course.name }}</a></li></td>
+                  <li><a href = "/courses/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></li></td>
                   </td>
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}

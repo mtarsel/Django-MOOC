@@ -18,6 +18,18 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
     <input type="hidden" name="enroll" value={{ True }}>
   {% endif %}
 
+{% if lecture_list %}
+            {% for lecture in lecture_list %}
+                <table border = "1" , width = "50 ">
+                  <td style="width:10px;">
+                  <a href = "/courses/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
+                  <input type="hidden" name="lecture" value={{ lecture.id }}>
+                  </td>
+                  </tr>
+             {% endfor %}
+{% endif %}
+
+
 {% else %}
   <input type="submit" value="Add">
   <input type="hidden" name="enroll" value={{ True }}>
