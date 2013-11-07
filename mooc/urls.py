@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     
     #DEFAULT ADMIN VIEW
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^lecture/', lecture, name="lecture"),
+#    url(r'^lecture/', lecture, name="lecture"),
     #VIEWS IN MOOC/VIEWS.PY
     url(r'^$', index, name="index"),#index page
     url(r'^about/$', about, name="about"),#information about MOOC
