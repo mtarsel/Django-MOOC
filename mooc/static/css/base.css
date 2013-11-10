@@ -1,8 +1,15 @@
+.sidebar {
+  float: left;
+  width: 100px;
+  margin-right: auto;
+}
+
 #content {
   width: 750px;
   margin-left: auto;
   margin-right: auto;
   font-size: 18px;
+  overflow: hidden;
 }
 
 #header {

@@ -9,7 +9,7 @@ from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
-from student_portal.models import Submission, Course, Student, Lecture
+from student_portal.models import Submission, Course, Student, Lecture, Assignment
 #from mooc.views import get_course
 
 
@@ -90,7 +90,7 @@ def display_lecture(request,dept_id, course_id, lecture_id ):
     my_video = lecture.video
     print(lecture.video)
     context = {'my_video': my_video, 'lecture_list': lecture_list}
-    return render_to_response('lecture.html', context)
+    return render(request, 'lecture.html', context)
 
 
 '''
@@ -206,3 +206,33 @@ def enroll_courses(request):
                 'enrolled_courses': enrolled_courses,
                 'course_list': course_list}
         return render(request, 'courses.html', context)
+
+def get_assignments(course):
+    assignment_list = Assignment.objects.all()
+    assignments = []
+    for assignment in assignment_list:
+        if(assignment.course == course):
+            assignments.append(assignment)
+    return assignments
+
+
+def display_assignments(request, course_department, course_id):
+    course = get_course(int(course_id))
+    assignments = get_assignments(course)
+    
+    context = {'assignments': assignments, 'course': course}
+    return render(request, 'student_portal/assignments.html', context)
+
+def get_assignment(assignments, assignment_name):
+    for a in assignments:
+        if a.name == assignment_name:
+            return a
+
+def display_assignment(request, course_department, course_id, assignment):
+    course = get_course(int(course_id))
+    assignments = get_assignments(course)
+    assignment = get_assignment(assignments, assignment)
+    context = {'assignment': assignment, 'assignments': assignments, 'course': course}
+    return render(request, 'student_portal/assignments.html', context)
+
+

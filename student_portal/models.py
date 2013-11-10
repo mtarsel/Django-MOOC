@@ -50,7 +50,7 @@ class Student(models.Model):
 class Assignment(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
     course = models.ForeignKey(Course)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=20)
     description = models.CharField(max_length=512)
     points_possible = models.IntegerField(default=100)
     
