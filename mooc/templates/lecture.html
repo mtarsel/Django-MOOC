@@ -2,11 +2,10 @@
 
 {% block title %} {{ lecture.name }} {% endblock %}
 
-{% block content %}
-<h1> {{ lecture.name }} </h1>
-
-
-<ul>
+{% block sidebar %}
+<br></br>
+    <a href = "/courses/{{ course.department }}/{{course.id}}/">{{course.name}}</a></td>
+<br></br>
 {% if lecture_list %}
             {% for lecture in lecture_list %}
                 <table border = "1" , width = "50 ">
@@ -17,10 +16,14 @@
                   </tr>
              {% endfor %}
 {% endif %}
-</ul>
+{% endblock %}
+
+{% block content %}
+<h1> {{ lecture.name }} </h1>
 
 {% if my_video %}
 {% load embed_video_tags %}
 {{my_video|embed:'640x480'}}
 {% endif %}
+
 {% endblock %}

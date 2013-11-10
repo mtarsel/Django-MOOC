@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %} {{ course.name }} {% endblock %}
 
+{% if user.is_authenticated %}
 {% block content %}
 <h1>Welcome to {{ course.name }}!</h1>
 {{ course.description }} <br>
@@ -8,7 +9,6 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
 
 <form name="input" action="" method="post"> {% csrf_token %}
 <input type="hidden" name="course" value={{ course.id }}>
-{% if user.is_authenticated %}
   
   {% if is_enrolled %}
     <input type="submit" value="Drop">
@@ -18,21 +18,26 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
     <input type="hidden" name="enroll" value={{ True }}>
   {% endif %}
 
+</form>
+{% endblock %}
+
+{% block sidebar %}
 {% if lecture_list %}
+
+<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">assignments</a></br>
+
+<h3>Lectures</h3>
             {% for lecture in lecture_list %}
-                <table border = "1" , width = "50 ">
                   <td style="width:10px;">
-                  <a href = "/courses/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
+                  <a href = "/student/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a>
                   <input type="hidden" name="lecture" value={{ lecture.id }}>
-                  </td>
-                  </tr>
              {% endfor %}
 {% endif %}
-
+{% endblock %}
 
 {% else %}
   <input type="submit" value="Add">
   <input type="hidden" name="enroll" value={{ True }}>
 {% endif %}
-</form>
-{% endblock %}
+
+

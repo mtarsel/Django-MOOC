@@ -39,7 +39,5 @@ urlpatterns = patterns('',
     # your custom registration view
     url(r'^register/$', MyRegistrationView.as_view(), name='registration_register'),
 
-    # course info display
-    url(r'^courses/([A-Z|a-z]{2,4})/(\d+)/(\d+)/$', display_lecture, name='display_lecture'),
-    url(r'^courses/([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
+
 )

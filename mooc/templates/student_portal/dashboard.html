@@ -13,7 +13,7 @@
     <br><b>Enrolled Courses:</b></br>
     {% if courses %}
         {% for course in courses %}
-            <li><a href = "/courses/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
+            <li><a href = "/student/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
             <input type="hidden" name="course" value={{ course.id }}>
         {% endfor %}
 
