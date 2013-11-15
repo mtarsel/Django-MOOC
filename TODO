@@ -2,5 +2,11 @@
 
 Fake User Case:
 
-Instructor creates assignment for class -> student views assignment 
--> student uploads file submission -> instructor views submission 
+    Instructor creates assignment for class -> student views assignment 
+-> student uploads file submission -> instructor views submission
+
+2. Instructor dashboard:
+    -create course
+    -create assignment
+    -link lecture videos
+    -file student's uploaded files
