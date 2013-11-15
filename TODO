@@ -9,4 +9,19 @@ Fake User Case:
     -create course
     -create assignment
     -link lecture videos
-    -file student's uploaded files
+    -view file student's uploaded files
+
+    How is the upload directory structured?
+	/department/course/assignment
+
+3. Design, including:
+    -schedule
+    -sidebars
+
+4. Edit profiles for students
+    -students can't set their first or last name
+
+5. Registration
+    -Email activation
+    -different for users?
+
