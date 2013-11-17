@@ -25,9 +25,14 @@
         <a href="{% url 'courses' %}">Courses</a> | 
 
         {% if user.is_authenticated %}
-<!--	     url 'edit_profile'  -->
+<!--	  TODO:   url 'edit_profile' --> 
+
+<!-- calendar that all users can view -->     
             <a href="{% url 'schedule' %}">Schedule</a> | 
-<!--	    <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a> | -->
+
+	    <a href="{% url 'auth_password_change' %}">Change
+password</a> | 
+
 	    <a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> 
         {% else %}
             <a href="{% url 'select_login' %}">{% trans "Log in" %}</a> 

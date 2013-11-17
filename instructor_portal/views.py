@@ -38,7 +38,7 @@ def get_instructor_from_user(user):
         return instructor
 
 def get_separated_course_list(instructor, course_list):
-    enrolled_courses = instructor.course.all()
+    enrolled_courses = instructor.course.all()#TODO error after login 
     not_enrolled_courses = []
     for course in course_list:
         if not course.id in map(lambda course: course.id, enrolled_courses):

@@ -75,6 +75,11 @@ sudo /etc/init.d/postgresql restart
 This with create a new user liu and a new postgresql database called mooc_database.
 
 
+Further Work
+----
+See attached 
+[TODO file](./TODO)
+
 
 ---
 

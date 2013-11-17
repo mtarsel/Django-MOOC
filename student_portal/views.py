@@ -93,7 +93,6 @@ def display_lecture(request,dept_id, course_id, lecture_id ):
     return render(request, 'lecture.html', context)
 
 
-'''
 class StudentProfileEditView(UpdateView):
     model = Student
     form_class = StudentProfileForm
@@ -104,7 +103,6 @@ class StudentProfileEditView(UpdateView):
 
     def get_success_url(self):
 	return "/student/" #TODO change this to send a user to a nice updated profile page
-'''
 
 def get_student_from_user(user):
     """
