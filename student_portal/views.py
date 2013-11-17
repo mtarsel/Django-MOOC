@@ -3,9 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
+from django.core.context_processors import csrf
+from django.conf import settings
 
 from registration.backends.simple.views import RegistrationView
-
+import os
+import mimetypes
 from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
@@ -217,20 +220,88 @@ def get_assignments(course):
 def display_assignments(request, course_department, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
-    
+    print course.id
     context = {'assignments': assignments, 'course': course}
-    return render(request, 'student_portal/assignments.html', context)
+    return render(request, 'student_portal/all_assignments.html', context)
 
-def get_assignment(assignments, assignment_name):
+def get_assignment(assignments, assignment_id):
     for a in assignments:
-        if a.name == assignment_name:
+        if a.id == assignment_id:
             return a
 
-def display_assignment(request, course_department, course_id, assignment):
+def get_submission(user, assignment_id):
+    for sub in Submission.objects.all():
+        if (sub.assignment.id == assignment_id) and (sub.submitter == user.student):
+            return sub
+    return None
+
+def display_assignment(request, course_department, course_id, assignment_id):
     course = get_course(int(course_id))
+    print course.id # don't remove any of these
     assignments = get_assignments(course)
-    assignment = get_assignment(assignments, assignment)
-    context = {'assignment': assignment, 'assignments': assignments, 'course': course}
+    assignment = get_assignment(assignments, int(assignment_id))
+    print assignment.id
+    sub = get_submission(request.user, int(assignment_id))
+    print sub
+    context = {'assignment': assignment,
+               'assignments': assignments,
+               'course': course,
+               'submission': sub}
     return render(request, 'student_portal/assignments.html', context)
 
+def handle_uploaded_file(file, course_department, course_id, assignment_id, user):
+    if file:
+        directory = settings.MEDIA_ROOT+ '/' + course_department+ '/' + course_id + '/' + assignment_id + '/'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        _, fileExtension = os.path.splitext(file.name)
+        filename = user.username + fileExtension
+        destination = open(directory+filename, 'wb+')
+        for chunk in file.chunks():
+            destination.write(chunk)
+        destination.close()
+        old = get_submission(user, int(assignment_id))
+        if old != None:
+            old.delete()
+        sub = Submission()
+        course = get_course(int(course_id))
+        sub.course = course
+        sub.assignment = get_assignment(get_assignments(course), int(assignment_id))
+        sub.submitter = user.student
+        sub.docfile.name = directory+filename
+        sub.save()
 
+def upload_assignment(request, course_department, course_id, assignment_id):
+    assignments = get_assignments(get_course(int(course_id)))
+    assignment = get_assignment(assignments, int(assignment_id))
+    print assignment.id # DON'T DELETE
+    if request.method == 'POST':
+        a=request.POST #the post dict
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], course_department, course_id, assignment_id, request.user)
+            #return HttpResponseRedirect('/')
+            return display_assignment(request, course_department, course_id, assignment_id)
+
+    else:
+        form = SubmissionForm()
+    
+    context = {'form' : form}
+    context.update(csrf(request))
+    return render_to_response('upload.html', context)
+
+def download_assignment(request, course_department, course_id, assignment_id):
+    sub = get_submission(request.user, int(assignment_id))
+    print sub.id
+    dirlist = sub.docfile.name.split(os.sep)
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    print dirlist
+    print dirlist[-1]
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    print type
+    response = HttpResponse(content_type=type)
+    fn = "/".join(dirlist)
+    print fn
+    response['Content-Disposition'] = 'attachment; filename="' + fn + ' "'
+    return response
