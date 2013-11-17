@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from instructor_portal.views import *
 from django.contrib.auth.decorators import login_required as auth
 

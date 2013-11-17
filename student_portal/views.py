@@ -233,4 +233,33 @@ def display_assignment(request, course_department, course_id, assignment):
     context = {'assignment': assignment, 'assignments': assignments, 'course': course}
     return render(request, 'student_portal/assignments.html', context)
 
+def get_submissions(student, course):
+    submissions = Submission.objects.all()
+    student_submissions = []
+    for submission in submissions:
+        if submission.submitter == student and submission.course == course:
+            student_submissions.append(submission)
+    print (student_submissions)
+    return student_submissions
 
+def get_grades(submissions):
+    total = 0
+    grade = 0
+    for submission in submissions:
+        total = total + submission.assignment.points_possible
+        grade = grade + submission.grade
+
+    total_and_grade = []
+    total_and_grade.append(total)
+    total_and_grade.append(grade)
+    return total_and_grade
+
+def display_grades(request, course_department, course_id):
+    student = request.user.student
+    course = get_course(int(course_id))
+    submissions = get_submissions(student, course)
+    total_and_grade = get_grades(submissions)
+    total = total_and_grade[0]
+    grade = total_and_grade[1]
+    context = {'submissions': submissions, 'course': course, 'total': total, 'grade': grade}
+    return render(request, 'student_portal/grades.html', context)
