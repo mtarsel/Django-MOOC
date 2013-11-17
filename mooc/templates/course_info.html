@@ -24,7 +24,8 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
 {% block sidebar %}
 {% if lecture_list %}
 
-<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">assignments</a></br>
+<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">Assignments</a></br>
+<a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></br>
 
 <h3>Lectures</h3>
             {% for lecture in lecture_list %}

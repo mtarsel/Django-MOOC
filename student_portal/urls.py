@@ -23,5 +23,5 @@ urlpatterns = patterns('student_portal.views',
     url(r'^([A-Z|a-z]{2,4})/(\d+)/assignments/$', display_assignments, name='display_assignments'),
     url(r'^([A-Z|a-z]{2,4})/(\d+)/assignments/([a-z|A-Z|0-9]{2,20})/$', display_assignment, name='display_assignment'),
     url(r'^([A-Z|a-z]{2,4})/(\d+)/assignments/([a-z|A-Z|0-9]{2,20})/submission/$', display_assignment, name='display_assignment'),                      
-
+    url(r'^([A-Z|a-z]{2,4})/(\d+)/grades/$', display_grades, name='display_grades'),
 )
