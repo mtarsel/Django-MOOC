@@ -57,6 +57,7 @@ class Assignment(models.Model):
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
 
+
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
     course = models.ForeignKey(Course) 
@@ -75,3 +76,13 @@ class Submission(models.Model):
 
     def __unicode__(self):
         return (self.assignment.__unicode__() + " - " + self.submitter.user.username)
+
+class Quiz(Submission):
+    weight = .3
+
+class Exam(Submission):
+    weight = .5
+
+
+class Homework(Submission):
+    weight = .2
