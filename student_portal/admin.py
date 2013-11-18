@@ -5,6 +5,7 @@ from student_portal.models import Course, Student, Instructor, Assignment, Submi
 
 admin.site.register(Student)
 admin.site.register(Instructor)
+admin.site.register(Assignment)
 admin.site.register(Submission)
 admin.site.register(Course)
 admin.site.register(Lecture)

@@ -2,31 +2,69 @@
     
 {% block title %}Grades{% endblock %}
         
-{% if submissions %}
 {% block content %}
-
 <table border = "1" , width = "500">
 <tr>
 <td style="width:30px;"><h4>Assignment</h4></td>
 <td style="width:20px;"><h4>Grade</h4></td>
 <td style="width:20px;"><h4>Points Possible</h4></td>
 </tr>
-{% for submission in submissions %}
+{% if homeworks %}
+<tr><td><h4> Homeworks </h4></td><td><td></td></td></tr>
+{% for homework in homeworks %}
 <tr>
-<td style="width:30px;">{{ submission.assignment }}</td>
-<td style="width:20px;">{{ submission.grade }}</td>
-<td style="width:20px;">{{ submission.assignment.points_possible }}</td>
+<td style="width:30px;">{{ homework.assignment }}</td>
+<td style="width:20px;">{{ homework.grade }}</td>
+<td style="width:20px;">{{ homework.assignment.points_possible }}</td>
 </tr>
 {% endfor %}
+<tr>
+<td style="width:30px;"><h4>Homework Grade for {{course.name}}</h4></td>
+<td style="width:20px;"><h4>{{hwgrade}}</h4></td>
+<td style="width:20px;"><h4>{{hwtotal}}</h4></td>
+</tr>
+<tr><td><td><td><p></p></td></td></td></tr>
+{% endif %}
+
+{% if quizzes %}
+<tr><td><h4> Quizzes </h4></td><td><td></td></td></tr>
+{% for quiz in quizzes %}
+<tr>
+<td style="width:30px;">{{ quiz.assignment }}</td>
+<td style="width:20px;">{{ quiz.grade }}</td>
+<td style="width:20px;">{{ quiz.assignment.points_possible }}</td>
+</tr>
+{% endfor %}
+<tr>
+<td style="width:30px;"><h4>Quiz Grade for {{course.name}}</h4></td>
+<td style="width:20px;"><h4>{{quizgrade}}</h4></td>
+<td style="width:20px;"><h4>{{quiztotal}}</h4></td>
+</tr>
+<tr><td><td><td><p></p></td></td></td></tr>
+{% endif %}
+{% if exams %}
+<tr><td><h4> Exams </h4></td><td><td></td></td></tr>
+{% for exam in exams %}
+<tr>
+<td style="width:30px;">{{ exam.assignment }}</td>
+<td style="width:20px;">{{ exam.grade }}</td>
+<td style="width:20px;">{{ exam.assignment.points_possible }}</td>
+</tr>
+{% endfor %}
+<tr>
+<td style="width:30px;"><h4>Exam Grade for {{course.name}}</h4></td>
+<td style="width:20px;"><h4>{{examgrade}}</h4></td>
+<td style="width:20px;"><h4>{{examtotal}}</h4></td>
+</tr>
+<tr><td><td><td><p></p></td></td></td></tr>
+{% endif %}
 
 <tr>
 <td style="width:30px;"><h4>Grade for {{course.name}}</h4></td>
 <td style="width:20px;"><h4>{{grade}}</h4></td>
 <td style="width:20px;"><h4>{{total}}</h4></td>
 </tr>
-
 {% endblock %}
-{% endif %}
 
 {% block sidebar %}
 <a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
