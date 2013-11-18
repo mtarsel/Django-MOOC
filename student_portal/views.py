@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.conf import settings
+from django.core.servers.basehttp import FileWrapper
 
 from registration.backends.simple.views import RegistrationView
 import os
@@ -15,6 +16,14 @@ from student_portal.forms import SubmissionForm, StudentProfileForm
 from student_portal.models import Submission, Course, Student, Lecture, Assignment
 #from mooc.views import get_course
 
+
+def get_assignments(course):
+    assignment_list = Assignment.objects.all()
+    assignments = []
+    for assignment in assignment_list:
+        if(assignment.course == course):
+            assignments.append(assignment)
+    return assignments
 
 def get_course(course_id):
     course_list = Course.objects.all()
@@ -38,6 +47,8 @@ def display_course_info(request, _,  course_id):
     
     course = get_course(int(course_id))
     lecture_list = get_lectures(course)
+    assignment_list = get_assignments(course)
+    print assignment_list
     if request.user.is_authenticated():
         student = get_student_from_user(request.user)
         enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
@@ -51,7 +62,8 @@ def display_course_info(request, _,  course_id):
     print course.id
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled,
-                                                 'lecture_list' : lecture_list})
+                                                 'lecture_list' : lecture_list,
+                                                 'assignment_list': assignment_list})
 
 
 def display_course(request, course_id):
@@ -154,7 +166,7 @@ def list(request):
     )
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/') 
 def dashboard(request):
     """
     If users are authenticated, direct them to the main page. Otherwise, take
@@ -208,15 +220,7 @@ def enroll_courses(request):
                 'course_list': course_list}
         return render(request, 'courses.html', context)
 
-def get_assignments(course):
-    assignment_list = Assignment.objects.all()
-    assignments = []
-    for assignment in assignment_list:
-        if(assignment.course == course):
-            assignments.append(assignment)
-    return assignments
-
-
+@login_required(login_url='/accounts/login/') 
 def display_assignments(request, course_department, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
@@ -235,9 +239,10 @@ def get_submission(user, assignment_id):
             return sub
     return None
 
+@login_required(login_url='/accounts/login/') 
 def display_assignment(request, course_department, course_id, assignment_id):
     course = get_course(int(course_id))
-    print course.id # don't remove any of these
+    print course.id
     assignments = get_assignments(course)
     assignment = get_assignment(assignments, int(assignment_id))
     print assignment.id
@@ -271,17 +276,17 @@ def handle_uploaded_file(file, course_department, course_id, assignment_id, user
         sub.docfile.name = directory+filename
         sub.save()
 
+@login_required(login_url='/accounts/login/') 
 def upload_assignment(request, course_department, course_id, assignment_id):
     assignments = get_assignments(get_course(int(course_id)))
     assignment = get_assignment(assignments, int(assignment_id))
-    print assignment.id # DON'T DELETE
+    print assignment.id 
     if request.method == 'POST':
         a=request.POST #the post dict
         form = SubmissionForm(request.POST, request.FILES)
         if form.is_valid():
             handle_uploaded_file(request.FILES['file'], course_department, course_id, assignment_id, request.user)
-            #return HttpResponseRedirect('/')
-            return display_assignment(request, course_department, course_id, assignment_id)
+            return HttpResponseRedirect('/student/' + course_department + '/' + course_id + '/assignments/' + assignment_id + '/')
 
     else:
         form = SubmissionForm()
@@ -290,6 +295,7 @@ def upload_assignment(request, course_department, course_id, assignment_id):
     context.update(csrf(request))
     return render_to_response('upload.html', context)
 
+@login_required(login_url='/accounts/login/') 
 def download_assignment(request, course_department, course_id, assignment_id):
     sub = get_submission(request.user, int(assignment_id))
     print sub.id
@@ -300,8 +306,7 @@ def download_assignment(request, course_department, course_id, assignment_id):
     print dirlist[-1]
     type, _ = mimetypes.guess_type(dirlist[-1])
     print type
-    response = HttpResponse(content_type=type)
-    fn = "/".join(dirlist)
-    print fn
-    response['Content-Disposition'] = 'attachment; filename="' + fn + ' "'
+    f = open(sub.docfile.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
     return response

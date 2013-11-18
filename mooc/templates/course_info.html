@@ -22,9 +22,12 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
 {% endblock %}
 
 {% block sidebar %}
+{% if is_enrolled %}
 {% if lecture_list %}
-
-<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">assignments</a></br>
+<h3>Assignments</h3>
+  {% for assignment in assignment_list %}
+  <a href = "/student/{{ course.department }}/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}}</a></br>
+  {% endfor %}
 
 <h3>Lectures</h3>
             {% for lecture in lecture_list %}
@@ -32,6 +35,7 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
                   <a href = "/student/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a>
                   <input type="hidden" name="lecture" value={{ lecture.id }}>
              {% endfor %}
+{% endif %}
 {% endif %}
 {% endblock %}
 
