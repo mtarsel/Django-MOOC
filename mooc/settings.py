@@ -161,6 +161,7 @@ INSTALLED_APPS = (
     'embed_video',
     'schedule',
     'south',
+    'social_auth',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
