@@ -34,7 +34,10 @@ urlpatterns = patterns('',
     url(r'^$', RedirectView.as_view(url='/student/list/')), # Just for ease of use   
  
     # django registration simple, no email registration
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+
+#    url(r'^accounts/', include('registration.backends.simple.urls')),
+    
+    url(r'^accounts/',include('registration.backends.default.urls')),
 
     # your custom registration view
     url(r'^register/$', MyRegistrationView.as_view(), name='registration_register'),
