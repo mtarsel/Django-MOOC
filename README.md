@@ -74,6 +74,24 @@ sudo /etc/init.d/postgresql restart
 
 This with create a new user liu and a new postgresql database called mooc_database.
 
+Testing
+----
+To run the email server to resgistration, execute the following commands in the
+directory with manage.py:
+
+```bash
+python -m smtpd --c DebuggingServer localhost:1025
+
+python manage.py runserver
+```
+
+Instructions
+----
+1. Install all dependecies and get women to user dreamtitz
+2. Configure database and run email test server
+3. ????????
+4. Profit
+
 
 Further Work
 ----
