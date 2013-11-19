@@ -41,7 +41,8 @@ To run the email server for resgistration, execute the following commands in the
 directory with manage.py:
 
 ```bash
-python -m smtpd --c DebuggingServer localhost:1025
+
+python -m smtpd -n -c DebuggingServer localhost:1025
 
 python manage.py runserver
 ```
