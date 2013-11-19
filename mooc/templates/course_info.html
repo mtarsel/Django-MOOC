@@ -4,16 +4,13 @@
 {% if user.is_authenticated %}
 {% block content %}
 <h1>Welcome to {{ course.name }}!</h1>
-{{ course.description }} <br>
-Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.last_name }}<br>
+{{ course.description }}<br>
+Instructor: {{ course.instructor }} <br>
 
 <form name="input" action="" method="post"> {% csrf_token %}
 <input type="hidden" name="course" value={{ course.id }}>
-  
-  {% if is_enrolled %}
-    <input type="submit" value="Drop">
-    <input type="hidden" name="enroll" value={{ False }}>
-  {% else %}
+
+  {% if not is_enrolled %}
     <input type="submit" value="Add">
     <input type="hidden" name="enroll" value={{ True }}>
   {% endif %}
@@ -34,6 +31,9 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
 <a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></br>
 
 {% if lecture_list %}
+<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">Assignments</a></br>
+<a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></br>
+
 <h3>Lectures</h3>
             {% for lecture in lecture_list %}
                   <td style="width:10px;">
@@ -48,5 +48,4 @@ Instructor: {{ course.instructor.user.first_name }} {{ course.instructor.user.la
   <input type="submit" value="Add">
   <input type="hidden" name="enroll" value={{ True }}>
 {% endif %}
-
 

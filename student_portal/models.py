@@ -54,6 +54,19 @@ class Assignment(models.Model):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=512)
     points_possible = models.IntegerField(default=100)
+    QUIZ = 'Quiz'
+    EXAM = 'Exam'
+    HOMEWORK = 'Homework'
+    PROJECT = 'Project'
+    SUBMISSION_TYPE_CHOICES = (
+        (QUIZ, 'Quiz'),
+        (EXAM, 'Exam'),
+        (HOMEWORK, 'Homework'),
+        (PROJECT, 'Project'))
+    submission_type = models.CharField(max_length=8,
+                                       choices=SUBMISSION_TYPE_CHOICES,
+                                       default=QUIZ)
+    
     
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
@@ -79,11 +92,13 @@ class Submission(models.Model):
         return (self.assignment.__unicode__() + " - " + self.submitter.user.username)
 
 class Quiz(Submission):
-    weight = .3
+    weight = .2
 
 class Exam(Submission):
-    weight = .5
-
+    weight = .4
 
 class Homework(Submission):
+    weight = .2
+
+class Project(Submission):
     weight = .2

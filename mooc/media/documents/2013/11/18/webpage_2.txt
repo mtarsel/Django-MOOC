@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<table id="myTable" border="1">
+<tr>
+<td>First Name</td>
+<td>Last Name</td>
+<td> Video Game Opinion</td>
+<td> Plays on </td>
+</tr>
+<tr>
+<td>Derek</td>
+<td>Klatt</td>
+<td>Like</td>
+<td>PC and PS3</td>
+</tr>
+</table>
+
+<p> My Hobbies </p>
+<select>
+  <option value="Video Games">Video Games</option>
+  <option value="Board Games">Board Games</option>
+  <option value="Code">Code</option>
+  <option value="Hike and Camp">Hike and Camp</option>
+</select>
+
+<p> My site I need to update </p>
+<p><a href="url"> http://people.clarkson.edu/~klattdw </a></p>
+
+<!--    var jLike = document.getElementById("like").value;
+    var jPc = document.getElementById("pc").value;
+    var jX = document.getElementById("x").value;
+    var jPs = document.getElementById("ps").value;
+    var jWii = document.getElementById("wii").value;
+    alert("Your name is: " + jFirst + " " + jLast + "\n"
+         + "you " + Jlike + "video games and play on: " + "\n"
+         + jPc + " " + jX + " " + jPs + " " + jWii);
+-->
+
+<body>
+<head>
+ <script type="text/javascript">
+ function UpdateJS(){
+    var jFirst = document.getElementById("fname").value;
+    var jLast = document.getElementById("lname").value;
+    var jLike = document.getElementById("like").value;                                                                                      
+    var jPc = document.getElementById("pc").value;                                                                                                 var jX = document.getElementById("x").value;                                                                                                   var jPs = document.getElementById("ps").value;                                                                                                 var jWii = document.getElementById("wii").value;
+    alert("Your name is: " + jFirst + " " + jLast);
+    var table=document.getElementById("myTable");
+    var row=table.insertRow(2);
+    var cell1=row.insertCell(0);
+    var cell2=row.insertCell(1);
+    var cell3=row.insertCell(2);
+    var cell4=row.insertCell(3);
+    cell1.innerHTML="jFirst";
+    cell2.innerHTML="jLast";
+    cell3.innerHTML="jLike";
+    cell3.innerHTML="jPc" + " " + jX + " " + jPs + " " + jWii;
+<!--    alert(Jlike + "video games and play on: " + " "+ jPc + " " + jX + " " + jPs + " " + jWii);      
+<!--    alert("Your name is: " + jFirst + " " + jLast);-->
+ }
+ </script>
+
+</head>
+<body>
+  <form action="my_form.asp" method="get">
+    <FORM NAME="myform" onSubmit="JavaScript:UpdateJS()">
+
+         First name: <input type="text" id="fname" name="firstname" /><br />
+         Last name:  <input type="text" id="lname" name="lastname" /><br />
+         <!--<input name="Submit"  type="submit" value="Update" /> -->
+	 <p>do you like or dislike video games?</p>
+	 
+         <input type="radio" name="games" id="like" value="like video games">like<br />
+         <input type="radio" name="games" id="like" value="dislike video games">dislike<br />
+	 <p>what systems do you play on?</p>
+
+         <input type="checkbox" name="consol" id="pc" value="PC">I play on PC<br />
+         <input type="checkbox" name="consol" id="x" value="XBOX">I play on xbox<br />
+         <input type="checkbox" name="consol" id="ps" value="PS3">I play on ps3<br />
+         <input type="checkbox" name="consol" id="wii" value="WII">I play on wii<br />
+         
+	 <input name="Submit" type="submit" value="Update" />
+         
+    </FORM>
+  </form>
+</body>
+
+
+</body>
+</html>
