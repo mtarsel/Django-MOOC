@@ -10,7 +10,7 @@
             {% for lecture in lecture_list %}
                 <table border = "1" , width = "50 ">
                   <td style="width:10px;">
-                  <a href = "/courses/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
+                  <a href = "/student/{{ lecture.course.department }}/{{lecture.course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
                   <input type="hidden" name="lecture" value={{ lecture.id }}>
                   </td>
                   </tr>

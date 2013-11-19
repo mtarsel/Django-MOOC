@@ -10,20 +10,20 @@ from embed_video.fields import EmbedVideoField
 #first name
 #last name
 
-class Instructor(models.Model):
-    user = models.OneToOneField(User)
-
-    def __unicode__(self):
-        return unicode(self.user)
-
 class Course(models.Model):
     name = models.CharField(max_length=512)
-    instructor = models.ForeignKey(Instructor)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
     
     def __unicode__(self):
         return unicode(self.name)
+
+class Instructor(models.Model):
+    user = models.OneToOneField(User)
+    course = models.ForeignKey(Course)
+
+    def __unicode__(self):
+        return unicode(self.user)
 
 class Lecture(models.Model):
     name = models.CharField(max_length=20)
