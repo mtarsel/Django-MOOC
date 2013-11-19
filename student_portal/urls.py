@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from student_portal.views import *
 from django.contrib.auth.decorators import login_required as auth
 
@@ -26,4 +26,6 @@ urlpatterns = patterns('student_portal.views',
     url(r'^([A-Z|a-z]{2,4})/(\d+)/assignments/(\d+)/upload/$', upload_assignment, name='upload_assignment'),
     #downloading
     url(r'^([A-Z|a-z]{2,4})/(\d+)/assignments/(\d+)/download/$', download_assignment, name='download_assignment'),
+    #grades?
+    url(r'^([A-Z|a-z]{2,4})/(\d+)/grades/$', display_grades, name='display_grades'),
 )

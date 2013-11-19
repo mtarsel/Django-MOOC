@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+    
+{% block title %}Grades{% endblock %}
+        
+{% if submissions %}
+{% block content %}
+
+<table border = "1" , width = "500">
+<tr>
+<td style="width:30px;"><h4>Assignment</h4></td>
+<td style="width:20px;"><h4>Grade</h4></td>
+<td style="width:20px;"><h4>Points Possible</h4></td>
+</tr>
+{% for submission in submissions %}
+<tr>
+<td style="width:30px;">{{ submission.assignment }}</td>
+<td style="width:20px;">{{ submission.grade }}</td>
+<td style="width:20px;">{{ submission.assignment.points_possible }}</td>
+</tr>
+{% endfor %}
+
+<tr>
+<td style="width:30px;"><h4>Grade for {{course.name}}</h4></td>
+<td style="width:20px;"><h4>{{grade}}</h4></td>
+<td style="width:20px;"><h4>{{total}}</h4></td>
+</tr>
+
+{% endblock %}
+{% endif %}
+
+{% block sidebar %}
+<a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
+{% endblock %}
+
