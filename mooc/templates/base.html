@@ -27,6 +27,8 @@
         {% if user.is_authenticated %}
 <!--	  TODO:   url 'edit_profile' --> 
 
+	<a href="{% url 'auth_password_change' %}">Change password</a> | 
+
 <!-- calendar that all users can view -->     
             <a href="{% url 'schedule' %}">Schedule</a> | 
 

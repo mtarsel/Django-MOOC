@@ -84,6 +84,5 @@ class Quiz(Submission):
 class Exam(Submission):
     weight = .5
 
-
 class Homework(Submission):
     weight = .2
