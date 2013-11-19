@@ -26,6 +26,7 @@
 
         {% if user.is_authenticated %}
 <!--	  TODO:   url 'edit_profile' --> 
+	<a href="{% url 'edit_profile' %}">Edit my profile</a> |
 
 	<a href="{% url 'auth_password_change' %}">Change password</a> | 
 

@@ -104,7 +104,7 @@ class StudentProfileEditView(UpdateView):
         return Student.objects.get_or_create(user=self.request.user)[0]
 
     def get_success_url(self):
-	return "/student/" #TODO change this to send a user to a nice updated profile page
+	return reverse("/student") #TODO change this to send a user to a nice updated profile page
 
 def get_student_from_user(user):
     """
