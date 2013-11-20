@@ -1,18 +1,39 @@
 from django.shortcuts import render_to_response, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.template import RequestContext
-
-from registration.backends.simple.views import RegistrationView
-
+from django.core.context_processors import csrf
+from django.conf import settings
+from django.core.servers.basehttp import FileWrapper
 from django.views.generic.edit import UpdateView
+from registration.backends.simple.views import RegistrationView
+import os
+import mimetypes
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
-from student_portal.models import Submission, Course, Student, Lecture
-from student_portal.models import Assignment, Homework, Quiz, Exam
-#from mooc.views import get_course
 
+from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
+
+class StudentProfileEditView(UpdateView):
+    model = Student
+    form_class = StudentProfileForm
+    template_name = "student_portal/edit_profile.html"
+
+    def get_object(self, queryset=None):
+        return Student.objects.get_or_create(user=self.request.user)[0]
+
+    def get_success_url(self):
+#        return reverse('student_dashboard') #TODO change this to send a user to a nice updated profile page
+	return redirect("/student/")
+
+def get_assignments(course):
+    assignment_list = Assignment.objects.all()
+    assignments = []
+    for assignment in assignment_list:
+        if(assignment.course == course):
+            assignments.append(assignment)
+    return assignments
 
 def get_course(course_id):
     course_list = Course.objects.all()
@@ -36,6 +57,8 @@ def display_course_info(request, _,  course_id):
     
     course = get_course(int(course_id))
     lecture_list = get_lectures(course)
+    assignment_list = get_assignments(course)
+    print assignment_list
     if request.user.is_authenticated():
         student = get_student_from_user(request.user)
         enrolled_ls, not_enrolled_ls = get_separated_course_list(student, Course.objects.all())
@@ -50,7 +73,8 @@ def display_course_info(request, _,  course_id):
     print course.id
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled,
-                                                 'lecture_list' : lecture_list})
+                                                 'lecture_list' : lecture_list,
+                                                 'assignment_list': assignment_list})
 
 
 def display_course(request, course_id):
@@ -94,17 +118,6 @@ def display_lecture(request,dept_id, course_id, lecture_id ):
     context = {'my_video': my_video, 'lecture_list': lecture_list}
     return render(request, 'lecture.html', context)
 
-
-class StudentProfileEditView(UpdateView):
-    model = Student
-    form_class = StudentProfileForm
-    template_name = "student_portal/edit_profile.html"
-
-    def get_object(self, queryset=None):
-        return Student.objects.get_or_create(user=self.request.user)[0]
-
-    def get_success_url(self):
-	return reverse("/student") #TODO change this to send a user to a nice updated profile page
 
 def get_student_from_user(user):
     """
@@ -153,7 +166,7 @@ def list(request):
     )
 
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/') 
 def dashboard(request):
     """
     If users are authenticated, direct them to the main page. Otherwise, take
@@ -207,33 +220,113 @@ def enroll_courses(request):
                 'course_list': course_list}
         return render(request, 'courses.html', context)
 
-def get_assignments(course):
-    assignment_list = Assignment.objects.all()
-    assignments = []
-    for assignment in assignment_list:
-        if(assignment.course == course):
-            assignments.append(assignment)
-    return assignments
-
-
+@login_required(login_url='/accounts/login/') 
 def display_assignments(request, course_department, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
-    
+    print course.id
     context = {'assignments': assignments, 'course': course}
-    return render(request, 'student_portal/assignments.html', context)
+    return render(request, 'student_portal/all_assignments.html', context)
 
-def get_assignment(assignments, assignment_name):
+def get_assignment(assignments, assignment_id):
     for a in assignments:
-        if a.name == assignment_name:
+        if a.id == assignment_id:
             return a
 
-def display_assignment(request, course_department, course_id, assignment):
+def get_submission(user, assignment_id):
+    for sub in Submission.objects.all():
+        if (sub.assignment.id == assignment_id) and (sub.submitter == user.student):
+            return sub
+    return None
+
+@login_required(login_url='/accounts/login/') 
+def display_assignment(request, course_department, course_id, assignment_id):
     course = get_course(int(course_id))
+    print course.id
     assignments = get_assignments(course)
-    assignment = get_assignment(assignments, assignment)
-    context = {'assignment': assignment, 'assignments': assignments, 'course': course}
+    assignment = get_assignment(assignments, int(assignment_id))
+    print assignment.id
+    sub = get_submission(request.user, int(assignment_id))
+    print sub
+    context = {'assignment': assignment,
+               'assignments': assignments,
+               'course': course,
+               'submission': sub}
     return render(request, 'student_portal/assignments.html', context)
+
+def handle_uploaded_file(file, course_department, course_id, assignment_id, user):
+    if file:
+        directory = settings.MEDIA_ROOT+ '/' + course_department+ '/' + course_id + '/' + assignment_id + '/'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        _, fileExtension = os.path.splitext(file.name)
+        filename = user.username + fileExtension
+        destination = open(directory+filename, 'wb+')
+        for chunk in file.chunks():
+            destination.write(chunk)
+        destination.close()
+        old = get_submission(user, int(assignment_id))
+        if old != None:
+            old.delete()
+        course = get_course(int(course_id))
+        assign = get_assignment(get_assignments(course), int(assignment_id))
+        if assign.submission_type == 'Quiz':
+            sub = Quiz()
+        elif assign.submission_type == 'Exam':
+            sub = Exam()
+        elif assign.submission_type == 'Homework':
+            sub = Homework()
+        else:
+            sub = Project()
+        sub.course = course
+        sub.assignment = assign
+        sub.submitter = user.student
+        sub.docfile.name = directory+filename
+        sub.save()
+
+@login_required(login_url='/accounts/login/') 
+def upload_assignment(request, course_department, course_id, assignment_id):
+    assignments = get_assignments(get_course(int(course_id)))
+    assignment = get_assignment(assignments, int(assignment_id))
+    print assignment.id 
+    if request.method == 'POST':
+        a=request.POST #the post dict
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], course_department, course_id, assignment_id, request.user)
+            return HttpResponseRedirect('/student/' + course_department + '/' + course_id + '/assignments/' + assignment_id + '/')
+
+    else:
+        form = SubmissionForm()
+    
+    context = {'form' : form}
+    context.update(csrf(request))
+    return render_to_response('upload.html', context)
+
+@login_required(login_url='/accounts/login/') 
+def download_assignment(request, course_department, course_id, assignment_id):
+    sub = get_submission(request.user, int(assignment_id))
+    print sub.id
+    dirlist = sub.docfile.name.split(os.sep)
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    print dirlist
+    print dirlist[-1]
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    print type
+    f = open(sub.docfile.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
+    return response
+
+def get_submissions(student, course):
+    submissions = Submission.objects.all()
+    student_submissions = []
+    for submission in submissions:
+        if submission.submitter == student and submission.course == course:
+            student_submissions.append(submission)
+    print (student_submissions)
+    return student_submissions
 
 def get_homeworks(student, course):
     homeworks = Homework.objects.all()
@@ -262,6 +355,14 @@ def get_exams(student, course):
     print (student_exams)
     return student_exams
 
+def get_projects(student, course):
+    projects = Project.objects.all()
+    student_projects = []
+    for project in projects:
+        if project.submitter == student and project.course == course:
+            student_projects.append(project)
+    print (student_projects)
+    return student_projects
 
 def get_grades(submissions):
     total = 0
@@ -286,6 +387,7 @@ def display_grades(request, course_department, course_id):
     homeworks = get_homeworks(student, course)
     quizzes = get_quizzes(student, course)
     exams = get_exams(student, course)
+    projects = get_projects(student, course)
     hwgrades = get_grades(homeworks)
     hwtotal = hwgrades[0]
     hwgrade = hwgrades[1]
@@ -295,8 +397,21 @@ def display_grades(request, course_department, course_id):
     examgrades = get_grades(exams)
     examtotal = examgrades[0]
     examgrade = examgrades[1]
-    grade = hwgrade + quizgrade + examgrade
-    total = hwtotal + quiztotal + examtotal
+    projectgrades = get_grades(projects)
+    projecttotal = projectgrades[0]
+    projectgrade = projectgrades[1]
+    grade = hwgrade + quizgrade + examgrade + projectgrade
+    total = hwtotal + quiztotal + examtotal + projecttotal
 
-    context = {'homeworks': homeworks, 'quizzes': quizzes, 'exams': exams, 'course': course, 'total': total, 'grade': grade, 'hwtotal': hwtotal, 'hwgrade': hwgrade, 'quiztotal': quiztotal, 'quizgrade': quizgrade, 'examtotal': examtotal, 'examgrade': examgrade}
+    context = {'homeworks': homeworks,
+               'quizzes': quizzes,
+               'exams': exams,
+               'projects': projects,
+               'course': course,
+               'total': total,
+               'grade': grade,
+               'hwtotal': hwtotal, 'hwgrade': hwgrade,
+               'quiztotal': quiztotal, 'quizgrade': quizgrade,
+               'examtotal': examtotal, 'examgrade': examgrade,
+               'projecttotal': projecttotal, 'projectgrade': projectgrade}
     return render(request, 'student_portal/grades.html', context)

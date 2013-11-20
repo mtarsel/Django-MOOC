@@ -20,10 +20,19 @@ Instructor: {{ course.instructor }} <br>
 
 {% block sidebar %}
 {% if is_enrolled %}
-<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">Assignments</a></br>
+
+{% if assignment_list %}
+<a href = "/student/{{course.department}}/{{course.id}}/assignments/"> <h3>Assignments</h3> </a> <br>
+  {% for assignment in assignment_list %}
+  <a href = "/student/{{ course.department }}/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}}</a></br>
+  {% endfor %}
+{% endif %}
+
 <a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></br>
 
 {% if lecture_list %}
+<a href = "/student/{{ course.department }}/{{course.id}}/assignments/">Assignments</a></br>
+<a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></br>
 
 <h3>Lectures</h3>
             {% for lecture in lecture_list %}

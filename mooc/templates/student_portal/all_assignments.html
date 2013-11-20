@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1> {{course.name}} </h1>
+<h2> Assignments </h2>
+{% for assignment in assignments %}
+  <a href="{{assignment.id}}">{{assignment.name}}
+  <br>
+{% endfor %}
+
+{% endblock %}
