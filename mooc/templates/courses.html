@@ -2,13 +2,20 @@
 
     {% block title %}Course List{% endblock %}
 
-    {% block content %}
-        {% if course_list %}
+{% if course_list %}
+    {% block sidebar %}
+        <li class="nav-header">Enrolled Classes</li>
+	{% for course in enrolled_courses %}
+	<p><a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></p>
+        {% endfor %}
 
+    {% endblock %}
+
+    {% block content %}
+        <table border = "1" , width = "500">
             {% for course in enrolled_courses %}
-                <table border = "1" , width = "500">
                   <td style="width:100px;">
-                  <li><a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></li></td>
+                  <a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></td>
                   </td>
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
@@ -21,9 +28,8 @@
              {% endfor %}
 
             {% for course in not_enrolled_courses %}
-                <table border = "1", width = "500">
                   <td style="width:100px;"> 
-                  <li><a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></li></td>
+                  <a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></td>
                   </td>
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
@@ -34,10 +40,11 @@
                     </td>
                   </tr>
             {% endfor %}
-
-        {% else %}
-            <p> No classes yet!</p>
-        {% endif %}
-
+</table>
     {% endblock %}
 
+{% else %}
+
+        <p> No classes yet!</p>
+
+{% endif %}
