@@ -59,6 +59,23 @@
 <tr><td><td><td><p></p></td></td></td></tr>
 {% endif %}
 
+{% if projects %}
+<tr><td><h4> Projects </h4></td><td><td></td></td></tr>
+{% for project in projects %}
+<tr>
+<td style="width:30px;">{{ project.assignment }}</td>
+<td style="width:20px;">{{ project.grade }}</td>
+<td style="width:20px;">{{ project.assignment.points_possible }}</td>
+</tr>
+{% endfor %}
+<tr>
+<td style="width:30px;"><h4>Project Grade for {{course.name}}</h4></td>
+<td style="width:20px;"><h4>{{projectgrade}}</h4></td>
+<td style="width:20px;"><h4>{{projecttotal}}</h4></td>
+</tr>
+<tr><td><td><td><p></p></td></td></td></tr>
+{% endif %}
+
 <tr>
 <td style="width:30px;"><h4>Grade for {{course.name}}</h4></td>
 <td style="width:20px;"><h4>{{grade}}</h4></td>
