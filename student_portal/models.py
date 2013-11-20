@@ -43,7 +43,7 @@ class Student(models.Model):
     email = models.EmailField()
     username = models.CharField(max_length=30)
     course = models.ManyToManyField(Course, blank=True, null=True)
-    bio = models.TextField(null = true)
+    bio = models.TextField(null = True)
 
     def __unicode__(self):
         return unicode(self.user)
