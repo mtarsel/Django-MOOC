@@ -13,6 +13,7 @@ urlpatterns = patterns('student_portal.views',
 
     #edit student profile 
     url(r'^edit_profile/$', auth(StudentProfileEditView.as_view()), name='edit_profile'),
+#    url(r'^users/(?P<slug>[\w\-]+)/$', StudentProfileDetailView.as_view(),name='profile'),
 
     # django registration simple, no email registration
 #    url(r'^accounts/', include('registration.backends.simple.urls')),

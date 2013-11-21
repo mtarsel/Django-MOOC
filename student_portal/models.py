@@ -43,14 +43,14 @@ class Student(models.Model):
     email = models.EmailField()
     username = models.CharField(max_length=30)
     course = models.ManyToManyField(Course, blank=True, null=True)
-    bio = models.TextField(null = True)
+#    bio = models.TextField(null = True)
 
     def __unicode__(self):
         return unicode(self.user)
 
-    def create_profile(sender, instance, created, **kwargs):
-	if created:
-	    profile, created = Student.objects.get_or_create(user=instance)
+#    def create_profile(sender, instance, created, **kwargs):
+#	if created:
+#	    profile, created = Student.objects.get_or_create(user=instance)
  
 
 class Assignment(models.Model):
