@@ -3,17 +3,13 @@
 {% block title %} {{ lecture.name }} {% endblock %}
 
 {% block sidebar %}
-<br></br>
-    <a href = "/courses/{{ course.department }}/{{course.id}}/">{{course.name}}</a></td>
-<br></br>
+<li class="nav-header">Class Links</li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></li>
 {% if lecture_list %}
+<li class="nav-header">Lectures</li>
             {% for lecture in lecture_list %}
-                <table border = "1" , width = "50 ">
-                  <td style="width:10px;">
-                  <a href = "/courses/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
+                  <li><a href = "/student/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></li>
                   <input type="hidden" name="lecture" value={{ lecture.id }}>
-                  </td>
-                  </tr>
              {% endfor %}
 {% endif %}
 {% endblock %}

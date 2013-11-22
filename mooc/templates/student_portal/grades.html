@@ -84,6 +84,7 @@
 {% endblock %}
 
 {% block sidebar %}
-<a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
+<li class="nav-header">Class Links</li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></li>
 {% endblock %}
 

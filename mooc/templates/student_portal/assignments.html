@@ -1,6 +1,12 @@
 {% extends "base.html" %}
     
 {% block title %}Assignments{% endblock %}
+
+
+{% block sidebar %}
+<li class="nav-header">Class Links</li>
+<a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
+{% endblock %}
  
 {% block content %}
 <h3>{{assignment.name}}</h3><br>
@@ -34,3 +40,4 @@
 {% endif %}
 
 {% endblock %}
+

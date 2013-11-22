@@ -78,12 +78,12 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span2">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="active">Links</li>
+              <li class="nav-header">Links</li>
               <li class="active"><a href="{% url 'courses' %}">All Courses</a></li>
-			  <li class="active"><a href="{% url 'about' %}">About</a></li>
+			  <li><a href="{% url 'about' %}">About</a></li>
 			  {% block sidebar %}{% endblock %}
             </ul>
           </div><!--/.well -->
