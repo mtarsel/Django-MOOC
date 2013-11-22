@@ -7,9 +7,12 @@
 {% block content %}
     <p>
       
-    <p>Welcome to Dreamtitz. Please click <a href="/login">here</a> to log into our web portal.</p>
-
-        <a href=" {% url 'courses' %}">All Courses</a></br>
-        <a href="{% url 'about' %}">About</a>
+    <p>Welcome to Dreamtitz.</p>
+	<p><a href="/login" class="btn btn-primary btn-large">Click here to login!&raquo;</a></p>
+	<p>Not a member?</p>
+	<p><a href="/login" class="btn btn-primary btn-large">Click here to register!&raquo;</a></p>
     </p>
+{% endblock %}
+
+{% block sidebar %}  
 {% endblock %}
