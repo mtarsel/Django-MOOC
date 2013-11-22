@@ -2,22 +2,31 @@ from django.shortcuts import render_to_response, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
-
 from registration.backends.simple.views import RegistrationView
 import os
 import mimetypes
-from django.views.generic import ListView, DetailView
+
 from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
-from student_portal.models import Submission, Course, Student, Lecture
-from student_portal.models import Assignment, Homework, Quiz, Exam, Project
-#from mooc.views import get_course
+
+from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
+
+class StudentProfileEditView(UpdateView):
+    model = Student
+    form_class = StudentProfileForm
+    template_name = "student_portal/edit_profile.html"
+
+    def get_object(self, queryset=None):
+        return Student.objects.get_or_create(user=self.request.user)[0]
+
+    def get_success_url(self):
+        return "/student/"
 
 def get_assignments(course):
     assignment_list = Assignment.objects.all()
@@ -28,7 +37,7 @@ def get_assignments(course):
     return assignments
 
 def get_course(course_id):
-    course_list = Course.objects.all()
+    course_list = Course.objects.all().order_by('name')
     for course in course_list:
         if (course.id == course_id):
             return course
@@ -103,24 +112,14 @@ def display_lecture(request,dept_id, course_id, lecture_id ):
     print("This is the dept. ID " + dept_id)
     print("This is the course " + course_id)
     print("This is the lecture_id " + lecture_id)
+    course = get_course(int(course_id))
     lecture = get_lecture(int(lecture_id))
     lecture_list = get_lectures(lecture.course)
     my_video = lecture.video
     print(lecture.video)
-    context = {'my_video': my_video, 'lecture_list': lecture_list}
+    context = {'my_video': my_video, 'lecture_list': lecture_list, 'course':course}
     return render(request, 'lecture.html', context)
 
-
-class StudentProfileEditView(UpdateView):
-    model = Student
-    form_class = StudentProfileForm
-    template_name = "student_portal/edit_profile.html"
-
-    def get_object(self, queryset=None):
-        return Student.objects.get_or_create(user=self.request.user)[0]
-
-    def get_success_url(self):
-	return "/student/" #TODO change this to send a user to a nice updated profile page
 
 def get_student_from_user(user):
     """
@@ -171,13 +170,16 @@ def list(request):
 
 @login_required(login_url='/accounts/login/') 
 def dashboard(request):
+    enrolled_courses = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    context = {'user': request.user,
+	   'courses':enrolled_courses}
     """
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all().order_by('name'))
     context = {'user': request.user,
-               'courses':enrolled_courses}
+               'courses':enrolled_courses.order_by('name')}
     #return render_to_response('student_portal/dashboard.html', {'user': request.user})
     return render_to_response('student_portal/dashboard.html', context)
 
@@ -186,24 +188,25 @@ class MyRegistrationView(RegistrationView):
         return "/student/"
 
 def enroll_courses(request):
-    course_list = Course.objects.all()
+    course_list = Course.objects.all().order_by('name')
     if request.method == 'POST':
         if request.user.is_authenticated():
-            courseid = int(request.POST['course'])
-            enroll = str(request.POST['enroll']) == "True"
             current_student = get_student_from_user(request.user)
+            if request.POST['course'] != "":
+                courseid = int(request.POST['course'])
+                enroll = str(request.POST['enroll']) == "True"
             
-            if enroll:
-                current_student.course.add(courseid)
-            else:
-                current_student.course.remove(courseid)
+                if enroll:
+                    current_student.course.add(courseid)
+                else:
+                    current_student.course.remove(courseid)
 
-            current_student.save()
-            print current_student.course.all()
+                    current_student.save()
+                    print current_student.course.all()
             enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+
             context = {'not_enrolled_courses': not_enrolled_courses,
-                       'enrolled_courses': enrolled_courses,
-                       'course_list': course_list}
+                       'enrolled_courses': enrolled_courses.order_by('name'),'course_list': course_list.order_by(request.POST['sort'])}
             return render(request, 'courses.html', context)
 
         else:
@@ -219,7 +222,7 @@ def enroll_courses(request):
             not_enrolled_courses = course_list
 
         context = {'not_enrolled_courses': not_enrolled_courses,
-                'enrolled_courses': enrolled_courses,
+                'enrolled_courses': enrolled_courses.order_by('name'),
                 'course_list': course_list}
         return render(request, 'courses.html', context)
 

@@ -35,44 +35,24 @@ This will create a directory ~/software-d-and-d
 
 After you are in that directory, the last command will enter the virtual environment
 
-Configuring the Database
+Registration Testing
 ----
-For some Linux distributions you may need to make a slight change to the pg_hba.conf
-If you receive an error about "Authentication Failure" then follow the instructions below.
-
-Set the password to pa55word
-
-This is in mooc/settings.py
+To run the email server for resgistration, execute the following commands in the
+directory with manage.py:
 
 ```bash
-sudo apt-get install postgresql
 
-sudo su - postgres
+python -m smtpd -n -c DebuggingServer localhost:1025
 
-createuser --superuser liu
-
-psql
-
-\password liu
-
-\q
-
-createdb -U liu -O liu mooc_database
-
-exit
-
-python manage.py syncdb
+python manage.py runserver
 ```
 
-If you receive an error about Peer Authentication failure, follow the steps below:
-
-```bash
-sudo vim /etc/postgresql/9.1/main/pg_hba.conf 
-
-sudo /etc/init.d/postgresql restart
-```
-
-This with create a new user liu and a new postgresql database called mooc_database.
+Instructions
+----
+1. Install all dependecies and get women to use dreamtitz
+2. Configure database and run email test server
+3. ????????
+4. Profit
 
 
 Further Work

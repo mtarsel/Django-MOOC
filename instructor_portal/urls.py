@@ -15,6 +15,6 @@ urlpatterns = patterns('instructor_portal.views',
 #    url(r'^edit_profile/$', auth(InstructorProfileEditView.as_view()), name="edit_profile"),
 
 # django registration simple, no email registration
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+#    url(r'^accounts/', include('registration.backends.simple.urls')),
 
 )
