@@ -38,20 +38,10 @@ class Lecture(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, unique=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField()
-    username = models.CharField(max_length=30)
     course = models.ManyToManyField(Course, blank=True, null=True)
-#    bio = models.TextField(null = True)
 
     def __unicode__(self):
         return unicode(self.user)
-
-#    def create_profile(sender, instance, created, **kwargs):
-#	if created:
-#	    profile, created = Student.objects.get_or_create(user=instance)
- 
 
 class Assignment(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)

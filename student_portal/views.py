@@ -1,45 +1,16 @@
 from django.shortcuts import render_to_response, render, redirect
 from django.contrib.auth.decorators import login_required
-#from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
-from django.views.generic.edit import UpdateView
-#from django.views.generic import ListView, DetailView
 from registration.backends.simple.views import RegistrationView
 import os
 import mimetypes
 
-from student_portal.forms import SubmissionForm, StudentProfileForm
-
 from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
-
-'''
-class StudentProfileDetailView(DetailView):
-    model = get_user_model()
-    slug_field = "username"
-    template_name = "student_portal/student_detail.html"
-
-    def get_object(self, queryset=None):
-        user = super(StudentProfileDetailView, self).get_object(queryset)
-        Student.objects.get_or_create(user=user)
-        return user
-'''
-
-class StudentProfileEditView(UpdateView):
-    model = Student
-    form_class = StudentProfileForm
-    template_name = "student_portal/edit_profile.html"
-
-    def get_object(self, queryset=None):
-        return Student.objects.get_or_create(user=self.request.user)[0]
-
-    def get_success_url(self):
-#        return reverse('student_dashboard') #TODO change this to send a user to a nice updated profile page
-	return "/student/"
 
 def get_assignments(course):
     assignment_list = Assignment.objects.all()
