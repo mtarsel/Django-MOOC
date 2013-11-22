@@ -8,13 +8,7 @@
 {% if lecture_list %}
 <li class="nav-header">Lectures</li>
             {% for lecture in lecture_list %}
-<<<<<<< HEAD
-                <table border = "1" , width = "50 ">
-                  <td style="width:10px;">
-                  <a href = "/student/{{ lecture.course.department }}/{{lecture.course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></td>
-=======
                   <li><a href = "/student/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></li>
->>>>>>> 48c1eace4324cf46c2ff2e5013b37b1b32d2ba69
                   <input type="hidden" name="lecture" value={{ lecture.id }}>
              {% endfor %}
 {% endif %}
