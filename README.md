@@ -49,7 +49,7 @@ python manage.py runserver
 
 Instructions
 ----
-1. Install all dependecies and get women to user dreamtitz
+1. Install all dependecies and get women to use dreamtitz
 2. Configure database and run email test server
 3. ????????
 4. Profit
