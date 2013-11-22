@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
@@ -10,13 +11,13 @@ from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
 import os
 import mimetypes
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
 from student_portal.models import Submission, Course, Student, Lecture
 from student_portal.models import Assignment, Homework, Quiz, Exam, Project
 #from mooc.views import get_course
-
 
 def get_assignments(course):
     assignment_list = Assignment.objects.all()
