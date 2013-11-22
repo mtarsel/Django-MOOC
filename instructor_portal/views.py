@@ -9,7 +9,7 @@ from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
-from student_portal.models import Submission, Course, Instructor
+from student_portal.models import *
 '''
 class InstructorProfileEditView(UpdateView):
     model = Instructor
@@ -38,12 +38,12 @@ def get_instructor_from_user(user):
         return instructor
 
 def get_separated_course_list(instructor, course_list):
-    enrolled_courses = instructor.course.all()#TODO error after login 
-    not_enrolled_courses = []
+    taught_courses = instructor.course_set.all()#TODO error after login 
+    not_taught_courses = []
     for course in course_list:
-        if not course.id in map(lambda course: course.id, enrolled_courses):
-            not_enrolled_courses.append(course)
-    return enrolled_courses, not_enrolled_courses
+        if not course.id in map(lambda course: course.id, taught_courses):
+            not_taught_courses.append(course)
+    return taught_courses, not_taught_courses
 
 def list(request):
     # Handle file upload
@@ -68,57 +68,14 @@ def list(request):
         context_instance=RequestContext(request)
     )
 
-
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
     """
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    enrolled_courses, _ = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
+    enrolled_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
     context = {'user': request.user,
                'courses':enrolled_courses}
     #return render_to_response('instructor_portal/dashboard.html', {'user': request.user})
     return render_to_response('instructor_portal/dashboard.html', context)
-
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self, request, user):
-        return "/instructor/"
-
-def enroll_courses(request):
-    course_list = Course.objects.all()
-    if request.method == 'POST':
-        if request.user.is_authenticated():
-            courseid = int(request.POST['course'])
-            enroll = str(request.POST['enroll']) == "True"
-            current_instructor = get_instructor_from_user(request.user)
-            
-            if enroll:
-                current_instructor.course.add(courseid)
-            else:
-                current_instructor.course.remove(courseid)
-
-            current_instructor.save()
-            print current_instructor.course.all()
-            enrolled_courses, not_enrolled_courses = get_separated_course_list(current_instructor, course_list)
-            context = {'not_enrolled_courses': not_enrolled_courses,
-                       'enrolled_courses': enrolled_courses,
-                       'course_list': course_list}
-            return render(request, 'courses.html', context)
-
-        else:
-            return redirect('/accounts/login')
-
-    else:
-        if request.user.is_authenticated():
-            current_instructor = get_instructor_from_user(request.user)
-            enrolled_courses, not_enrolled_courses = get_separated_course_list(current_instructor, course_list)
-
-        else:
-            enrolled_courses = []
-            not_enrolled_courses = course_list
-
-        context = {'not_enrolled_courses': not_enrolled_courses,
-                'enrolled_courses': enrolled_courses,
-                'course_list': course_list}
-        return render(request, 'courses.html', context)

@@ -10,20 +10,21 @@ from embed_video.fields import EmbedVideoField
 #first name
 #last name
 
+class Instructor(models.Model):
+    user = models.OneToOneField(User)
+
+    def __unicode__(self):
+        return unicode(self.user)
+
 class Course(models.Model):
     name = models.CharField(max_length=512)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
-    
+    instructor = models.ForeignKey(Instructor)
+
     def __unicode__(self):
         return unicode(self.name)
 
-class Instructor(models.Model):
-    user = models.OneToOneField(User)
-    course = models.ForeignKey(Course)
-
-    def __unicode__(self):
-        return unicode(self.user)
 
 class Lecture(models.Model):
     name = models.CharField(max_length=20)
@@ -65,12 +66,13 @@ class Assignment(models.Model):
         (PROJECT, 'Project'))
     submission_type = models.CharField(max_length=8,
                                        choices=SUBMISSION_TYPE_CHOICES,
-                                       default=QUIZ)
-    
-    
+                                       default=QUIZ)    
+
+
+
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
-
+    
 
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
@@ -96,6 +98,7 @@ class Quiz(Submission):
 
 class Exam(Submission):
     weight = .4
+
 
 class Homework(Submission):
     weight = .2

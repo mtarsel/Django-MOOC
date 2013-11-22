@@ -170,13 +170,9 @@ def list(request):
 
 @login_required(login_url='/accounts/login/') 
 def dashboard(request):
-    """
-    If users are authenticated, direct them to the main page. Otherwise, take
-    them to the login page.
-    """
-    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    enrolled_courses = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
     context = {'user': request.user,
-               'courses':enrolled_courses}
+	   'courses':enrolled_courses}
     #return render_to_response('student_portal/dashboard.html', {'user': request.user})
     return render_to_response('student_portal/dashboard.html', context)
 
