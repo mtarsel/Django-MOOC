@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 from embed_video.fields import EmbedVideoField
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 #USER:
 #username
@@ -18,12 +20,13 @@ class Instructor(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=512)
-    instructor = models.ForeignKey(Instructor)
     department = models.CharField(max_length=4)
     description = models.CharField(max_length=512)
-    
+    instructor = models.ForeignKey(Instructor)
+
     def __unicode__(self):
         return unicode(self.name)
+
 
 class Lecture(models.Model):
     name = models.CharField(max_length=20)
@@ -61,12 +64,13 @@ class Assignment(models.Model):
         (PROJECT, 'Project'))
     submission_type = models.CharField(max_length=8,
                                        choices=SUBMISSION_TYPE_CHOICES,
-                                       default=QUIZ)
-    
-    
+                                       default=QUIZ)    
+
+
+
     def __unicode__(self):
         return (self.course.name + " - " + self.name)
-
+    
 
 class Submission(models.Model):
     date = models.DateTimeField(editable=False, auto_now_add=True)
@@ -92,6 +96,7 @@ class Quiz(Submission):
 
 class Exam(Submission):
     weight = .4
+
 
 class Homework(Submission):
     weight = .2

@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block sidebar %}
+<li class="nav-header">Class Links</li>
+<a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
+{% endblock %}
+
 {% block content %}
 <h1> {{course.name}} </h1>
 <h2> Assignments </h2>

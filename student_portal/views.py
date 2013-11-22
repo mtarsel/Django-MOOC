@@ -21,7 +21,7 @@ def get_assignments(course):
     return assignments
 
 def get_course(course_id):
-    course_list = Course.objects.all()
+    course_list = Course.objects.all().order_by('name')
     for course in course_list:
         if (course.id == course_id):
             return course
@@ -96,11 +96,12 @@ def display_lecture(request,dept_id, course_id, lecture_id ):
     print("This is the dept. ID " + dept_id)
     print("This is the course " + course_id)
     print("This is the lecture_id " + lecture_id)
+    course = get_course(int(course_id))
     lecture = get_lecture(int(lecture_id))
     lecture_list = get_lectures(lecture.course)
     my_video = lecture.video
     print(lecture.video)
-    context = {'my_video': my_video, 'lecture_list': lecture_list}
+    context = {'my_video': my_video, 'lecture_list': lecture_list, 'course':course}
     return render(request, 'lecture.html', context)
 
 
@@ -153,13 +154,16 @@ def list(request):
 
 @login_required(login_url='/accounts/login/') 
 def dashboard(request):
+    enrolled_courses = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    context = {'user': request.user,
+	   'courses':enrolled_courses}
     """
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
+    enrolled_courses, _ = get_separated_course_list(get_student_from_user(request.user), Course.objects.all().order_by('name'))
     context = {'user': request.user,
-               'courses':enrolled_courses}
+               'courses':enrolled_courses.order_by('name')}
     #return render_to_response('student_portal/dashboard.html', {'user': request.user})
     return render_to_response('student_portal/dashboard.html', context)
 
@@ -168,24 +172,25 @@ class MyRegistrationView(RegistrationView):
         return "/student/"
 
 def enroll_courses(request):
-    course_list = Course.objects.all()
+    course_list = Course.objects.all().order_by('name')
     if request.method == 'POST':
         if request.user.is_authenticated():
-            courseid = int(request.POST['course'])
-            enroll = str(request.POST['enroll']) == "True"
             current_student = get_student_from_user(request.user)
+            if request.POST['course'] != "":
+                courseid = int(request.POST['course'])
+                enroll = str(request.POST['enroll']) == "True"
             
-            if enroll:
-                current_student.course.add(courseid)
-            else:
-                current_student.course.remove(courseid)
+                if enroll:
+                    current_student.course.add(courseid)
+                else:
+                    current_student.course.remove(courseid)
 
-            current_student.save()
-            print current_student.course.all()
+                    current_student.save()
+                    print current_student.course.all()
             enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+
             context = {'not_enrolled_courses': not_enrolled_courses,
-                       'enrolled_courses': enrolled_courses,
-                       'course_list': course_list}
+                       'enrolled_courses': enrolled_courses.order_by('name'),'course_list': course_list.order_by(request.POST['sort'])}
             return render(request, 'courses.html', context)
 
         else:
@@ -201,7 +206,7 @@ def enroll_courses(request):
             not_enrolled_courses = course_list
 
         context = {'not_enrolled_courses': not_enrolled_courses,
-                'enrolled_courses': enrolled_courses,
+                'enrolled_courses': enrolled_courses.order_by('name'),
                 'course_list': course_list}
         return render(request, 'courses.html', context)
 

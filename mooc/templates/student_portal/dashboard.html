@@ -1,7 +1,16 @@
 {% extends "base.html" %}
     
 {% block title %}Welcome {{user.username}}! {% endblock %}
-        
+
+{% block sidebar %}
+{% if courses %}   
+	<li class="nav-header">Your Classes</li>
+        {% for course in courses %}
+            <li><a href = "/student/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
+            <input type="hidden" name="course" value={{ course.id }}>
+        {% endfor %}
+{% endif %}
+{% endblock %}
 {% block content %}
     <p>
 
@@ -10,20 +19,11 @@
 
     	Student     DASHBOARD
     </p>
-    <br><b>Enrolled Courses:</b></br>
-    {% if courses %}
-        {% for course in courses %}
-            <li><a href = "/student/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
-            <input type="hidden" name="course" value={{ course.id }}>
-        {% endfor %}
-
-   {% else %}
+   	{% if courses %}
+	{% else %}
         You haven't enrolled in any courses yet!<a href="{% url 'courses' %}"> Enroll Now</a>    
-   {% endif %}
-
+	{% endif %}
 <br><br>
-
-    <a href = "/schedule/"> Schedule </a>
 
  <div id="body">
             {% if messages %}
