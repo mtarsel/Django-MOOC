@@ -57,7 +57,7 @@ http://sharadchhetri.com/2013/08/17/how-to-set-user-postgres-password-in-postgre
 
 3) Enter the postgresql shell using: psql
 
-4) drop database mooc_database
+4) drop database mooc_database;
 
 5) exit the psql shell with \q, then as postgres enter: createdb mooc_database
 
