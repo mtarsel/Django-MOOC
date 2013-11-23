@@ -49,9 +49,23 @@ python manage.py runserver
 
 Making test objects
 ----
-1) flush your database using manage.py flush. this should prompt you to create a new admin and whatnot
+1) Follow this tutorial to make your psql work without using a password (this is obviously unsafe but this is a toy and we don't have valuable data anyway):
 
-2) open the django shell (manage.py shell) and enter: from make_fake_data import make_data; make_data()
+http://sharadchhetri.com/2013/08/17/how-to-set-user-postgres-password-in-postgresql-9-1/
+
+2) Become the postgresuser using: sudo su postgres
+
+3) Enter the postgresql shell using: psql
+
+4) drop database mooc_database
+
+5) exit the psql shell with \q, then as postgres enter: createdb mooc_database
+
+6) as yourself, do manage.py syncdb
+
+7) flush your database using manage.py flush. this should redo the database and prompt you to create a new admin and whatnot
+
+8) open the django shell (manage.py shell) and enter: from make_fake_data import make_data; make_data()
 
 This should make a bunch of user objects, one of them is an instructor and the rest are students. 
 
