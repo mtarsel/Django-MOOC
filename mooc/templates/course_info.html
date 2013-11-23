@@ -22,8 +22,7 @@ Instructor: {{ course.instructor }} <br>
 {% if is_enrolled %}
 
 <li class="nav-header"><h5>{{course.name}} Links</h5></li>
-<li><a href = "/student/{{ course.department
-}}/{{course.id}}/grades/"><h3>Grades</h3></a></li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/grades/"><h3>Grades</h3></a></li>
 
 {% if assignment_list %}
 <!--<li class="nav-header">Assignments</li>-->

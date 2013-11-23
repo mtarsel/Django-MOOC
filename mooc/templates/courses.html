@@ -44,8 +44,7 @@
             {% for course in course_list %}
 	          <tr>
                   <td style="width:50px;">
-                  <h3><a href = "/student/{{ course.department }}/{{ course.id
-}}" >{{ course.name }}</a></td></h3>
+                  <h3><a href = "/student/{{ course.department }}/{{ course.id}}" >{{ course.name }}</a></td></h3>
                   </td>
 
                   {% if course in enrolled_courses %}
