@@ -56,3 +56,10 @@ def make_data():
                        ('Settings and Models', 'http://www.youtube.com/watch?v=D5VlpgEVVg4', django_class)]
     lecture_ls = map(lambda x: Lecture(name=x[0],video=x[1],course=x[2]), lecture_info_ls)
     map(saver, lecture_ls)
+
+
+def main():
+    make_data()
+
+if __name__ == '__main__':
+    main()
