@@ -47,6 +47,13 @@ python -m smtpd -n -c DebuggingServer localhost:1025
 python manage.py runserver
 ```
 
+Making test objects
+----
+1) flush your database using manage.py flush. this should prompt you to create a new admin and whatnot
+2) open the django shell (manage.py shell) and enter: from make_fake_data import make_data; make_data()
+This should make a bunch of user objects, one of them is an instructor and the rest are students. It
+enrolls the students in a Django Class and adds one of each assignment type and two lectures. 
+
 Instructions
 ----
 1. Install all dependecies and get women to use dreamtitz
