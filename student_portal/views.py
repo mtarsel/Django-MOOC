@@ -222,7 +222,7 @@ def enroll_courses(request):
             not_enrolled_courses = course_list
 
         context = {'not_enrolled_courses': not_enrolled_courses,
-                'enrolled_courses': enrolled_courses.order_by('name'),
+                'enrolled_courses': enrolled_courses,
                 'course_list': course_list}
         return render(request, 'courses.html', context)
 
