@@ -4,11 +4,18 @@
 
 {% if course_list %}
     {% block sidebar %}
+        {% if enrolled_courses %}
         <li class="nav-header">Enrolled Classes</li>
 	{% for course in enrolled_courses %}
 	<li><a href = "/student/{{ course.department }}/{{ course.id }}">{{ course.name }}</a></li>
         {% endfor %}
-
+	{% endif %}
+	{% if taught_courses %}
+	<li class="nav-header">Taught Classes</li>
+	{% for course in taught_courses %}
+	<li><a href = "/instructor/{{ course.name }}/dashboard">{{ course.name }}</a></li>
+        {% endfor %}
+	{% endif %}
     {% endblock %}
 
     {% block content %}
@@ -44,9 +51,13 @@
             {% for course in course_list %}
 	          <tr>
                   <td style="width:50px;">
+		  {% if not teacher %}
                   <a href = "/student/{{ course.department }}/{{ course.id }}" class="btn btn-primary btn-large" >{{ course.name }}</a></td>
+		  {% else %}
+		  <p>{{course.name}}</p>
+		  {% endif %}
                   </td>
-
+                  {% if not teacher %}
                   {% if course in enrolled_courses %}
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
@@ -68,6 +79,7 @@
                   </td>
 		  </tr>
 		  {% endif %}
+                  {% endif %}
              {% endfor %}
 
 </table>

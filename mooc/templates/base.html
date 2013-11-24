@@ -56,8 +56,8 @@
 
 		{% if user.is_authenticated %}
         	<a class="brand" href="/student">Home</a>
-			<a class="brand" href="{% url 'schedule' %}">Schedule</a>
-			<a class="brand" href="/student/edit_profile">Edit Profile</a>
+		<a class="brand" href="{% url 'schedule' %}">Schedule</a>
+		<a class="brand" href="/student/edit_profile">Edit Profile</a>
 
         	<div class="nav-collapse collapse"><p class="navbar-text pull-right">Logged in as {{ user }} | <a href="{% url 'auth_logout' %}" class="navbar-link">{% trans "Log out" %}</a></p>
 
@@ -81,7 +81,6 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Links</li>
-              <li><a href="{% url 'courses' %}">All Courses</a></li>
 			  {% block sidebar %}{% endblock %}
             </ul>
           </div><!--/.well -->

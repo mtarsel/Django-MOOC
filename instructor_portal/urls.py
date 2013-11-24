@@ -7,7 +7,7 @@ urlpatterns = patterns('instructor_portal.views',
 
     # Main web portal entrance.
     (r'^$', dashboard),
-    
+    url(r'^courses/$', 'display_courses', name='display_courses'),#show all courses available    
     #List uploaded files
     url(r'^list/$', 'list', name='list'),
 

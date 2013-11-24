@@ -19,6 +19,7 @@ Instructor: {{ course.instructor }} <br>
 {% endblock %}
 
 {% block sidebar %}
+<li><a href="/student{% url 'courses' %}">All Courses</a></li>
 {% if is_enrolled %}
 
 <li class="nav-header">Class Links</li>
