@@ -1,6 +1,16 @@
 {% extends "base.html" %}
     
 {% block title %}Welcome {{user.username}}! {% endblock %}
+
+{% block sidebar %}
+<li><a href="/instructor{% url 'courses' %}"> View All Courses</a></li>
+{% if taught_courses %}
+<li class="nav-header">Taught Classes</li>
+{% for course in taught_courses %}
+<li><a href = "/instructor/{{course.id}}/dashboard/">{{course.name}}</a></li>
+{% endfor %}
+{% endif %}
+{% endblock %}
         
 {% block content %}
     <p>
@@ -24,6 +34,8 @@
 	<a href="new-course %}"> Create Course</a>    
    {% endif %}
 
+    </p> 
+    
 <br><br>
 
     <a href = "/schedule/"> Schedule </a>

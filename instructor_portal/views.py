@@ -10,7 +10,7 @@ from django.views.generic.edit import UpdateView
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm
 from student_portal.models import *
-'''
+
 class InstructorProfileEditView(UpdateView):
     model = Instructor
     form_class = InstructorProfileForm
@@ -21,7 +21,9 @@ class InstructorProfileEditView(UpdateView):
 
     def get_success_url(self):
 	return "/instructor/" #TODO change this to send a user to a nice updated profile page
-'''
+
+def instructor_about(request):
+    return render(request, 'about.html')
 
 def create_course(request):
     form = NewCourseForm()
@@ -88,8 +90,15 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    enrolled_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
-    context = {'user': request.user,
-               'courses':enrolled_courses}
+    taught_courses,not_taught_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
+    context = {'user': request.user, 'taught_courses':taught_courses}
     #return render_to_response('instructor_portal/dashboard.html', {'user': request.user})
     return render_to_response('instructor_portal/dashboard.html', context)
+
+def display_courses(request):
+    course_list = Course.objects.all()
+    taught_courses,not_taught_courses = get_separated_course_list(get_instructor_from_user(request.user), course_list)
+    print(taught_courses)
+    teacher = True
+    context = {'taught_courses': taught_courses, 'course_list':course_list, 'teacher':teacher}
+    return render(request, 'courses.html', context)
