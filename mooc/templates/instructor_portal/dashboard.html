@@ -10,7 +10,10 @@
 
     	Instructor    DASHBOARD
     </p>
-    <br><b>Enrolled Courses:</b></br>
+
+    <a href="new-course"> Create Course</a>   
+ 
+    <br><b>Courses you are teaching:</b></br>
     {% if courses %}
         {% for course in courses %}
             <br>{{  course.name }}
@@ -18,7 +21,7 @@
 
    {% else %}
         You aren't teaching any courses yet!
-	<a href="{% url 'courses' %}"> Create Course</a>    
+	<a href="new-course %}"> Create Course</a>    
    {% endif %}
 
 <br><br>

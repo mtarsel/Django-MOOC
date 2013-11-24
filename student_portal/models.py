@@ -21,7 +21,7 @@ class Instructor(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=512)
     department = models.CharField(max_length=4)
-    description = models.CharField(max_length=512)
+    description = models.TextField(max_length=512)
     instructor = models.ForeignKey(Instructor)
 
     def __unicode__(self):
