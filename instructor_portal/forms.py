@@ -14,6 +14,5 @@ class SubmissionForm(forms.Form):
 class InstructorProfileForm(forms.ModelForm):
     class Meta:
         model = Instructor
-
-#	fields = [ 'first_name', 'last_name', 'email', 'username']
+        fields = [ 'first_name', 'last_name' ]
 #	exclude = ("user")

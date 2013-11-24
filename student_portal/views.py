@@ -17,6 +17,9 @@ from student_portal.forms import SubmissionForm, StudentProfileForm
 
 from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
 
+def student_about(request):
+    return render(request, 'about.html')
+
 class StudentProfileEditView(UpdateView):
     model = Student
     form_class = StudentProfileForm

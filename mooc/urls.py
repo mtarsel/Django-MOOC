@@ -7,10 +7,12 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
-from mooc.views import index, about, select_login
+from mooc.views import index, about, select_login, redirect_to_correct_dash, edit_profile
 from student_portal.views import *
 
 urlpatterns = patterns('',
+    #dashboard
+    url(r'^dashboard/', redirect_to_correct_dash, name="redir_dash"),
     
     #DEFAULT ADMIN VIEW
     url(r'^admin/', include(admin.site.urls)),
@@ -20,7 +22,8 @@ urlpatterns = patterns('',
     url(r'^about/$', about, name="about"),#information about MOOC
     url(r'^login/$', select_login, name="select_login"),#select either student or instructor to login as
     url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
-
+    url(r'^edit_profile/$', edit_profile, name="edit_profile"),
+    
     # student portal.
     url(r'^student/', include('student_portal.urls', namespace="student"), name="student"),
 

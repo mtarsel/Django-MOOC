@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Welcome to {{ course.name }}!</h1>
 {{ course.description }}<br>
-Instructor: {{ course.instructor }} <br>
+Instructor: {{ course.instructor.first_name }}  {{course.instructor.last_name}} <br>
 
 <form name="input" action="" method="post"> {% csrf_token %}
 <input type="hidden" name="course" value={{ course.id }}>

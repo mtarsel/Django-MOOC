@@ -10,7 +10,7 @@ from django.views.generic.edit import UpdateView
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
 from student_portal.models import *
-'''
+
 class InstructorProfileEditView(UpdateView):
     model = Instructor
     form_class = InstructorProfileForm
@@ -21,7 +21,9 @@ class InstructorProfileEditView(UpdateView):
 
     def get_success_url(self):
 	return "/instructor/" #TODO change this to send a user to a nice updated profile page
-'''
+
+def instructor_about(request):
+    return render(request, 'about.html')
 
 def lecture(request):
     my_video = 'http://www.youtube.com/watch?v=0d0uu7MW__U'
