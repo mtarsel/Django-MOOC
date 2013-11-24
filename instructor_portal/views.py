@@ -76,8 +76,8 @@ def dashboard(request):
     If users are authenticated, direct them to the main page. Otherwise, take
     them to the login page.
     """
-    taught_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
-    context = {'user': request.user, 'courses':taught_courses}
+    taught_courses,not_taught_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
+    context = {'user': request.user, 'taught_courses':taught_courses}
     #return render_to_response('instructor_portal/dashboard.html', {'user': request.user})
     return render_to_response('instructor_portal/dashboard.html', context)
 
