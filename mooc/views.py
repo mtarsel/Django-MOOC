@@ -47,3 +47,9 @@ def redirect_to_correct_dash(request):
                            HttpResponseRedirect('/student'),
                            HttpResponseRedirect('/instructor'),
                            HttpResponseRedirect('/'))
+
+def schedule(request):
+    return redirect_to_app(request,
+                           HttpResponseRedirect('/student/schedule'),
+                           HttpResponseRedirect('/instructor/schedule'),
+                           render(request, 'index.html'))
