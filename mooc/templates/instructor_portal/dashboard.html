@@ -3,7 +3,13 @@
 {% block title %}Welcome {{user.username}}! {% endblock %}
 
 {% block sidebar %}
-<li><a href="/instructor{% url 'courses' %}"> View All Courses</a></li>    
+<li><a href="/instructor{% url 'courses' %}"> View All Courses</a></li>
+{% if taught_courses %}
+<li class="nav-header">Taught Classes</li>
+{% for course in taught_courses %}
+<li><a href = "/instructor/{{course.id}}/dashboard/">{{course.name}}</a></li>
+{% endfor %}
+{% endif %}
 {% endblock %}
         
 {% block content %}
@@ -13,18 +19,8 @@
 
 
     	Instructor    DASHBOARD
-    </p>
-    <br><b>Enrolled Courses:</b></br>
-    {% if courses %}
-        {% for course in courses %}
-            <br>{{  course.name }}
-        {% endfor %}
-
-   {% else %}
-        You aren't teaching any courses yet!
-	<a href="{% url 'courses' %}"> Create Course</a>    
-   {% endif %}
-
+    </p> 
+    
 <br><br>
 
     <a href = "/schedule/"> Schedule </a>
