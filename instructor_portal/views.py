@@ -88,3 +88,7 @@ def display_courses(request):
     teacher = True
     context = {'taught_courses': taught_courses, 'course_list':course_list, 'teacher':teacher}
     return render(request, 'courses.html', context)
+
+def course_dashboard(request, course_id):
+    context={current_course: course_id}
+    return render(request, 'instructor_portal/course_dashboard.html', context)

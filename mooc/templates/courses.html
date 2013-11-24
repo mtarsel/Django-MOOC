@@ -13,7 +13,7 @@
 	{% if taught_courses %}
 	<li class="nav-header">Taught Classes</li>
 	{% for course in taught_courses %}
-	<li><a href = "/instructor/{{ course.name }}/dashboard">{{ course.name }}</a></li>
+	<li><a href = "/instructor/{{ course.id }}/dashboard">{{ course.name }}</a></li>
         {% endfor %}
 	{% endif %}
     {% endblock %}

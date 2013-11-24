@@ -23,5 +23,6 @@ urlpatterns = patterns('instructor_portal.views',
 
 # django registration simple, no email registration
 #    url(r'^accounts/', include('registration.backends.simple.urls')),
-
+    #instructor course dashboards
+    url(r'^(\d+)/dashboard/$', 'course_dashboard', name='course_dashboard'),
 )
