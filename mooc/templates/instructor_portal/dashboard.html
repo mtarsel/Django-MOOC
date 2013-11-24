@@ -1,6 +1,10 @@
 {% extends "base.html" %}
     
 {% block title %}Welcome {{user.username}}! {% endblock %}
+
+{% block sidebar %}
+<li><a href="/instructor{% url 'courses' %}"> View All Courses</a></li>    
+{% endblock %}
         
 {% block content %}
     <p>

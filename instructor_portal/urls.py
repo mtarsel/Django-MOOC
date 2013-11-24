@@ -8,8 +8,12 @@ urlpatterns = patterns('instructor_portal.views',
     # Main web portal entrance.
     (r'^$', dashboard),
 
+
     #about page
     url(r'^about/$', instructor_about, name='instructor_about'),    
+
+    url(r'^courses/$', 'display_courses', name='display_courses'),#show all courses available    
+
     #List uploaded files
     url(r'^list/$', 'list', name='list'),
 

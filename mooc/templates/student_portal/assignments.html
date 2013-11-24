@@ -4,6 +4,7 @@
 
 
 {% block sidebar %}
+<li><a href="{% url 'courses' %}">All Courses</a></li>
 <li class="nav-header">Class Links</li>
 <a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></br>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block title %}Welcome {{user.username}}! {% endblock %}
 
 {% block sidebar %}
+<li><a href="/student{% url 'courses' %}">All Courses</a></li>
 {% if courses %}   
 	<li class="nav-header">Your Classes</li>
         {% for course in courses %}
