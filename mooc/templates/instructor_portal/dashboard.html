@@ -24,15 +24,16 @@
     <a href="new-course"> Create Course</a>   
  
     <br><b>Courses you are teaching:</b></br>
-    {% if courses %}
-        {% for course in courses %}
-            <br>{{  course.name }}
-        {% endfor %}
+{% if taught_courses %}
+    {% for course in taught_courses %}
+   <ul> <a href ="/instructor/{{course.id}}/dashboard/">{{course.name}}</a></ul>
+    {% endfor %}
+{% else %}
+    You aren't teaching any courses yet!
+    <a href="new-course %}"> Create Course</a>    
+{% endif %}
 
-   {% else %}
-        You aren't teaching any courses yet!
-	<a href="new-course %}"> Create Course</a>    
-   {% endif %}
+
 
     </p> 
     
