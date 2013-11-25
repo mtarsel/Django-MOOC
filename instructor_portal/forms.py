@@ -26,5 +26,5 @@ class NewCourseForm(forms.ModelForm):
 class NewAssignmentForm(forms.ModelForm):
     class Meta:
 	model = Assignment
-	fields = ['name', 'course', 'description', 'due_date','points_possible', 'submission_type']
-	exclude = ("QUIZ", "EXAM", "HOMEWORK", "PROJECT", "SUBMISSION_TYPE_CHOICES")
+	fields = ['name', 'description', 'due_date','points_possible','submission_type']
+	exclude = ("QUIZ", "EXAM", "HOMEWORK", "PROJECT", "SUBMISSION_TYPE_CHOICES", "course")

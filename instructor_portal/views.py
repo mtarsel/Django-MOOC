@@ -9,6 +9,8 @@ from registration.backends.simple.views import RegistrationView
 import mimetypes
 from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
+from django.forms.models import inlineformset_factory
+
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm
 from student_portal.views import get_assignment, get_assignments, get_course
@@ -44,16 +46,22 @@ def create_course(request):
         context_instance=RequestContext(request)
     )
 
-def new_assignment(request):
+def new_assignment(request, course_id):
     form = NewAssignmentForm()
+    AssignmentInlineFormSet = inlineformset_factory(Course, Assignment, form=NewAssignmentForm)
+    assInlineFormSet = AssignmentInlineFormSet()
     if request.method == 'POST':
 	form = NewCourseForm(request.POST or None)
 	if form.is_valid():
-#	    new_course = form.save(commit=False)
-#	    new_course.instructor = request.user.instructor
-#	    new_course.save()
-	    new_course = form.save()
-	    return render_to_response('instructor_portal/dashboard.html')
+	    new_ass = form.save(commit=False)
+	    new_ass.course = Course.objects.all().get(id=int(course_id))
+	    assInlineFormSet = AssignmentInlineFormSet(request.POST)
+	    new_ass.save()
+	    #assInlineFormSet = AssignmentInlineFormSet(request.POST)
+	    
+	    if assInlineFormSet.is_valid():
+		assInlineFormSet.save()
+		return render_to_response('instructor_portal/dashboard.html')
     return render_to_response(
         'instructor_portal/new-assignment.html',
         { 'form': form},

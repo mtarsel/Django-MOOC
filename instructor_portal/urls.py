@@ -25,7 +25,7 @@ urlpatterns = patterns('instructor_portal.views',
     url(r'^new-course/', create_course, name='create_course'),
 
 # create a new assignment page
-    url(r'^new-assignment/', new_assignment, name='new_assignment'),
+    url(r'^(\d+)/new-assignment/$', 'new_assignment'),
 # django registration simple, no email registration
 #    url(r'^accounts/', include('registration.backends.simple.urls')),
     # course_info for instructors
