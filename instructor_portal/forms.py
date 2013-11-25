@@ -3,7 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 
-from student_portal.models import Instructor, Course
+from student_portal.models import Instructor, Course, Assignment
 
 class SubmissionForm(forms.Form):
     docfile = forms.FileField(
@@ -18,9 +18,13 @@ class InstructorProfileForm(forms.ModelForm):
 #	exclude = ("user")
 
 class NewCourseForm(forms.ModelForm):
-   
     class Meta:
 	model = Course
-
 	fields = ['name', 'department', 'description']
 	exclude = ("instructor")
+
+class NewAssignmentForm(forms.ModelForm):
+    class Meta:
+	model = Assignment
+	fields = ['name', 'course', 'description', 'due_date','points_possible', 'submission_type']
+	exclude = ("QUIZ", "EXAM", "HOMEWORK", "PROJECT", "SUBMISSION_TYPE_CHOICES")

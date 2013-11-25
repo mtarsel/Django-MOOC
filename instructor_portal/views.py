@@ -8,7 +8,7 @@ from registration.backends.simple.views import RegistrationView
 
 from django.views.generic.edit import UpdateView
 
-from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm
+from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm
 from student_portal.models import *
 
 class InstructorProfileEditView(UpdateView):
@@ -41,6 +41,21 @@ def create_course(request):
         context_instance=RequestContext(request)
     )
 
+def new_assignment(request):
+    form = NewAssignmentForm()
+    if request.method == 'POST':
+	form = NewCourseForm(request.POST or None)
+	if form.is_valid():
+#	    new_course = form.save(commit=False)
+#	    new_course.instructor = request.user.instructor
+#	    new_course.save()
+	    new_course = form.save()
+	    return render_to_response('instructor_portal/dashboard.html')
+    return render_to_response(
+        'instructor_portal/new-assignment.html',
+        { 'form': form},
+        context_instance=RequestContext(request)
+    )
 
 def lecture(request):
     my_video = 'http://www.youtube.com/watch?v=0d0uu7MW__U'

@@ -55,7 +55,7 @@ class Assignment(models.Model):
     due_date = models.DateTimeField(editable=True)
     course = models.ForeignKey(Course)
     name = models.CharField(max_length=20)
-    description = models.CharField(max_length=512)
+    description = models.TextField(max_length=512)
     points_possible = models.IntegerField(default=100)
     QUIZ = 'Quiz'
     EXAM = 'Exam'

@@ -24,4 +24,6 @@ urlpatterns = patterns('instructor_portal.views',
 # create course page
     url(r'^new-course/', create_course, name='create_course'),
 
+# create a new assignment page
+    url(r'^new-assignment/', new_assignment, name='new_assignment'),
 )
