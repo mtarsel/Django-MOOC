@@ -19,16 +19,8 @@ class InstructorProfileForm(forms.ModelForm):
 
 class NewCourseForm(forms.ModelForm):
    
-#    def __init__(self, *args, **kwargs):
-#	self.request = kwargs.pop("request")
-#	super(NewCourseForm, self).__init__(*args,**kwargs)
-	
     class Meta:
-    
-	
 	model = Course
 
 	fields = ['name', 'department', 'description']
 	exclude = ("instructor")
-
-#	instructor = request.user.username

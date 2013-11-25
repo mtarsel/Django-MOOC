@@ -30,8 +30,11 @@ def create_course(request):
     if request.method == 'POST':
 	form = NewCourseForm(request.POST or None)
 	if form.is_valid():
-	    new_course = form.save()
-
+	    new_course = form.save(commit=False)
+	    new_course.instructor = request.user.instructor
+	    new_course.save()
+	    #new_course = form.save()
+	    return render_to_response('instructor_portal/dashboard.html')
     return render_to_response(
         'instructor_portal/new-course.html',
         { 'form': form},
