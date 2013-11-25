@@ -3,12 +3,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-
+import os
+from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
-
+import mimetypes
 from django.views.generic.edit import UpdateView
+from django.core.context_processors import csrf
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm
+from student_portal.views import get_assignment, get_assignments, get_course
 from student_portal.models import *
 
 class InstructorProfileEditView(UpdateView):
@@ -120,3 +123,45 @@ def display_courses(request):
     teacher = True
     context = {'taught_courses': taught_courses, 'course_list':course_list, 'teacher':teacher}
     return render(request, 'courses.html', context)
+
+def course_dashboard(request, course_id):
+    course = get_course(int(course_id))
+    assignments = get_assignments(course)
+    context = {'assignments' : assignments,
+             'course' : course}
+    return render(request, 'instructor_portal/course_dashboard.html', context)
+
+def assignment_dashboard(request, course_id,assignment_id):
+    course = Course.objects.all().get(id=int(course_id))
+    assignments = Assignment.objects.all().filter(course=course)
+    assignment = Assignment.objects.all().filter(id=int(assignment_id))
+    subs = Submission.objects.all().filter(assignment=assignment)
+    context = {'submissions' : subs,
+               'assignments' : assignments,
+               'course' : course}
+    context.update(csrf(request))
+    if request.method == 'POST':
+        print "in post"
+        p = request.POST
+        print p
+        sub = Submission.objects.all().get(id=int(p['submission_id']))
+        sub.grade = float(p['newgrade'])
+        sub.save()
+        return render(request, 'instructor_portal/assignment_dashboard.html',context)
+    return render(request, 'instructor_portal/assignment_dashboard.html', context)
+
+@login_required(login_url='/accounts/login/') 
+def download_submission(request, course_id, assignment_id, submission_id):
+    sub = Submission.objects.all().get(id=int(submission_id))
+    print sub.id
+    dirlist = sub.docfile.name.split(os.sep)
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    print dirlist
+    print dirlist[-1]
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    print type
+    f = open(sub.docfile.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
+    return response
