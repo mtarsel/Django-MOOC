@@ -7,20 +7,26 @@
 {{ course.description }}<br>
 Instructor: {{ course.instructor.first_name }}  {{course.instructor.last_name}} <br>
 {% if is_student %}
-<form name="input" action="" method="post"> {% csrf_token %}
-  <input type="hidden" name="course" value={{ course.id }}>
+  {% if user == course.instructor.user %}
+  {% else %}
+    <form name="input" action="" method="post"> {% csrf_token %}
+      <input type="hidden" name="course" value={{ course.id }}>
 
-    {% if not is_enrolled %}
-      <input type="submit" value="Add">
-      <input type="hidden" name="enroll" value={{ True }}>
-    {% endif %}
-
-  </form>
+      {% if not is_enrolled %}
+        <input type="submit" value="Add">
+        <input type="hidden" name="enroll" value={{ True }}>
+   </form>
+      {% endif %}
+  {% endif %}
 {% endif %}
 {% endblock %}
 
 {% block sidebar %}
+{% if is_student %}
 <li><a href="/student{% url 'courses' %}">All Courses</a></li>
+{% else %}
+<li><a href="/instructor{% url 'courses' %}"> All Courses</a></li>
+{% endif %}
 {% if is_enrolled %}
 
 <li class="nav-header">Class Links</li>

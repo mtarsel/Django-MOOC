@@ -52,13 +52,18 @@
 	          <tr>
                   <td style="width:50px;">
 		  {% if not teacher %}
-                  <a href = "/student/{{ course.department }}/{{ course.id }}" class="btn btn-primary btn-large" >{{ course.name }}</a></td>
+                  <a href = "/student/{{ course.department }}/{{ course.id }}" >{{ course.name }}</a></td>
 		  {% else %}
-		  <p>{{course.name}}</p>
+                  <a href = "/instructor/{{ course.department }}/{{ course.id }}"> {{course.name}} </a></td>
 		  {% endif %}
                   </td>
                   {% if not teacher %}
-                  {% if course in enrolled_courses %}
+                  {% if course.instructor.user == user %}
+                  <td style="width:50px;">
+                   You teach this course!
+                  </td>
+                  </tr>
+                  {% elif course in enrolled_courses %}
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
                       <input type="submit" value="Drop" class="btn btn-medium">
@@ -67,7 +72,7 @@
 		      <input type="hidden" name="sort" value="name">
                     </form>
                   </td>
-                  </tr>
+
                   {% else %}
                   <td style="width:50px;">
                     <form name="input" action="" method="post"> {% csrf_token %}
