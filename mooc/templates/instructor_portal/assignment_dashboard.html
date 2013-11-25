@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block sidebar %}
+  <li class="nav-header"> Assignments </li>
+  {% for assignment in assignments %}
+    <li> <a href="/instructor/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}} </a></li>
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+{% if submissions %}
+  {% for sub in submissions %}
+  <form method=post> {% csrf_token %} {{sub.submitter.first_name}} {{sub.submitter.last_name}}
+  <a href="{{sub.id}}/download"> Download Submission </a> 
+  Grade: <input type="text" name="newgrade" placeholder="{{sub.grade}}">
+  <input type="hidden" name="submission_id" value="{{sub.id}}">
+  <input type="submit"> 
+  </form> <br>
+  {% endfor %}
+{% else %}
+  No submissions made yet.
+{% endif %}
+{% endblock %}

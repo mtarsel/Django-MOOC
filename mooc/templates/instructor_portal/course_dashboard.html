@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+<li class="nav-header"> Assignments </li>
+  {% for assignment in assignments %}
+    <li> <a href="/instructor/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}} </a></li>
+  {% endfor %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

@@ -78,7 +78,8 @@ def display_course_info(request, _,  course_id):
     return render(request, 'course_info.html', { 'course' : course,
                                                  'is_enrolled': is_enrolled,
                                                  'lecture_list' : lecture_list,
-                                                 'assignment_list': assignment_list})
+                                                 'assignment_list': assignment_list,
+                                                 'is_student' : True})
 
 
 def display_course(request, course_id):
