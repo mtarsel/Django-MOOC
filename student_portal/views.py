@@ -313,50 +313,13 @@ def download_assignment(request, course_department, course_id, assignment_id):
     response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
     return response
 
-def get_submissions(student, course):
-    submissions = Submission.objects.all()
-    student_submissions = []
-    for submission in submissions:
-        if submission.submitter == student and submission.course == course:
-            student_submissions.append(submission)
-    print (student_submissions)
-    return student_submissions
-
-def get_homeworks(student, course):
-    homeworks = Homework.objects.all()
-    student_homeworks = []
-    for homework in homeworks:
-        if homework.submitter == student and homework.course == course:
-            student_homeworks.append(homework)
-    print (student_homeworks)
-    return student_homeworks
-
-def get_quizzes(student, course):
-    quizzes = Quiz.objects.all()
-    student_quizzes = []
-    for quiz in quizzes:
-        if quiz.submitter == student and quiz.course == course:
-            student_quizzes.append(quiz)
-    print (student_quizzes)
-    return student_quizzes
-
-def get_exams(student, course):
-    exams = Exam.objects.all()
-    student_exams = []
-    for exam in exams:
-        if exam.submitter == student and exam.course == course:
-            student_exams.append(exam)
-    print (student_exams)
-    return student_exams
-
-def get_projects(student, course):
-    projects = Project.objects.all()
-    student_projects = []
-    for project in projects:
-        if project.submitter == student and project.course == course:
-            student_projects.append(project)
-    print (student_projects)
-    return student_projects
+def get_graded_material(student, course, model):
+    student_model = []
+    for x in model.objects.all():
+        if x.submitter == student and x.course == course:
+            student_model.append(x)
+    print (student_model)
+    return student_model
 
 def get_grades(submissions):
     total = 0
@@ -370,30 +333,13 @@ def get_grades(submissions):
         if not submission.grade == None:
             grade = grade + submission.grade * weight
 
-    total_and_grade = []
-    total_and_grade.append(total)
-    total_and_grade.append(grade)
-    return total_and_grade
+    return total, grade
 
 def display_grades(request, course_department, course_id):
     student = request.user.student
     course = get_course(int(course_id))
-    homeworks = get_homeworks(student, course)
-    quizzes = get_quizzes(student, course)
-    exams = get_exams(student, course)
-    projects = get_projects(student, course)
-    hwgrades = get_grades(homeworks)
-    hwtotal = hwgrades[0]
-    hwgrade = hwgrades[1]
-    quizgrades = get_grades(quizzes)
-    quiztotal = quizgrades[0]
-    quizgrade = quizgrades[1]
-    examgrades = get_grades(exams)
-    examtotal = examgrades[0]
-    examgrade = examgrades[1]
-    projectgrades = get_grades(projects)
-    projecttotal = projectgrades[0]
-    projectgrade = projectgrades[1]
+    homeworks, quizzes, exams, projects = map(lambda x: get_graded_material(student, course, x), [Homework, Quiz, Exam, Project])
+    (hwtotal, hwgrade), (quiztotal, quizgrade), (examtotal, examgrade), (projecttotal, projectgrade) =  map(get_grades, [homeworks, quizzes, exams, projects])
     grade = hwgrade + quizgrade + examgrade + projectgrade
     total = hwtotal + quiztotal + examtotal + projecttotal
 
