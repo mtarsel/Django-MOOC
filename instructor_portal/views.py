@@ -133,3 +133,21 @@ def download_submission(request, course_id, assignment_id, submission_id):
     response = HttpResponse(FileWrapper(f), content_type=type)
     response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
     return response
+
+def display_course_info(request, course_department, course_id):
+    course = get_course(int(course_id))
+    lecture_list = get_lectures(course)
+    assignment_list = get_assignments(course)
+    print assignment_list
+    if request.user.is_authenticated():
+        instructor = Instructor.objects.all().get(id=user.instructor.id)
+        taught_courses, not_taught_courses = get_separated_course_list(instructor, Course.objects.all())
+        is_taught = course in taught_courses
+
+    else:
+        is_enrolled = False
+    return render(request, 'course_info.html', { 'course' : course,
+                                                 'is_enrolled': is_enrolled,
+                                                 'lecture_list' : lecture_list,
+                                                 'assignment_list': assignment_list,
+                                                 'is_student' : False})

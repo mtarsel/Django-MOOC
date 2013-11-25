@@ -22,7 +22,7 @@ urlpatterns = patterns('instructor_portal.views',
     url(r'^edit_profile/$', auth(InstructorProfileEditView.as_view()), name="edit_profile"),
 
     # course_info for instructors
-#    url(r'^([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
+    url(r'^([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
 
     #instructor course dashboards
     url(r'^(\d+)/dashboard/$', 'course_dashboard', name='course_dashboard'),

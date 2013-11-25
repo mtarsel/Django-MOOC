@@ -103,7 +103,7 @@ def display_course(request, course_id):
     print course.id
     print lecture_list
     return render(request, 'lecture.html', { 'course' : course,
-                                                 'lecture_list': lecture_list})
+                                             'lecture_list': lecture_list})
 
 def get_lecture(lecture_id):
     lecture_list = Lecture.objects.all()
@@ -148,30 +148,6 @@ def get_separated_course_list(student, course_list):
             not_enrolled_courses.append(course)
     return enrolled_courses, not_enrolled_courses
 
-def list(request):
-    # Handle file upload
-    if request.method == 'POST':
-        form = SubmissionForm(request.POST, request.FILES)
-        if form.is_valid():
-            newdoc = Submission(docfile = request.FILES['docfile'])
-            newdoc.save()
-
-            # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('mooc.student_portal.views.list'))
-    else:
-        form = SubmissionForm() # A empty, unbound form
-
-    # Load documents for the list page
-    documents = Submission.objects.all()
-
-    # Render list page with the documents and the form
-    return render_to_response(
-        'student_portal/list.html',
-        {'documents': documents, 'form': form},
-        context_instance=RequestContext(request)
-    )
-
-
 @login_required(login_url='/accounts/login/') 
 def dashboard(request):
     enrolled_courses = get_separated_course_list(get_student_from_user(request.user), Course.objects.all())
@@ -207,11 +183,19 @@ def enroll_courses(request):
 
                     current_student.save()
                     print current_student.course.all()
-            enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+                enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
+                context = {'not_enrolled_courses': not_enrolled_courses,
+                           'enrolled_courses': enrolled_courses.order_by('name'),
+                           #'course_list': course_list.order_by(request.POST['sort'])} this doesn't work in the case of enrolling from the course_info page
+                           'course_list': course_list}
+                return render(request, 'courses.html', context)
+            else:
+                enrolled_courses, not_enrolled_courses = get_separated_course_list(current_student, course_list)
 
-            context = {'not_enrolled_courses': not_enrolled_courses,
-                       'enrolled_courses': enrolled_courses.order_by('name'),'course_list': course_list.order_by(request.POST['sort'])}
-            return render(request, 'courses.html', context)
+                context = {'not_enrolled_courses': not_enrolled_courses,
+                           'enrolled_courses': enrolled_courses.order_by('name'),
+                           'course_list': course_list.order_by(request.POST['sort'])}
+                return render(request, 'courses.html', context)
 
         else:
             return redirect('/student')
@@ -226,8 +210,8 @@ def enroll_courses(request):
             not_enrolled_courses = course_list
 
         context = {'not_enrolled_courses': not_enrolled_courses,
-                'enrolled_courses': enrolled_courses,
-                'course_list': course_list}
+                   'enrolled_courses': enrolled_courses,
+                   'course_list': course_list}
         return render(request, 'courses.html', context)
 
 @login_required(login_url='/accounts/login/') 
