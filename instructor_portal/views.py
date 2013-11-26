@@ -11,9 +11,8 @@ from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
 from django.forms.models import inlineformset_factory
 
-
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm
-from student_portal.views import get_assignment, get_assignments, get_course
+from student_portal.views import get_assignment, get_assignments, get_course, get_lectures
 from student_portal.models import *
 
 class InstructorProfileEditView(UpdateView):
@@ -51,7 +50,7 @@ def new_assignment(request, course_id):
     AssignmentInlineFormSet = inlineformset_factory(Course, Assignment, form=NewAssignmentForm)
     assInlineFormSet = AssignmentInlineFormSet()
     if request.method == 'POST':
-	form = NewCourseForm(request.POST or None)
+	form = NewAssignmentForm(request.POST or None)
 	if form.is_valid():
 	    new_ass = form.save(commit=False)
 	    new_ass.course = Course.objects.all().get(id=int(course_id))
@@ -90,29 +89,6 @@ def get_separated_course_list(instructor, course_list):
             not_taught_courses.append(course)
     return taught_courses, not_taught_courses
 
-def list(request):
-    # Handle file upload
-    if request.method == 'POST':
-        form = SubmissionForm(request.POST, request.FILES)
-        if form.is_valid():
-            newdoc = Submission(docfile = request.FILES['docfile'])
-            newdoc.save()
-
-            # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('mooc.instructor_portal.views.list'))
-    else:
-        form = SubmissionForm() # A empty, unbound form
-
-    # Load documents for the list page
-    documents = Submission.objects.all()
-
-    # Render list page with the documents and the form
-    return render_to_response(
-        'instructor_portal/list.html',
-        {'documents': documents, 'form': form},
-        context_instance=RequestContext(request)
-    )
-
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
     """
@@ -129,7 +105,9 @@ def display_courses(request):
     taught_courses,not_taught_courses = get_separated_course_list(get_instructor_from_user(request.user), course_list)
     print(taught_courses)
     teacher = True
-    context = {'taught_courses': taught_courses, 'course_list':course_list, 'teacher':teacher}
+    context = {'taught_courses': taught_courses,
+               'course_list':course_list,
+               'teacher':teacher}
     return render(request, 'courses.html', context)
 
 def course_dashboard(request, course_id):
@@ -173,3 +151,20 @@ def download_submission(request, course_id, assignment_id, submission_id):
     response = HttpResponse(FileWrapper(f), content_type=type)
     response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
     return response
+
+def display_course_info(request, course_department, course_id):
+    course = get_course(int(course_id))
+    lecture_list = get_lectures(course)
+    assignment_list = get_assignments(course)
+    print assignment_list
+    if request.user.is_authenticated():
+        instructor = Instructor.objects.all().get(id=request.user.instructor.id)
+        taught_courses, not_taught_courses = get_separated_course_list(instructor, Course.objects.all())
+        is_taught = course in taught_courses
+        
+    is_enrolled = False
+    return render(request, 'course_info.html', { 'course' : course,
+                                                 'is_enrolled': is_enrolled,
+                                                 'lecture_list' : lecture_list,
+                                                 'assignment_list': assignment_list,
+                                                 'is_student' : False})

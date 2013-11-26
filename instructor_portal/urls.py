@@ -29,7 +29,7 @@ urlpatterns = patterns('instructor_portal.views',
 # django registration simple, no email registration
 #    url(r'^accounts/', include('registration.backends.simple.urls')),
     # course_info for instructors
-#    url(r'^([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
+    url(r'^([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
 
     #instructor course dashboards
     url(r'^(\d+)/dashboard/$', 'course_dashboard', name='course_dashboard'),

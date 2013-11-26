@@ -11,7 +11,7 @@ urlpatterns = patterns('student_portal.views',
     #about page
     url(r'^about/$', student_about, name='student_about'),
 
-    url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
+    url(r'^courses/$', enroll_courses, name="courses"),#show all courses available
 
     url(r'^schedule/$', include('schedule.urls')),
 
