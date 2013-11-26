@@ -107,3 +107,8 @@ class Homework(Submission):
 
 class Project(Submission):
     weight = .2
+
+class CourseMaterial(models.Model):
+    file = models.FileField(upload_to='/fucking/dont/upload/here')
+    course = models.ForeignKey(Course)
+    description = models.TextField(max_length=30)
