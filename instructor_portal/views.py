@@ -40,7 +40,7 @@ def create_course(request):
 	    new_course.instructor = request.user.instructor
 	    new_course.save()
 	    #return render(request, '/instructor_portal/dashboard.html')
-	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
+	    return HttpResponseRedirect('/instructor/')
     return render_to_response(
         'instructor_portal/new-course.html',
         { 'form': form},
@@ -56,7 +56,7 @@ def new_assignment(request, course_id):
 	    new_ass = formset.save(commit=False)
             new_ass.course = course
             formset.save()
-	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
+	    return HttpResponseRedirect('/instructor/')
 
     return render_to_response(
         'instructor_portal/new-assignment.html',
@@ -73,7 +73,7 @@ def new_lecture(request, course_id):
 	    new_lecture = formset.save(commit=False)
             new_lecture.course = course
             formset.save()
-	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
+	    return HttpResponseRedirect('/instructor/')
 
     return render_to_response(
         'instructor_portal/new-lecture.html',
