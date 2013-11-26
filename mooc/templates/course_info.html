@@ -30,8 +30,9 @@ Instructor: {{ course.instructor.first_name }}  {{course.instructor.last_name}} 
 {% if is_enrolled %}
 
 <li class="nav-header"><h5>{{course.name}} Links</h5></li>
-<li><a href = "/student/{{ course.department }}/{{course.id}}/grades/"><h3>Grades</h3></a></li>
 
+<li><a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/course_materials/">Course Materials</a></li>
 {% if assignment_list %}
 <!--<li class="nav-header">Assignments</li>-->
 <li><a href = "/student/{{course.department}}/{{course.id}}/assignments/"><h3>Assignments</h3></a></li>

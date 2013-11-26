@@ -8,10 +8,8 @@ from django.forms.models import inlineformset_factory
 from student_portal.models import Instructor, Course, Assignment
 
 class SubmissionForm(forms.Form):
-    docfile = forms.FileField(
-        label='Select a file',
-        help_text='max. 42 megabytes'
-    )
+    file = forms.FileField()
+    description = forms.CharField(max_length=30)
 
 class InstructorProfileForm(forms.ModelForm):
     class Meta:

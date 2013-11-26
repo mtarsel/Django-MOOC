@@ -83,7 +83,8 @@ class Submission(models.Model):
     assignment = models.ForeignKey(Assignment)
     submitter = models.ForeignKey(Student)
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
-
+    remarks = models.TextField()
+    
     def get_grade_path(self, filename):
         savename = str(self.assignment.name) + os.path.splitext(filename)[1]
         return os.path.join('uploads/submitted_files/',
@@ -107,3 +108,8 @@ class Homework(Submission):
 
 class Project(Submission):
     weight = .2
+
+class CourseMaterial(models.Model):
+    file = models.FileField(upload_to='/fucking/dont/upload/here')
+    course = models.ForeignKey(Course)
+    description = models.TextField(max_length=30)

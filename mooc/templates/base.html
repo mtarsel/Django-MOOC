@@ -64,7 +64,7 @@
         	<div class="nav-collapse collapse"><p class="navbar-text pull-right">Logged in as {{ user }} | <a href="{% url 'auth_logout' %}" class="navbar-link">{% trans "Log out" %}</a></p>
 
 		{% else %}
-			<a class="brand" href="{% url 'index' %}">Home</a> 
+			<a class="brand" href="/dashboard">Home</a> 
 			<a class="brand" href="{% url 'select_login' %}">{% trans "Log in" %}</a>
 		<!--	<a class="brand" href="{% url 'registration_register' %}">{% trans "Register" %}</a>-->
 		        <a class="brand" href="/accounts/register/">{% trans "Register" %}</a>

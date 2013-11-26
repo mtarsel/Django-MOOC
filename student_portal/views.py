@@ -15,7 +15,7 @@ from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
 
-from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
+from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project, CourseMaterial
 
 def student_about(request):
     return render(request, 'about.html')
@@ -355,3 +355,30 @@ def display_grades(request, course_department, course_id):
                'examtotal': examtotal, 'examgrade': examgrade,
                'projecttotal': projecttotal, 'projectgrade': projectgrade}
     return render(request, 'student_portal/grades.html', context)
+
+def display_course_materials(request, course_dept, course_id):
+    c = get_course(int(course_id))
+    courses = list(request.user.student.course.all())
+    cms = CourseMaterial.objects.all().filter(course=c)
+    lecture_list = get_lectures(c)
+    assignment_list = get_assignments(c)
+    context = {'course' : c,
+               'courses' : courses,
+               'lecture_list' : lecture_list,
+               'assignment_list' : assignment_list,
+               'is_enrolled' : True,
+               'course_materials' : cms}
+    return render(request, 'student_portal/course_materials.html', context)
+
+def download_course_materials(request, course_dept, course_id, coursemat_id):
+    c = get_course(int(course_id))
+    cm = CourseMaterial.objects.all().get(id=int(coursemat_id))
+    dirlist = cm.file.name.split(os.sep)
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    f = open(cm.file.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
+    return response
+
