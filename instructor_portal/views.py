@@ -39,7 +39,6 @@ def create_course(request):
 	    new_course = form.save(commit=False)
 	    new_course.instructor = request.user.instructor
 	    new_course.save()
-	    #return render(request, '/instructor_portal/dashboard.html')
 	    return HttpResponseRedirect('/instructor/')
     return render_to_response(
         'instructor_portal/new-course.html',
@@ -60,7 +59,7 @@ def new_assignment(request, course_id):
 
     return render_to_response(
         'instructor_portal/new-assignment.html',
-        { 'form': formset},
+        { 'form': formset, 'course':course,},
         context_instance=RequestContext(request)
     )
 
@@ -77,7 +76,7 @@ def new_lecture(request, course_id):
 
     return render_to_response(
         'instructor_portal/new-lecture.html',
-        { 'form': formset},
+        { 'form': formset, 'course':course,},
         context_instance=RequestContext(request)
     )
 
