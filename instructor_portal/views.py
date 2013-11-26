@@ -44,26 +44,52 @@ def create_course(request):
         { 'form': form},
         context_instance=RequestContext(request)
     )
-
+'''
 def new_assignment(request, course_id):
-    form = NewAssignmentForm()
-    AssignmentInlineFormSet = inlineformset_factory(Course, Assignment, form=NewAssignmentForm)
-    assInlineFormSet = AssignmentInlineFormSet()
+    course = Course.objects.get(pk=course_id)
+#    form = NewAssignmentForm()
+    NewAssignmentForm = inlineformset_factory(Course, Assignment)
+#    assInlineFormSet = AssignmentInlineFormSet()
     if request.method == 'POST':
-	form = NewAssignmentForm(request.POST or None)
+	form = NewAssignmentForm(request.POST, instance = course or None)
 	if form.is_valid():
-	    new_ass = form.save(commit=False)
-	    new_ass.course = Course.objects.all().get(id=int(course_id))
-	    assInlineFormSet = AssignmentInlineFormSet(request.POST)
+#	    new_ass = form.save(commit=False)
+#	    new_ass.course = Course.objects.all().get(id=int(course_id))
+#	    assInlineFormSet = AssignmentInlineFormSet(request.POST)
 	    new_ass.save()
 	    #assInlineFormSet = AssignmentInlineFormSet(request.POST)
 	    
-	    if assInlineFormSet.is_valid():
-		assInlineFormSet.save()
-		return render_to_response('instructor_portal/dashboard.html')
+#	    if assInlineFormSet.is_valid():
+#		assInlineFormSet.save()
+#		return render_to_response('instructor_portal/dashboard.html')
+    else:
+	form = NewAssignmentForm(instance = course) 
     return render_to_response(
         'instructor_portal/new-assignment.html',
         { 'form': form},
+        context_instance=RequestContext(request)
+    )
+'''
+
+def new_assignment(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    #NewAssignmentForm = inlineformset_factory(Course, Assignment)
+    formset= NewAssignmentForm()
+    if request.method == "POST":
+        formset = NewAssignmentForm(request.POST or None)
+        if formset.is_valid():
+	    new_ass = formset.save(commit=False)
+            new_ass.course = course
+            formset.save()
+            # Do something. Should generally end with a redirect. For example:
+	    return render_to_response('instructor_portal/dashboard.html')
+            #return HttpResponseRedirect(author.get_absolute_url())
+#    else:
+#        formset = NewAssignmentForm(instance=course)
+
+    return render_to_response(
+        'instructor_portal/new-assignment.html',
+        { 'form': formset},
         context_instance=RequestContext(request)
     )
 
