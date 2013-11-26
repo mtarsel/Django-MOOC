@@ -18,13 +18,15 @@ urlpatterns = patterns('instructor_portal.views',
     #edit instructor profile 
     url(r'^edit_profile/$', auth(InstructorProfileEditView.as_view()), name="edit_profile"),
 
-# create course page
+    # create course page
     url(r'^new-course/', create_course, name='create_course'),
 
-# create a new assignment page
+    # create a new assignment page
     url(r'^(\d+)/new-assignment/$', 'new_assignment'),
-# django registration simple, no email registration
-#    url(r'^accounts/', include('registration.backends.simple.urls')),
+    
+    # create a new lecture page
+    url(r'^(\d+)/new-lecture/$', 'new_lecture'),
+
     # course_info for instructors
     url(r'^([A-Z|a-z]{2,4})/(\d+)/$', display_course_info, name='display_course_info'),
 
