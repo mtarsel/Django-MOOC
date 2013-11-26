@@ -33,6 +33,6 @@ urlpatterns = patterns('instructor_portal.views',
     #delete course material
     url(r'^(\d+)/delete_course_material/(\d+)/$', delete_course_material, name='delete_course_material'),
 
-    url(r'^(\d+)/assignments/(\d+)/$', 'assignment_dashboard', name='assignment_dashboard'),
-    url(r'^(\d+)/assignments/(\d+)/(\d+)/download/$', 'download_submission', name=download_submission),
+    url(r'^(\d+)/assignments/(\d+)/$', assignment_dashboard, name='assignment_dashboard'),
+    url(r'^(\d+)/assignments/(\d+)/(\d+)/download/$', download_submission, name='download_submission'),
 )

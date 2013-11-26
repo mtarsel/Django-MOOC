@@ -7,11 +7,13 @@
 {% endblock %}
 
 {% block content %}
+  <h3> {{assignment.name}} </h3>
 {% if submissions %}
   {% for sub in submissions %}
-  <form method=post> {% csrf_token %} {{sub.submitter.first_name}} {{sub.submitter.last_name}}
-  <a href="{{sub.id}}/download"> Download Submission </a> 
-  Grade: <input type="text" name="newgrade" placeholder="{{sub.grade}}">
+  <form method=post> {% csrf_token %} <h4> {{sub.submitter.first_name}} {{sub.submitter.last_name}} </h4>
+  <a href="{{sub.id}}/download"> Download Submission </a> <br>
+  Grade: <input type="text" name="newgrade" placeholder="{{sub.grade}}"><br> 
+  Remarks: <textarea rows="4" cols="50" name="newremarks" placeholder="{{sub.remarks}}"></textarea>
   <input type="hidden" name="submission_id" value="{{sub.id}}">
   <input type="submit"> 
   </form> <br>

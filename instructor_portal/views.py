@@ -82,21 +82,23 @@ def course_dashboard(request, course_id):
                'course_materials' : course_materials}
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
-def assignment_dashboard(request, course_id,assignment_id):
+def assignment_dashboard(request, course_id, assignment_id):
     course = Course.objects.all().get(id=int(course_id))
     assignments = Assignment.objects.all().filter(course=course)
-    assignment = Assignment.objects.all().filter(id=int(assignment_id))
+    assignment = Assignment.objects.all().get(id=int(assignment_id))
     subs = Submission.objects.all().filter(assignment=assignment)
     context = {'submissions' : subs,
+               'assignment' : assignment,
                'assignments' : assignments,
                'course' : course}
     context.update(csrf(request))
     if request.method == 'POST':
         print "in post"
         p = request.POST
-        print p
         sub = Submission.objects.all().get(id=int(p['submission_id']))
-        sub.grade = float(p['newgrade'])
+        if p['newgrade']:
+            sub.grade = float(p['newgrade'])
+        sub.remarks = p['newremarks']
         sub.save()
         return render(request, 'instructor_portal/assignment_dashboard.html',context)
     return render(request, 'instructor_portal/assignment_dashboard.html', context)
