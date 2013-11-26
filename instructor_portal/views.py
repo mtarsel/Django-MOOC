@@ -10,7 +10,7 @@ from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
 from django.forms.models import inlineformset_factory
 
-from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm
+from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm, NewLectureForm
 import os
 import mimetypes
 
@@ -39,43 +39,16 @@ def create_course(request):
 	    new_course = form.save(commit=False)
 	    new_course.instructor = request.user.instructor
 	    new_course.save()
-	    #new_course = form.save()
-	    return render_to_response('instructor_portal/dashboard.html')
+	    #return render(request, '/instructor_portal/dashboard.html')
+	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
     return render_to_response(
         'instructor_portal/new-course.html',
         { 'form': form},
         context_instance=RequestContext(request)
     )
-'''
-def new_assignment(request, course_id):
-    course = Course.objects.get(pk=course_id)
-#    form = NewAssignmentForm()
-    NewAssignmentForm = inlineformset_factory(Course, Assignment)
-#    assInlineFormSet = AssignmentInlineFormSet()
-    if request.method == 'POST':
-	form = NewAssignmentForm(request.POST, instance = course or None)
-	if form.is_valid():
-#	    new_ass = form.save(commit=False)
-#	    new_ass.course = Course.objects.all().get(id=int(course_id))
-#	    assInlineFormSet = AssignmentInlineFormSet(request.POST)
-	    new_ass.save()
-	    #assInlineFormSet = AssignmentInlineFormSet(request.POST)
-	    
-#	    if assInlineFormSet.is_valid():
-#		assInlineFormSet.save()
-#		return render_to_response('instructor_portal/dashboard.html')
-    else:
-	form = NewAssignmentForm(instance = course) 
-    return render_to_response(
-        'instructor_portal/new-assignment.html',
-        { 'form': form},
-        context_instance=RequestContext(request)
-    )
-'''
 
 def new_assignment(request, course_id):
     course = Course.objects.get(pk=course_id)
-    #NewAssignmentForm = inlineformset_factory(Course, Assignment)
     formset= NewAssignmentForm()
     if request.method == "POST":
         formset = NewAssignmentForm(request.POST or None)
@@ -83,14 +56,27 @@ def new_assignment(request, course_id):
 	    new_ass = formset.save(commit=False)
             new_ass.course = course
             formset.save()
-            # Do something. Should generally end with a redirect. For example:
-	    return render_to_response('instructor_portal/dashboard.html')
-            #return HttpResponseRedirect(author.get_absolute_url())
-#    else:
-#        formset = NewAssignmentForm(instance=course)
+	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
 
     return render_to_response(
         'instructor_portal/new-assignment.html',
+        { 'form': formset},
+        context_instance=RequestContext(request)
+    )
+
+def new_lecture(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    formset= NewLectureForm()
+    if request.method == "POST":
+        formset = NewLectureForm(request.POST or None)
+        if formset.is_valid():
+	    new_lecture = formset.save(commit=False)
+            new_lecture.course = course
+            formset.save()
+	    return render_to_response('instructor_portal/dashboard.html')#TODO:does not redirect to correct dashboard
+
+    return render_to_response(
+        'instructor_portal/new-lecture.html',
         { 'form': formset},
         context_instance=RequestContext(request)
     )

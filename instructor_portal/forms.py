@@ -5,7 +5,7 @@ from django.contrib.admin import widgets
 from django.forms.models import inlineformset_factory
 
 
-from student_portal.models import Instructor, Course, Assignment
+from student_portal.models import Instructor, Course, Assignment, Lecture
 
 class SubmissionForm(forms.Form):
     file = forms.FileField()
@@ -33,14 +33,8 @@ class NewAssignmentForm(forms.ModelForm):
         super(NewAssignmentForm, self).__init__(*args, **kwargs)
         self.fields['due_date'].widget = widgets.AdminDateWidget()
 
-#NewAssignmentFormSet = inlineformset_factory(Course, Assignment)
+class NewLectureForm(forms.ModelForm):
+    class Meta:
+	model = Lecture
+	exclude = ( "course")
 
-'''
-NewAssignmentFormSet = inlineformset_factory(Course, Assignment)
-
-class NewAssignmentInlineFormSet(BaseInlineFormSet):
-    def clean(self):
-        super(NewAssignmentInlineFormSet, self).clean()
-	
-	for forms in self.forms:
-'''
