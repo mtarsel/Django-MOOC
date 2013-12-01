@@ -1,7 +1,7 @@
 from django.conf.urls import *
 from student_portal.views import *
+from django.conf import settings
 from django.contrib.auth.decorators import login_required as auth
-
 
 urlpatterns = patterns('student_portal.views',
 
@@ -33,4 +33,6 @@ urlpatterns = patterns('student_portal.views',
     url(r'^([A-Z|a-z]{2,4})/(\d+)/course_materials/$', display_course_materials, name='display_course_materials'),
     # download course material
     url(r'^([A-Z|a-z]{2,4})/(\d+)/download_course_materials/(\d+)/$', download_course_materials, name='download_course_materials'),
+    #safely view the distribution
+    url(r'^media/([A-Z|a-z]{2,4})/(\d+)/distribution.png/$', display_distribution, {'document_root': settings.MEDIA_ROOT}),
 )

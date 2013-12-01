@@ -81,6 +81,22 @@
 <td style="width:20px;"><h4>{{grade}}</h4></td>
 <td style="width:20px;"><h4>{{total}}</h4></td>
 </tr>
+
+{% if hist_img == -1 %}
+No one is ranked yet.
+{% else %}
+<img src="/student{{hist_img}}"> <br>
+<center>
+{% endif %}
+<br>
+
+{% if rank == 0 %}
+You are currently unranked.
+{% else %}
+You are rank {{rank}} of {{amt_ranked}} ranked students in {{course.name}}.
+{% endif %}
+</center>
+
 {% endblock %}
 
 {% block sidebar %}
@@ -88,4 +104,3 @@
 <li class="nav-header">Class Links</li>
 <li><a href = "/student/{{ course.department }}/{{course.id}}/">{{course.name}}</a></li>
 {% endblock %}
-
