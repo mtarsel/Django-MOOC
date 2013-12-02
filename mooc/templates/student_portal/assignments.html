@@ -24,6 +24,12 @@
 </br>
 <h4>Points Possible</h4>
 <p>{{assignment.points_possible}}</p><br>
+<h4> Teacher's Remarks </h4>
+{% if submission.remarks %}
+  {{submission.remarks}}
+{% else %}
+  Your teacher hasn't made any remarks on this assignment.
+{% endif %} <br>
 
 <a href="upload"> Make Submission </a>
 

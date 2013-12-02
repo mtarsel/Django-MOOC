@@ -6,10 +6,8 @@ from crispy_forms.layout import Submit
 from student_portal.models import Instructor
 
 class SubmissionForm(forms.Form):
-    docfile = forms.FileField(
-        label='Select a file',
-        help_text='max. 42 megabytes'
-    )
+    file = forms.FileField()
+    description = forms.CharField(max_length=30)
 
 class InstructorProfileForm(forms.ModelForm):
     class Meta:

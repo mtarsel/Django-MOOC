@@ -11,5 +11,14 @@
 {% endblock %}
 
 {% block content %}
-
+  <h3> Uploaded Course Materials </h3>
+  <p><a href="/instructor/{{course.id}}/upload_course_material/"> Upload course materials now! </a> </p>
+  {% if course_materials %}
+    {% for cm in course_materials %}
+      <form action="/instructor/{{cm.course.id}}/delete_course_material/{{cm.id}}">
+        <p> <a href="/instructor/{{cm.course.id}}/download_course_material/{{cm.id}}"> {{cm.description}}</a>  
+        <input type="submit" value="Delete" id="Save"/> </p>
+      </form>
+    {% endfor %}
+  {% endif %}
 {% endblock %}

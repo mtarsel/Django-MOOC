@@ -1,32 +1,18 @@
 {% extends "base.html" %}
-{% block title %} {{ course.name }} {% endblock %}
 
-{% if user.is_authenticated %}
-{% block content %}
-<h1>Welcome to {{ course.name }}!</h1>
-{{ course.description }}<br>
-Instructor: {{ course.instructor.first_name }}  {{course.instructor.last_name}} <br>
-{% if is_student %}
-  {% if user == course.instructor.user %}
-  {% else %}
-    <form name="input" action="" method="post"> {% csrf_token %}
-      <input type="hidden" name="course" value={{ course.id }}>
-
-      {% if not is_enrolled %}
-        <input type="submit" value="Add">
-        <input type="hidden" name="enroll" value={{ True }}>
-   </form>
-      {% endif %}
-  {% endif %}
-{% endif %}
-{% endblock %}
+{% block title %} Course Materials for {{course.name}} {% endblock %}
 
 {% block sidebar %}
-{% if is_student %}
 <li><a href="/student{% url 'courses' %}">All Courses</a></li>
-{% else %}
-<li><a href="/instructor{% url 'courses' %}"> All Courses</a></li>
-{% endif %}
+  {% if courses %}
+	<li class="nav-header">Your Classes</li>
+        {% for course in courses %}
+            <li><a href = "/student/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
+            <input type="hidden" name="course" value={{ course.id }}>
+        {% endfor %}
+  {% endif %}
+
+<li><a href="/student{% url 'courses' %}">All Courses</a></li>
 {% if is_enrolled %}
 
 <li class="nav-header">Class Links</li>
@@ -50,10 +36,16 @@ Instructor: {{ course.instructor.first_name }}  {{course.instructor.last_name}} 
              {% endfor %}
 {% endif %}
 {% endif %}
+
 {% endblock %}
 
-{% else %}
-  <input type="submit" value="Add">
-  <input type="hidden" name="enroll" value={{ True }}>
-{% endif %}
-
+{% block content %}
+  <h3> Course Materials for {{course.name}} </h3>
+  {% if course_materials %}
+    {% for cm in course_materials %}
+      <a href="/student/{{cm.course.department}}/{{cm.course.id}}/download_course_materials/{{cm.id}}"> {{cm.description}} </a> <br>
+    {% endfor %}
+  {% else %}
+      <p> No course materials have been uploaded yet! </p>
+  {% endif %}
+{% endblock %}

@@ -8,6 +8,8 @@ from django.core.context_processors import csrf
 from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
+from django.views.static import serve
+import matplotlib.pyplot as plt
 import os
 import mimetypes
 
@@ -15,7 +17,7 @@ from django.views.generic.edit import UpdateView
 
 from student_portal.forms import SubmissionForm, StudentProfileForm
 
-from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project
+from student_portal.models import Submission, Course, Student, Lecture, Assignment, Homework, Quiz, Exam, Project, CourseMaterial
 
 def student_about(request):
     return render(request, 'about.html')
@@ -318,14 +320,13 @@ def get_graded_material(student, course, model):
     for x in model.objects.all():
         if x.submitter == student and x.course == course:
             student_model.append(x)
-    print (student_model)
     return student_model
 
 def get_grades(submissions):
     total = 0
     grade = 0
     weight = 0
-    if len(submissions) > 0:
+    if submissions:
         weight = submissions[0].weight
 
     for submission in submissions:
@@ -335,6 +336,48 @@ def get_grades(submissions):
 
     return total, grade
 
+def get_total_grade(course, student): #not pythonic lyfe
+    return reduce( lambda x,y: x+y, 
+                  [item for sublist in
+                    ( map(get_grades, # that feel when no functional compose
+                         map(lambda x: get_graded_material(student, course, x),
+                             [Homework, Quiz, Exam, Project])))
+                  for item in sublist][1::2])
+
+def update_histogram(course):
+    all_grades = map(lambda x: get_total_grade(course, x), course.student_set.all())
+    student_and_grade = zip(course.student_set.all(), all_grades)
+    ranked_students = sorted( filter(lambda x: x[1] != 0, student_and_grade), key=lambda x: x[1])[::-1]
+    if ranked_students:
+        n, bins, patches = plt.hist( filter(lambda x: x != 0, all_grades) , bins=20, color='b')
+    else:
+        return -1
+    plt.xlim([0, 1])
+    plt.xlabel('Total Grade')
+    plt.ylabel('Students')
+    plt.yticks( range(1, n.max()+3) )
+    fig = plt.gcf()
+    fig.set_size_inches(10,4)
+    fn = settings.MEDIA_ROOT + '/' + course.department + '/' + str(course.id) + '/distribution.png'
+    plt.savefig(fn, bbox_inches=0, transparent=True)
+    fn = fn.split('/')
+    while fn[0] != 'media': fn.pop(0)
+    fn_ = ''
+    for d in fn: fn_ += '/' + d
+    return fn_
+
+def update_rank_and_histogram(course, student):
+    all_grades = map(lambda x: get_total_grade(course, x), course.student_set.all())
+    student_and_grade = zip(course.student_set.all(), all_grades)
+    ranked_students = sorted( filter(lambda x: x[1] != 0, student_and_grade), key=lambda x: x[1])[::-1]
+    amt_ranked = len(ranked_students)
+    try: # get a student's rank
+        rank = [y[0] for y in ranked_students ].index(student) + 1
+    except ValueError:
+        rank = 0
+    fn = update_histogram(course)
+    return rank, amt_ranked, fn
+
 def display_grades(request, course_department, course_id):
     student = request.user.student
     course = get_course(int(course_id))
@@ -342,7 +385,7 @@ def display_grades(request, course_department, course_id):
     (hwtotal, hwgrade), (quiztotal, quizgrade), (examtotal, examgrade), (projecttotal, projectgrade) =  map(get_grades, [homeworks, quizzes, exams, projects])
     grade = hwgrade + quizgrade + examgrade + projectgrade
     total = hwtotal + quiztotal + examtotal + projecttotal
-
+    rank, amt_ranked, hist_fn = update_rank_and_histogram(course, student)
     context = {'homeworks': homeworks,
                'quizzes': quizzes,
                'exams': exams,
@@ -350,8 +393,39 @@ def display_grades(request, course_department, course_id):
                'course': course,
                'total': total,
                'grade': grade,
-               'hwtotal': hwtotal, 'hwgrade': hwgrade,
-               'quiztotal': quiztotal, 'quizgrade': quizgrade,
-               'examtotal': examtotal, 'examgrade': examgrade,
-               'projecttotal': projecttotal, 'projectgrade': projectgrade}
+               'hwtotal': hwtotal,           'hwgrade': hwgrade,
+               'quiztotal': quiztotal,       'quizgrade': quizgrade,
+               'examtotal': examtotal,       'examgrade': examgrade,
+               'projecttotal': projecttotal, 'projectgrade': projectgrade,
+               'rank' : rank, 'amt_ranked' : amt_ranked, 'hist_img' : hist_fn}
     return render(request, 'student_portal/grades.html', context)
+
+def display_course_materials(request, course_dept, course_id):
+    c = get_course(int(course_id))
+    courses = list(request.user.student.course.all())
+    cms = CourseMaterial.objects.all().filter(course=c)
+    lecture_list = get_lectures(c)
+    assignment_list = get_assignments(c)
+    context = {'course' : c,
+               'courses' : courses,
+               'lecture_list' : lecture_list,
+               'assignment_list' : assignment_list,
+               'is_enrolled' : True,
+               'course_materials' : cms}
+    return render(request, 'student_portal/course_materials.html', context)
+
+def download_course_materials(request, course_dept, course_id, coursemat_id):
+    c = get_course(int(course_id))
+    cm = CourseMaterial.objects.all().get(id=int(coursemat_id))
+    dirlist = cm.file.name.split(os.sep)
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    f = open(cm.file.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
+    return response
+
+def display_distribution(request, course_dept, course_id, document_root):
+    update_histogram(get_course(int(course_id)))
+    return serve(request, course_dept + '/' + course_id + '/distribution.png', document_root)

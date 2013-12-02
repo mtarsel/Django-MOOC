@@ -3,12 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-import os
+from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
-import mimetypes
 from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
+
+import os
+import mimetypes
 
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
 from student_portal.views import get_assignment, get_assignments, get_course, get_lectures
@@ -57,8 +59,8 @@ def dashboard(request):
     them to the login page.
     """
     taught_courses,not_taught_courses = get_separated_course_list(get_instructor_from_user(request.user), Course.objects.all())
-    context = {'user': request.user, 'taught_courses':taught_courses}
-    #return render_to_response('instructor_portal/dashboard.html', {'user': request.user})
+    context = {'user': request.user,
+               'taught_courses':taught_courses}
     return render_to_response('instructor_portal/dashboard.html', context)
 
 def display_courses(request):
@@ -74,16 +76,23 @@ def display_courses(request):
 def course_dashboard(request, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
+    course_materials = CourseMaterial.objects.all().filter(course=course)
     context = {'assignments' : assignments,
+<<<<<<< HEAD
 	 'course' : course}
+=======
+               'course' : course,
+               'course_materials' : course_materials}
+>>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
-def assignment_dashboard(request, course_id,assignment_id):
+def assignment_dashboard(request, course_id, assignment_id):
     course = Course.objects.all().get(id=int(course_id))
     assignments = Assignment.objects.all().filter(course=course)
-    assignment = Assignment.objects.all().filter(id=int(assignment_id))
+    assignment = Assignment.objects.all().get(id=int(assignment_id))
     subs = Submission.objects.all().filter(assignment=assignment)
     context = {'submissions' : subs,
+<<<<<<< HEAD
     	   'assignments' : assignments,
 	   'course' : course}
     context.update(csrf(request))
@@ -95,6 +104,21 @@ def assignment_dashboard(request, course_id,assignment_id):
 	sub.grade = float(p['newgrade'])
 	sub.save()
 	return render(request, 'instructor_portal/assignment_dashboard.html',context)
+=======
+               'assignment' : assignment,
+               'assignments' : assignments,
+               'course' : course}
+    context.update(csrf(request))
+    if request.method == 'POST':
+        print "in post"
+        p = request.POST
+        sub = Submission.objects.all().get(id=int(p['submission_id']))
+        if p['newgrade']:
+            sub.grade = float(p['newgrade'])
+        sub.remarks = p['newremarks']
+        sub.save()
+        return render(request, 'instructor_portal/assignment_dashboard.html',context)
+>>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
     return render(request, 'instructor_portal/assignment_dashboard.html', context)
 
 @login_required(login_url='/accounts/login/') 
@@ -125,6 +149,7 @@ def display_course_info(request, course_department, course_id):
     
     is_enrolled = False
     return render(request, 'course_info.html', { 'course' : course,
+<<<<<<< HEAD
 					     'is_enrolled': is_enrolled,
 					     'lecture_list' : lecture_list,
 					     'assignment_list': assignment_list,
@@ -149,3 +174,62 @@ def course_grades(request, course_id):
 		'assignments': assignments
 		'submissions': submissions}
     return render(request, 'instructor_portal/course_grades.html', context)
+=======
+                                                 'is_enrolled': is_enrolled,
+                                                 'lecture_list' : lecture_list,
+                                                 'assignment_list': assignment_list,
+                                                 'is_student' : False})
+
+def delete_course_material(request, course_id, course_mat_id):
+    cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
+    os.remove(cm.file.name)
+    cm.delete()
+    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+def download_course_material(request, course_id, course_mat_id):
+    cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
+    dirlist = cm.file.name.split(os.sep)
+    print dirlist
+    while dirlist[0] != 'media':
+        dirlist.pop(0)
+    type, _ = mimetypes.guess_type(dirlist[-1])
+    f = open(cm.file.name, "r")
+    response = HttpResponse(FileWrapper(f), content_type=type)
+    response['Content-Disposition'] = 'attachment; filename=' + dirlist[-1]
+    return response
+
+def handle_uploaded_course_material(file, course_department, course_id, cm_description, user):
+    if file:
+        cm = CourseMaterial(course = get_course(int(course_id)),
+                            description = cm_description)
+        cm.save()
+                            
+        directory = settings.MEDIA_ROOT+ '/' + course_department + '/' + unicode(course_id) +  '/course_material/'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        _, fileExtension = os.path.splitext(file.name)
+        filename = course_department + '_' + unicode(course_id) + '_' + unicode(cm.id)  + fileExtension
+        print filename
+        destination = open(directory+filename, 'wb+')
+        for chunk in file.chunks():
+            destination.write(chunk)
+        destination.close()
+        cm.file.name = directory+filename
+        cm.save()
+        
+def upload_course_material(request, course_id):
+    if request.method == 'POST':
+        a = request.POST #the post dict
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            course = get_course(int(course_id))
+            handle_uploaded_course_material(request.FILES['file'], course.department, course.id, a['description'], request.user)
+            return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+    else:
+        form = SubmissionForm()
+    
+    context = {'form' : form}
+    context.update(csrf(request))
+    return render_to_response('upload.html', context)
+>>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
