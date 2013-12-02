@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %} Course Materials for {{course.name}} {% endblock %}
+
+{% block sidebar %}
+<li><a href="/student{% url 'courses' %}">All Courses</a></li>
+  {% if courses %}
+	<li class="nav-header">Your Classes</li>
+        {% for course in courses %}
+            <li><a href = "/student/{{ course.department }}/{{ course.id }}/"> {{ course.name }}</a></li></td>
+            <input type="hidden" name="course" value={{ course.id }}>
+        {% endfor %}
+  {% endif %}
+
+<li><a href="/student{% url 'courses' %}">All Courses</a></li>
+{% if is_enrolled %}
+
+<li class="nav-header">Class Links</li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/grades/">Grades</a></li>
+<li><a href = "/student/{{ course.department }}/{{course.id}}/course_materials/">Course Materials</a></li>
+{% if assignment_list %}
+<li class="nav-header">Assignments</li>
+<li><a href = "/student/{{course.department}}/{{course.id}}/assignments/"><h3>Assignments</h3></a></li>
+  {% for assignment in assignment_list %}
+  <li><a href = "/student/{{ course.department }}/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}}</a></li>
+  {% endfor %}
+{% endif %}
+
+{% if lecture_list %}
+<li><a href = "/student/{{ course.department }}/{{course.id}}/assignments/">Assignments</a></li>
+
+<li class="nav-header">Lectures</li>
+            {% for lecture in lecture_list %}
+                  <li><a href = "/student/{{ course.department }}/{{course.id}}/{{ lecture.id }}/">{{lecture.name}}</a></li>
+                  <input type="hidden" name="lecture" value={{ lecture.id }}>
+             {% endfor %}
+{% endif %}
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+  <h3> Course Materials for {{course.name}} </h3>
+  {% if course_materials %}
+    {% for cm in course_materials %}
+      <a href="/student/{{cm.course.department}}/{{cm.course.id}}/download_course_materials/{{cm.id}}"> {{cm.description}} </a> <br>
+    {% endfor %}
+  {% else %}
+      <p> No course materials have been uploaded yet! </p>
+  {% endif %}
+{% endblock %}
