@@ -16,6 +16,7 @@ Installation
 ###Prerequisites
 1. Tested with Python2.7
 2. Linux 
+See attached [INSTALL script](./INSTALL.sh)
 
 Run INSTALL.sh as sudo
 

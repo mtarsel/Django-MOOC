@@ -17,6 +17,7 @@ apt-get install libmysqlclient-dev
 apt-get install python-pip
 apt-get install python-dev
 apt-get install libpq-dev
+apt-get install python-numpy
 pip install virtualenv
 
 mkdir $HOME/software-d-and-d
