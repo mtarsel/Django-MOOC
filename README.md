@@ -81,9 +81,9 @@ Instructions
 
 Further Work
 ----
-See attached 
-[TODO file](./TODO)
-
+Social Authentication/Registration
+Taking notes during class
+Forum
 
 ---
 
