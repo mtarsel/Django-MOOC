@@ -5,6 +5,9 @@
   {% for assignment in assignments %}
     <li> <a href="/instructor/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}} </a></li>
   {% endfor %}
+<li class="nav-header"> Grades </li>
+    <li> <a href="/instructor/{{course.id}}/dashboard/grades"> Grades </a> </li>
+
 {% endblock %}
 
 {% block content %}

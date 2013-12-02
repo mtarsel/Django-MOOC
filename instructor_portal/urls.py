@@ -29,4 +29,7 @@ urlpatterns = patterns('instructor_portal.views',
 
     url(r'^(\d+)/assignments/(\d+)/$', 'assignment_dashboard', name='assignment_dashboard'),
     url(r'^(\d+)/assignments/(\d+)/(\d+)/download/$', 'download_submission', name=download_submission),
+    
+    #View All Student Grades for a course
+    url(r'^(\d+)/dashboard/grades', 'course_grades', name='course_grades'),
 )

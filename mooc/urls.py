@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^instructor/', include('instructor_portal.urls', namespace="instructor")),
     
     #django shcedulers app for calendar
-#    url(r'^schedule/', include('schedule.urls')),
+    #url(r'^schedule/', include('schedule.urls')),
     
     #File upload
     url(r'^$', RedirectView.as_view(url='/student/list/')), # Just for ease of use   

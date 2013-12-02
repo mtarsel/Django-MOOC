@@ -137,9 +137,9 @@ TEMPLATE_DIRS = (
 os.path.join( ROOT, 'templates' ),
 )
 
-#TEMPLATE_CONTEXT_PROCESSORS = (
-#    'django.core.context_processors.request',
-#)
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+)
 
 
 

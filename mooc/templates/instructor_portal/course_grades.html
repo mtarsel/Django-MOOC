@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+	    <td>{#Placeholder#}</td>
+	{% for assignment in assignments %}
+	    <td>{{assignment.name}}</td>
+	{% endfor %}
+    </tr>
+
+    <tr>
+	{% for student in students %}
+	    <td>{{student.last_name}},{{student.first_name}}</td>
+		{% for assignment in assignments %}
+		  <td>{{assignment.submission_set.filter(self.submitter == student)[0].grade}}</td>
+		</tr>
+		{% endfor %}
+	{% endfor %}
+
+</table>`
+{% endblock %}
