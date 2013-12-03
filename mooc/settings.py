@@ -136,15 +136,6 @@ TEMPLATE_DIRS = (
 os.path.join( ROOT, 'templates' ),
 )
 
-<<<<<<< HEAD
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.request',
-)
-
-
-
-=======
->>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     "django.core.context_processors.debug",

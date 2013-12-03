@@ -23,12 +23,7 @@ urlpatterns = patterns('',
     url(r'^login/$', select_login, name="select_login"),#select either student or instructor to login as
     url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
     url(r'^edit_profile/$', edit_profile, name="edit_profile"),
-<<<<<<< HEAD
-#    url(r'^schedule/$', schedule, name="schedule"),
     
-    url(r'^schedule/$', include('schedule.urls')),
-=======
->>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
     # student portal.
     url(r'^student/', include('student_portal.urls', namespace="student"), name="student"),
 
@@ -36,11 +31,7 @@ urlpatterns = patterns('',
     url(r'^instructor/', include('instructor_portal.urls', namespace="instructor")),
     
     #django shcedulers app for calendar
-<<<<<<< HEAD
-    #url(r'^schedule/', include('schedule.urls')),
-=======
     url(r'^schedule/', include('schedule.urls')),
->>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
     
     #File upload
     url(r'^$', RedirectView.as_view(url='/student/list/')), # Just for ease of use   

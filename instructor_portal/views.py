@@ -8,18 +8,13 @@ from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
-<<<<<<< HEAD
 import os
 import mimetypes
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
-=======
 from django.forms.models import inlineformset_factory
-
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm, NewLectureForm
 import os
 import mimetypes
-
->>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
 from student_portal.views import get_assignment, get_assignments, get_course, get_lectures
 from student_portal.models import *
 
@@ -135,14 +130,9 @@ def course_dashboard(request, course_id):
     course_materials = CourseMaterial.objects.all().filter(course=course)
     lectures = course.lecture_set.all()
     context = {'assignments' : assignments,
-<<<<<<< HEAD
 		 'course' : course,
-		 'course_materials' : course_materials}
-=======
-               'course' : course,
-               'course_materials' : course_materials,
-               'lectures' : lectures}
->>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
+		 'course_materials' : course_materials,
+		'lectures' : lectures}
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
 def assignment_dashboard(request, course_id, assignment_id):
