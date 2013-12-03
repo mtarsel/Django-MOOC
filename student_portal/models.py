@@ -21,7 +21,7 @@ class Instructor(models.Model):
         return unicode(self.user)
 
 class Course(models.Model):
-    name = models.CharField(max_length=512)
+    name = models.CharField(max_length=512, unique = True)
     department = models.CharField(max_length=4)
     description = models.TextField(max_length=512)
     instructor = models.ForeignKey(Instructor)
