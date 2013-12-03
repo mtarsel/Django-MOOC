@@ -13,7 +13,7 @@ urlpatterns = patterns('student_portal.views',
 
     url(r'^courses/$', enroll_courses, name="courses"),#show all courses available
 
-    url(r'^schedule/$', include('schedule.urls')),
+#    url(r'^schedule/$', include('schedule.urls')),
 
     # edit_profile
     url(r'^edit_profile/$', auth(StudentProfileEditView.as_view()), name="edit_profile"), 
