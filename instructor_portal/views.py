@@ -55,7 +55,7 @@ def new_assignment(request, course_id):
 	    new_ass = formset.save(commit=False)
             new_ass.course = course
             formset.save()
-	    return HttpResponseRedirect('/instructor/')
+	    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
 
     return render_to_response(
         'instructor_portal/new-assignment.html',
@@ -127,9 +127,11 @@ def course_dashboard(request, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
     course_materials = CourseMaterial.objects.all().filter(course=course)
+    lectures = course.lecture_set.all()
     context = {'assignments' : assignments,
                'course' : course,
-               'course_materials' : course_materials}
+               'course_materials' : course_materials,
+               'lectures' : lectures}
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
 def assignment_dashboard(request, course_id, assignment_id):
@@ -186,11 +188,28 @@ def display_course_info(request, course_department, course_id):
                                                  'assignment_list': assignment_list,
                                                  'is_student' : False})
 
+def delete_assignment(request, course_id, assignment_id):
+    a = Assignment.objects.all().get(id=int(assignment_id))
+    a.delete()
+    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+def delete_lecture(request, course_id, lecture_id):
+    Lecture.objects.all().get(id=int(lecture_id)).delete()
+    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
 def delete_course_material(request, course_id, course_mat_id):
     cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
     os.remove(cm.file.name)
     cm.delete()
     return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+def delete_course(request, course_id):
+    course = Course.objects.all().get(id=int(course_id))
+    map(lambda x: x.delete(), course.lecture_set.all())
+    map(lambda x: os.remove(x.file.name), course.coursematerial_set.all())
+    map(lambda x: x.delete(), course.assignment_set.all())
+    course.delete()
+    return HttpResponseRedirect('/instructor/')
 
 def download_course_material(request, course_id, course_mat_id):
     cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
