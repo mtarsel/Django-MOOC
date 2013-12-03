@@ -33,13 +33,13 @@
   </a>
     <ul class="dropdown-menu">
       <form name="input" action="" method="post"> {% csrf_token %}
-                      <input type="submit" value="By Name" class="btn btn-primary btn-large">
+                      <input type="submit" value="By Name" class="btn-secondary btn-small">
 		      <input type="hidden" name="course" value="">
 		      <input type="hidden" name="enroll" value="">
                       <input type="hidden" name="sort" value="name">
       </form>
       <form name="input" action="" method="post"> {% csrf_token %}
-                      <input type="submit" value="By Department" class="btn btn-primary btn-large">
+                      <input type="submit" value="By Department" class="btn-secondary btn-small">
 		      <input type="hidden" name="course" value="">
 		      <input type="hidden" name="enroll" value="">
                       <input type="hidden" name="sort" value="department">
@@ -47,7 +47,7 @@
     </ul>
   </li>
 </ul>
-        <table border = "0" , width = "265">
+        <table border = "0" , width = "75%">
             {% for course in course_list %}
 	          <tr>
                   <td style="width:50px;">

@@ -1,24 +1,82 @@
 {% extends "base.html" %}
 
 {% block sidebar %}
+
+
 <li class="nav-header"> Assignments </li>
   {% for assignment in assignments %}
     <li> <a href="/instructor/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}} </a></li>
   {% endfor %}
+<<<<<<< HEAD
 <li class="nav-header"> Grades </li>
     <li> <a href="/instructor/{{course.id}}/dashboard/grades"> Grades </a> </li>
 
 {% endblock %}
+=======
+>>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
 
+<li class="nav-header"> Lectures </li>
+
+
+<li><a href = "/instructor/{{ course.department}}/{{course.id}}/grades/"><h3>Grades</h3></a></li>
+
+{% endblock %}
 {% block content %}
+
+    <h2>{{course.name}} Class 
+
+<div align="right">
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Delete Course
+</button>
+</div>
+
+</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+         Are you really sure you want to delete {{course.name}}? None of the data will be recoverable.
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <a href="/instructor/{{course.id}}/delete_course" class="btn btn-danger">Delete Course</a>
+      </div>
+    </div>
+  </div>
+</div> <br>
+
+    <a href="/instructor/{{course.id}}/new-assignment"> New Assignment</a><br>
+    <a href="/instructor/{{course.id}}/new-lecture"> New Lecture</a> <br>
+    <a href="/instructor/{{course.id}}/upload_course_material/"> New Course Material </a>
+
+  <h3> Assignments </h3>
+  {% for assignment in assignments %}
+    <form action="/instructor/{{assignment.course.id}}/delete_assignment/{{assignment.id}}"> 
+      <p> <a href="/instructor/{{course.id}}/assignments/{{assignment.id}}"> {{assignment.name}} </a>
+      <input type="submit" value="Delete" id="Save"/> </p>
+    </form>
+  {% endfor %}
+
+  <h3> Lectures </h3>
+  {% for lecture in lectures %}
+    <form action="/instructor/{{lecture.course.id}}/delete_lecture/{{lecture.id}}">
+      <p> {{lecture.name}}
+      <input type="submit" value="Delete" id="Save"/> </p>
+    </form>
+  {% endfor %}
+
   <h3> Uploaded Course Materials </h3>
-  <p><a href="/instructor/{{course.id}}/upload_course_material/"> Upload course materials now! </a> </p>
-  {% if course_materials %}
-    {% for cm in course_materials %}
-      <form action="/instructor/{{cm.course.id}}/delete_course_material/{{cm.id}}">
-        <p> <a href="/instructor/{{cm.course.id}}/download_course_material/{{cm.id}}"> {{cm.description}}</a>  
-        <input type="submit" value="Delete" id="Save"/> </p>
-      </form>
-    {% endfor %}
-  {% endif %}
+  {% for cm in course_materials %}
+    <form action="/instructor/{{cm.course.id}}/delete_course_material/{{cm.id}}">
+      <p> <a href="/instructor/{{cm.course.id}}/download_course_material/{{cm.id}}"> {{cm.description}}</a>  
+      <input type="submit" value="Delete" id="Save"/> </p>
+    </form>
+  {% endfor %}
 {% endblock %}

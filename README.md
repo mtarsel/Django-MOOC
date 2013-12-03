@@ -16,6 +16,7 @@ Installation
 ###Prerequisites
 1. Tested with Python2.7
 2. Linux 
+See attached [INSTALL script](./INSTALL.sh)
 
 Run INSTALL.sh as sudo
 
@@ -35,6 +36,17 @@ This will create a directory ~/software-d-and-d
 
 After you are in that directory, the last command will enter the virtual environment
 
+Running the Test Server
+----
+You must run the test server outside of the virtualenv and execute with sudo
+access. This is because of the issue with matplotlib working inside a virtualenv
+The command inside the project is:
+
+```bash
+
+sudo python manage.py runserver
+```
+
 Registration Testing
 ----
 To run the email server for resgistration, execute the following commands in the
@@ -44,7 +56,7 @@ directory with manage.py:
 
 python -m smtpd -n -c DebuggingServer localhost:1025
 
-python manage.py runserver
+sudo python manage.py runserver #outside of virtualenv
 ```
 
 Making test objects
@@ -81,9 +93,9 @@ Instructions
 
 Further Work
 ----
-See attached 
-[TODO file](./TODO)
-
+Social Authentication/Registration
+Taking notes during class
+Forum
 
 ---
 

@@ -8,9 +8,18 @@ from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
+<<<<<<< HEAD
 import os
 import mimetypes
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
+=======
+from django.forms.models import inlineformset_factory
+
+from instructor_portal.forms import SubmissionForm, InstructorProfileForm, NewCourseForm, NewAssignmentForm, NewLectureForm
+import os
+import mimetypes
+
+>>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
 from student_portal.views import get_assignment, get_assignments, get_course, get_lectures
 from student_portal.models import *
 
@@ -27,6 +36,55 @@ def get_success_url(self):
 
 def instructor_about(request):
     return render(request, 'about.html')
+
+def create_course(request):
+    form = NewCourseForm()
+    if request.method == 'POST':
+	form = NewCourseForm(request.POST or None)
+	if form.is_valid():
+	    new_course = form.save(commit=False)
+	    new_course.instructor = request.user.instructor
+	    new_course.save()
+	    return HttpResponseRedirect('/instructor/')
+    return render_to_response(
+        'instructor_portal/new-course.html',
+        { 'form': form},
+        context_instance=RequestContext(request)
+    )
+
+def new_assignment(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    formset= NewAssignmentForm()
+    if request.method == "POST":
+        formset = NewAssignmentForm(request.POST or None)
+        if formset.is_valid():
+	    new_ass = formset.save(commit=False)
+            new_ass.course = course
+            formset.save()
+	    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+    return render_to_response(
+        'instructor_portal/new-assignment.html',
+        { 'form': formset, 'course':course,},
+        context_instance=RequestContext(request)
+    )
+
+def new_lecture(request, course_id):
+    course = Course.objects.get(pk=course_id)
+    formset= NewLectureForm()
+    if request.method == "POST":
+        formset = NewLectureForm(request.POST or None)
+        if formset.is_valid():
+	    new_lecture = formset.save(commit=False)
+            new_lecture.course = course
+            formset.save()
+	    return HttpResponseRedirect('/instructor/')
+
+    return render_to_response(
+        'instructor_portal/new-lecture.html',
+        { 'form': formset, 'course':course,},
+        context_instance=RequestContext(request)
+    )
 
 def lecture(request):
     my_video = 'http://www.youtube.com/watch?v=0d0uu7MW__U'
@@ -75,9 +133,16 @@ def course_dashboard(request, course_id):
     course = get_course(int(course_id))
     assignments = get_assignments(course)
     course_materials = CourseMaterial.objects.all().filter(course=course)
+    lectures = course.lecture_set.all()
     context = {'assignments' : assignments,
+<<<<<<< HEAD
 		 'course' : course,
 		 'course_materials' : course_materials}
+=======
+               'course' : course,
+               'course_materials' : course_materials,
+               'lectures' : lectures}
+>>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
 def assignment_dashboard(request, course_id, assignment_id):
@@ -167,11 +232,28 @@ def course_grades(request, course_id):
     context = {'submissions' : grade, 'assignments': assignments}
     return render(request, 'instructor_portal/course_grades.html', context)
 
+def delete_assignment(request, course_id, assignment_id):
+    a = Assignment.objects.all().get(id=int(assignment_id))
+    a.delete()
+    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+def delete_lecture(request, course_id, lecture_id):
+    Lecture.objects.all().get(id=int(lecture_id)).delete()
+    return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
 def delete_course_material(request, course_id, course_mat_id):
     cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
     os.remove(cm.file.name)
     cm.delete()
     return HttpResponseRedirect('/instructor/' + course_id + '/dashboard')
+
+def delete_course(request, course_id):
+    course = Course.objects.all().get(id=int(course_id))
+    map(lambda x: x.delete(), course.lecture_set.all())
+    map(lambda x: os.remove(x.file.name), course.coursematerial_set.all())
+    map(lambda x: x.delete(), course.assignment_set.all())
+    course.delete()
+    return HttpResponseRedirect('/instructor/')
 
 def download_course_material(request, course_id, course_mat_id):
     cm = CourseMaterial.objects.all().get(id=int(course_mat_id))

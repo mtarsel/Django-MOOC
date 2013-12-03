@@ -21,8 +21,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'mooc_database',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'liu',
@@ -137,12 +136,15 @@ TEMPLATE_DIRS = (
 os.path.join( ROOT, 'templates' ),
 )
 
+<<<<<<< HEAD
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
 
 
+=======
+>>>>>>> 84eb5f651d8f41c1d903418452e8027e4f30a21f
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     "django.core.context_processors.debug",

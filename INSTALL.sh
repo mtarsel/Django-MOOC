@@ -16,7 +16,12 @@ apt-get update
 apt-get install libmysqlclient-dev
 apt-get install python-pip
 apt-get install python-dev
+apt-get install libpng12-0 libpng12-dev 
 apt-get install libpq-dev
+apt-get install python-numpy
+apt-get install python-scipy
+apt-get install python-matplotlib
+apt-get install libfreetype6
 pip install virtualenv
 
 mkdir $HOME/software-d-and-d

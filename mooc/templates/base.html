@@ -58,7 +58,6 @@
 		{% if user.is_authenticated %}
 
                         <a class="brand" href="/dashboard">Home</a>
-                        <!-- <a class="brand" href="/student">Home</a> -->
 			<a class="brand" href="{% url 'schedule' %}">Schedule</a>
 			<a class="brand" href="/edit_profile">Edit Profile</a>
 
@@ -83,7 +82,7 @@
         <div class="span2">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Links</li>
+              <li class="nav-header"><h3>Links</h3></li>
 			  {% block sidebar %}{% endblock %}
             </ul>
           </div><!--/.well -->
