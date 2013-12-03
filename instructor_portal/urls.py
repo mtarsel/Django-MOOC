@@ -2,7 +2,6 @@ from django.conf.urls import *
 from instructor_portal.views import *
 from django.contrib.auth.decorators import login_required as auth
 
-
 urlpatterns = patterns('instructor_portal.views',
 
     # Main web portal entrance.
