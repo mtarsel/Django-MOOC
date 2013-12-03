@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load app_tags %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
+    <tr>
+	    <th>Student</th>
+	{% for assignment in assignments %}
+	    <th>{{assignment.name}}</th>
+	{% endfor %}
+    </tr>
+
+	{% for submission_list in submissions %}
+	    <tr>
+	    {%for item in submission_list %}
+		<td>{{item}}</td>
+	    {% endfor %}
+	    </tr>
+	{% endfor %}
+</table>`
+</div>
+{% endblock %}
+

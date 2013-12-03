@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^login/$', select_login, name="select_login"),#select either student or instructor to login as
     url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
     url(r'^edit_profile/$', edit_profile, name="edit_profile"),
+    
     # student portal.
     url(r'^student/', include('student_portal.urls', namespace="student"), name="student"),
 
