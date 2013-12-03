@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^courses/$', enroll_courses,name="courses"),#show all courses available
     url(r'^edit_profile/$', edit_profile, name="edit_profile"),
 #    url(r'^schedule/$', schedule, name="schedule"),
+    
     url(r'^schedule/$', include('schedule.urls')),
     # student portal.
     url(r'^student/', include('student_portal.urls', namespace="student"), name="student"),

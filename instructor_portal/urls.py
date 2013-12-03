@@ -24,13 +24,11 @@ urlpatterns = patterns('instructor_portal.views',
     #instructor course dashboards
     url(r'^(\d+)/dashboard/$', 'course_dashboard', name='course_dashboard'),
 
-<<<<<<< HEAD
     url(r'^(\d+)/assignments/(\d+)/$', 'assignment_dashboard', name='assignment_dashboard'),
     url(r'^(\d+)/assignments/(\d+)/(\d+)/download/$', 'download_submission', name=download_submission),
     
     #View All Student Grades for a course
     url(r'^(\d+)/dashboard/grades', 'course_grades', name='course_grades'),
-=======
     #upload course material
     url(r'^(\d+)/upload_course_material/$', upload_course_material, name='upload_course_material'),
 
@@ -42,5 +40,4 @@ urlpatterns = patterns('instructor_portal.views',
 
     url(r'^(\d+)/assignments/(\d+)/$', assignment_dashboard, name='assignment_dashboard'),
     url(r'^(\d+)/assignments/(\d+)/(\d+)/download/$', download_submission, name='download_submission'),
->>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
 )

@@ -8,10 +8,8 @@ from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
 from django.views.generic.edit import UpdateView
 from django.core.context_processors import csrf
-
 import os
 import mimetypes
-
 from instructor_portal.forms import SubmissionForm, InstructorProfileForm
 from student_portal.views import get_assignment, get_assignments, get_course, get_lectures
 from student_portal.models import *
@@ -78,12 +76,8 @@ def course_dashboard(request, course_id):
     assignments = get_assignments(course)
     course_materials = CourseMaterial.objects.all().filter(course=course)
     context = {'assignments' : assignments,
-<<<<<<< HEAD
-	 'course' : course}
-=======
-               'course' : course,
-               'course_materials' : course_materials}
->>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
+		 'course' : course,
+		 'course_materials' : course_materials}
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
 def assignment_dashboard(request, course_id, assignment_id):
@@ -92,9 +86,9 @@ def assignment_dashboard(request, course_id, assignment_id):
     assignment = Assignment.objects.all().get(id=int(assignment_id))
     subs = Submission.objects.all().filter(assignment=assignment)
     context = {'submissions' : subs,
-<<<<<<< HEAD
-    	   'assignments' : assignments,
-	   'course' : course}
+		'assignments' : assignments,
+		'course' : course,
+		'assignment' : assignment} 
     context.update(csrf(request))
     if request.method == 'POST':
 	print "in post"
@@ -104,10 +98,6 @@ def assignment_dashboard(request, course_id, assignment_id):
 	sub.grade = float(p['newgrade'])
 	sub.save()
 	return render(request, 'instructor_portal/assignment_dashboard.html',context)
-=======
-               'assignment' : assignment,
-               'assignments' : assignments,
-               'course' : course}
     context.update(csrf(request))
     if request.method == 'POST':
         print "in post"
@@ -118,7 +108,6 @@ def assignment_dashboard(request, course_id, assignment_id):
         sub.remarks = p['newremarks']
         sub.save()
         return render(request, 'instructor_portal/assignment_dashboard.html',context)
->>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea
     return render(request, 'instructor_portal/assignment_dashboard.html', context)
 
 @login_required(login_url='/accounts/login/') 
@@ -149,36 +138,34 @@ def display_course_info(request, course_department, course_id):
     
     is_enrolled = False
     return render(request, 'course_info.html', { 'course' : course,
-<<<<<<< HEAD
 					     'is_enrolled': is_enrolled,
 					     'lecture_list' : lecture_list,
 					     'assignment_list': assignment_list,
 					     'is_student' : False})
+
 def course_grades(request, course_id):
-    assignments = Course.objects.get(id=course_id).assignment_set.all().order_by('date')
-    students = Course.objects.get(id=course_id).student_set.all().order_by('last_name')
-    grade_chart[0][0] = "    "
-    for i in range(1,assignment.length()):
-	grade_chart[i][0] = assignments[i]
-
-
-
-
-
-
-
-    for assignment in assignments:
-	for submission in assignment.submission_set.all():
-	    submissions[assignment] = (submission.submitter, submission.grade)
-    context = {'students': students,
-		'assignments': assignments
-		'submissions': submissions}
+    current_course = Course.objects.get(id=course_id)
+    assignments = [assignment for assignment in current_course.assignment_set.all().order_by('date')]
+    students = current_course.student_set.all().order_by('last_name')
+    course_submissions = Submission.objects.filter(course=current_course)
+    grade = []
+    for student in students:
+	student_list = []
+	student_submissions = [x for x in course_submissions.filter(submitter=student)]
+	student_list.append("%s, %s" % (student.last_name,student.first_name))
+	for i in range(0,len(assignments)):
+	    student_list.append('-')
+	for submission in student_submissions:
+	    try:
+		assignments.index(submission.assignment)
+		index = assignments.index(submission.assignment)
+		student_list[index+1] = submission.grade
+	    except ValueError:
+		None
+	grade.append(student_list)
+    
+    context = {'submissions' : grade, 'assignments': assignments}
     return render(request, 'instructor_portal/course_grades.html', context)
-=======
-                                                 'is_enrolled': is_enrolled,
-                                                 'lecture_list' : lecture_list,
-                                                 'assignment_list': assignment_list,
-                                                 'is_student' : False})
 
 def delete_course_material(request, course_id, course_mat_id):
     cm = CourseMaterial.objects.all().get(id=int(course_mat_id))
@@ -232,4 +219,3 @@ def upload_course_material(request, course_id):
     context = {'form' : form}
     context.update(csrf(request))
     return render_to_response('upload.html', context)
->>>>>>> e7e9b7292e53a2c7e0ae0a8c4c68473cbc6e2aea

@@ -1,25 +1,27 @@
 {% extends "base.html" %}
+{% load app_tags %}
 
 {% block sidebar %}
 {% endblock %}
 
 {% block content %}
-<table>
+<div class="table-responsive">
+<table class="table table-bordered table-striped">
     <tr>
-	    <td>{#Placeholder#}</td>
+	    <th>Student</th>
 	{% for assignment in assignments %}
-	    <td>{{assignment.name}}</td>
+	    <th>{{assignment.name}}</th>
 	{% endfor %}
     </tr>
 
-    <tr>
-	{% for student in students %}
-	    <td>{{student.last_name}},{{student.first_name}}</td>
-		{% for assignment in assignments %}
-		  <td>{{assignment.submission_set.filter(self.submitter == student)[0].grade}}</td>
-		</tr>
-		{% endfor %}
+	{% for submission_list in submissions %}
+	    <tr>
+	    {%for item in submission_list %}
+		<td>{{item}}</td>
+	    {% endfor %}
+	    </tr>
 	{% endfor %}
-
 </table>`
+</div>
 {% endblock %}
+
