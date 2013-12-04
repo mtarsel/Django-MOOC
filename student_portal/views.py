@@ -347,6 +347,8 @@ def get_total_grade(course, student): #not pythonic lyfe
 def update_histogram(course):
     total_grade = sum(map(lambda x: eval(x.submission_type).weight*x.points_possible , course.assignment_set.all())) #it's safe but I feel bad anyway
     all_grades = map(lambda x: get_total_grade(course, x)/total_grade, course.student_set.all())
+    print all_grades
+    print total_grade
     student_and_grade = zip(course.student_set.all(), all_grades)
     ranked_students = sorted( filter(lambda x: x[1] != 0, student_and_grade), key=lambda x: x[1])[::-1]
     ranked_grades = np.array(filter(lambda x: x != 0, all_grades))
