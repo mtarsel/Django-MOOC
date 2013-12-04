@@ -10,6 +10,7 @@ from django.core.servers.basehttp import FileWrapper
 from registration.backends.simple.views import RegistrationView
 from django.views.static import serve
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import mimetypes
 
@@ -337,21 +338,27 @@ def get_grades(submissions):
     return total, grade
 
 def get_total_grade(course, student): #not pythonic lyfe
-    return reduce( lambda x,y: x+y, 
-                  [item for sublist in
+    return sum([item for sublist in
                     ( map(get_grades, # that feel when no functional compose
                          map(lambda x: get_graded_material(student, course, x),
                              [Homework, Quiz, Exam, Project])))
                   for item in sublist][1::2])
 
 def update_histogram(course):
-    all_grades = map(lambda x: get_total_grade(course, x), course.student_set.all())
+    total_grade = sum(map(lambda x: eval(x.submission_type).weight*x.points_possible , course.assignment_set.all())) #it's safe but I feel bad anyway
+    all_grades = map(lambda x: get_total_grade(course, x)/total_grade, course.student_set.all())
     student_and_grade = zip(course.student_set.all(), all_grades)
     ranked_students = sorted( filter(lambda x: x[1] != 0, student_and_grade), key=lambda x: x[1])[::-1]
+    ranked_grades = np.array(filter(lambda x: x != 0, all_grades))
+    plt.clf()
     if ranked_students:
-        n, bins, patches = plt.hist( filter(lambda x: x != 0, all_grades) , bins=20, color='b')
+        n, bins, patches = plt.hist( ranked_grades , bins=20, color='b')
     else:
         return -1
+    plt.axvline(ranked_grades.mean(), color='r', linestyle='dashed', linewidth=2, label='mean')
+    print np.median(ranked_grades)
+    plt.axvline(np.median(ranked_grades), color='g', linestyle='dashed', linewidth=2, label='median')
+    plt.legend()
     plt.xlim([0, 1])
     plt.xlabel('Total Grade')
     plt.ylabel('Students')
