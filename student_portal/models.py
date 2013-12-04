@@ -62,10 +62,10 @@ class Assignment(models.Model):
     HOMEWORK = 'Homework'
     PROJECT = 'Project'
     SUBMISSION_TYPE_CHOICES = (
-        (QUIZ, 'Quiz'),
-        (EXAM, 'Exam'),
-        (HOMEWORK, 'Homework'),
-        (PROJECT, 'Project'))
+        (QUIZ, QUIZ),
+        (EXAM, EXAM),
+        (HOMEWORK, HOMEWORK),
+        (PROJECT, PROJECT))
     submission_type = models.CharField(max_length=8,
                                        choices=SUBMISSION_TYPE_CHOICES,
                                        default=QUIZ)    
