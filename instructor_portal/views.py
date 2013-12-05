@@ -146,15 +146,6 @@ def assignment_dashboard(request, course_id, assignment_id):
 		'assignment' : assignment} 
     context.update(csrf(request))
     if request.method == 'POST':
-	print "in post"
-	p = request.POST
-	print p
-	sub = Submission.objects.all().get(id=int(p['submission_id']))
-	sub.grade = float(p['newgrade'])
-	sub.save()
-	return render(request, 'instructor_portal/assignment_dashboard.html',context)
-    context.update(csrf(request))
-    if request.method == 'POST':
         print "in post"
         p = request.POST
         sub = Submission.objects.all().get(id=int(p['submission_id']))
