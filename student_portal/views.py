@@ -331,9 +331,9 @@ def get_grades(submissions):
         weight = submissions[0].weight
 
     for submission in submissions:
-        total = total + submission.assignment.points_possible * weight
         if not submission.grade == None:
-            grade = grade + submission.grade * weight
+            grade += submission.grade * weight
+            total += submission.assignment.points_possible * weight
 
     return total, grade
 
@@ -345,12 +345,25 @@ def get_total_grade(course, student): #not pythonic lyfe
                   for item in sublist][1::2])
 
 def update_histogram(course):
-    total_grade = sum(map(lambda x: eval(x.submission_type).weight*x.points_possible , course.assignment_set.all())) #it's safe but I feel bad anyway
-    all_grades = map(lambda x: get_total_grade(course, x)/total_grade, course.student_set.all())
-    student_and_grade = zip(course.student_set.all(), all_grades)
+    oldfn = settings.MEDIA_ROOT + '/' + course.department + '/' + str(course.id) + '/distribution.png'
+    try:
+        os.remove(oldfn)
+    except OSError:
+        None
+    student_and_grade = []
+    for student in course.student_set.all():
+        homeworks, quizzes, exams, projects = map(lambda x: get_graded_material(student, course, x), [Homework, Quiz, Exam, Project])
+        (hwtotal, hwgrade), (quiztotal, quizgrade), (examtotal, examgrade), (projecttotal, projectgrade) =  map(get_grades, [homeworks, quizzes, exams, projects])
+        grade = hwgrade + quizgrade + examgrade + projectgrade
+        total = hwtotal + quiztotal + examtotal + projecttotal
+        if grade != 0:
+            student_and_grade.append( (student, grade/total) )
     ranked_students = sorted( filter(lambda x: x[1] != 0, student_and_grade), key=lambda x: x[1])[::-1]
-    ranked_grades = np.array(filter(lambda x: x != 0, all_grades))
+    ranked_grades = np.array(filter(lambda x: x != 0, map(lambda x: x[1], ranked_students) ))
+
     plt.clf()
+    plt.cla()
+    plt.figure()
     if ranked_students:
         n, bins, patches = plt.hist( ranked_grades , bins=20, color='b')
     else:

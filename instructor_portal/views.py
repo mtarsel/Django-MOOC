@@ -130,9 +130,9 @@ def course_dashboard(request, course_id):
     course_materials = CourseMaterial.objects.all().filter(course=course)
     lectures = course.lecture_set.all()
     context = {'assignments' : assignments,
-		 'course' : course,
-		 'course_materials' : course_materials,
-		'lectures' : lectures}
+		       'course' : course,
+		       'course_materials' : course_materials,
+		       'lectures' : lectures}
     return render(request, 'instructor_portal/course_dashboard.html', context)
 
 def assignment_dashboard(request, course_id, assignment_id):
@@ -144,15 +144,6 @@ def assignment_dashboard(request, course_id, assignment_id):
 		'assignments' : assignments,
 		'course' : course,
 		'assignment' : assignment} 
-    context.update(csrf(request))
-    if request.method == 'POST':
-	print "in post"
-	p = request.POST
-	print p
-	sub = Submission.objects.all().get(id=int(p['submission_id']))
-	sub.grade = float(p['newgrade'])
-	sub.save()
-	return render(request, 'instructor_portal/assignment_dashboard.html',context)
     context.update(csrf(request))
     if request.method == 'POST':
         print "in post"
