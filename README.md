@@ -1,19 +1,19 @@
 dream-girlz
 ===========
 
-###Project name: dreamtitz
-DREAMing of Teachers Incorporating TechnologieZ
+###Project name: Django Mooc: Dreaming of Teachers Incorporating Technologies
 
-MOOC Project for software design and development taught at Clarkson University
+MOOC Project for Software Design and Development at Clarkson University
 
 ### Description
-MOOC stands for Massive Open Online Course which is an online course aimed at unlimited participation and open access via the web. This project allows any academic institute to organize their courses and efficiently distribute course materials quickly to a large amounts of students. 
 
+MOOC stands for Massive Open Online Course which is an online course aimed at unlimited participation and open access via the web. This project allows any academic institute to organize their courses and efficiently distribute course materials quickly to a large amounts of students. 
 
 Installation
 ----
 
 ###Prerequisites
+
 1. Tested with Python2.7
 2. Linux 
 See attached [INSTALL script](./INSTALL.sh)
@@ -85,14 +85,13 @@ It enrolls the students in a Django Class and adds one of each assignment type a
 
 Instructions
 ----
-1. Install all dependecies and get women to use dreamtitz
-2. Configure database and run email test server
-3. ????????
-4. Profit
 
+1. Install all dependecies
+2. Configure database and run email test server
 
 Further Work
 ----
+
 Social Authentication/Registration
 Taking notes during class
 Forum
