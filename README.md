@@ -1,4 +1,4 @@
-dream-girlz
+THIS REPO IS OUTDATED AND UNSUPPORTED
 ===========
 
 ###Project name: Django Mooc: Dreaming of Teachers Incorporating Technologies
